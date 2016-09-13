@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+		      	xmlns:h="http://java.sun.com/jsf/html"
+		      	xmlns:f="http://java.sun.com/jsf/core"
+		      	xmlns:p="http://primefaces.org/ui"
+		      	template="/pages/admin/templatePaginasAdmin.xhtml">
+
+	<ui:define name="title">Cadastro de Usuário</ui:define>
+
+	<ui:define name="body">	 
+	
+		<p:panel id="cadastro" header="Cadastrar Usuário" style="margin:0 auto; width:80%; text-align:center;" >
+				
+	        <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+	        
+           		<p:outputLabel for="role" value="Role" />
+		
+				<p:selectOneMenu id="role" value="#{cadastroUsuario.usuario.role}">
+					
+					<f:selectItem itemLabel="#{msg['MG03']}" noSelectionOption="true"/>
+					<f:selectItems value="#{cadastroUsuario.rolesSelectItem}" />
+				</p:selectOneMenu>
+           		
+	        </h:panelGrid> 
+	        
+	        <p:panel header="Dados Pessoal" style="margin:0 auto; width:80%; text-align:center;">
+	        
+	        	<h:panelGrid id="painelCadastroPessoa" columns="4" cellpadding="10" style="margin:0 auto;" >
+	        
+			        <p:outputLabel for="nomePessoa" value="Nome" />
+		           	<p:inputText id="nomePessoa" value="#{cadastroUsuario.usuario.pessoa.nome}"/>
+		           	
+		           	<p:outputLabel for="cpf" value="CPF" />
+		           	<p:inputMask mask="999.999.999-99" id="cpf" value="#{cadastroUsuario.usuario.pessoa.cpf}"/>
+		           	
+		           	<p:outputLabel for="celular" value="Celular" />
+	            	<p:inputMask mask="(99)-99999-9999" id="celular" value="#{cadastroUsuario.usuario.pessoa.celular}"/>
+		           	
+		           	<p:outputLabel for="email" value="E-mail" />
+		           	<p:inputText id="email" required="true" label="email" size="40"
+						requiredMessage="E-mail é obrigatório para o cadastro."
+						validatorMessage="E-mail inválido."
+						value="#{cadastroUsuario.usuario.pessoa.email}">
+				
+					  <f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				
+					</p:inputText>
+	           	</h:panelGrid>
+	        </p:panel>
+	        
+	        <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+		        
+           		<p:outputLabel for="usuario" value="Usuário:" />
+           		
+            	<p:inputText id="usuario" value="#{cadastroUsuario.usuario.usuario}" maxlength="45" style="width:250px"/>
+				 	
+	 			<p:outputLabel for="senha" value="Senha:" />
+           		
+            	<p:password id="senha" value="#{cadastroUsuario.usuario.senha}" maxlength="45" style="width:250px"/>
+				 	
+			 	<p:outputLabel for="confirmarSenha" value="Confirmar senha:" />
+           		
+			 	<p:password id="confirmarSenha" value="#{cadastroUsuario.confirmarSenha}" maxlength="45" style="width:250px"/>
+		 		
+	        </h:panelGrid>
+	        
+	        <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+	        
+				<p:commandButton id="btnVoltar" value="#{msg['MG01']}" action="#{cadastroUsuario.redirecionaPagina('PAINEL_USUARIO')}" ajax="false" immediate="true" />	
+				<p:commandButton id="btnCadastrar" value="#{msg['MG18']}" ajax="false" action="#{cadastroUsuario.cadastrar()}" update="cadastro"/>
+				
+	        </h:panelGrid>
+	    </p:panel>	 
+	    
+	</ui:define>
+</ui:composition>
