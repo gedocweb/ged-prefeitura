@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -40,6 +41,7 @@ import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
 import br.com.ged.domain.TipoFuncionalidadeEnum;
+import br.com.ged.domain.TipoIndexacaoEnum;
 import br.com.ged.dto.FiltroDocumentoDTO;
 import br.com.ged.entidades.Arquivo;
 import br.com.ged.entidades.Categoria;
@@ -126,8 +128,14 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private List<String> listGrupoUsuarioCategoria;
 	private List<String> listGrupoUsuarioCategoriaSelecionados;
 	
+	private List<SelectItem> listTipoIndexacao;
+	private TipoIndexacaoEnum tipoIndexacaoSelecionado;
+	private boolean renderedTipoIndexacaoOutros;
+	private boolean renderedTipoIndexacaoBalancete;
+	
 	@PostConstruct
 	public void inicio(){
+		
 		diretorioRaizSelecionado = Boolean.FALSE;
 
 		categoria = new Categoria();
@@ -150,6 +158,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		iniciaCategoria();
 		iniciaTipoDocumento();
 		renderizaTituloFieldSet();
+		listTipoIndexacao = TipoIndexacaoEnum.selectItems();
 	}
 	
 	public boolean getRenderizaBotaoNovaCategoria(){
@@ -194,8 +203,8 @@ public class DocumentoPainelController extends DocumentoSuperController{
 
 	public void preparaCadastro(){
 		
-		arquivoAnexado = false;
-		renderizaCadastro = true;
+		arquivoAnexado = Boolean.FALSE;
+		renderizaCadastro = Boolean.TRUE;
 		renderizaAlterar = Boolean.FALSE;
 		renderizaExportar = Boolean.FALSE;
 		renderizaTituloFieldSet();
@@ -882,6 +891,21 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		return arquivo;
 	}
 	
+	public void selecionaTipoIndexacao(){
+		
+		if (TipoIndexacaoEnum.OUTROS.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoOutros = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoOutros = Boolean.FALSE;
+		}
+		
+		if (TipoIndexacaoEnum.BALANCETE.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoBalancete = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoBalancete = Boolean.FALSE;
+		}
+	}
+	
 	@Override
 	protected Pagina getPaginaManageBean() {
 		return Pagina.PAINEL_DOCUMENTO;
@@ -1094,5 +1118,33 @@ public class DocumentoPainelController extends DocumentoSuperController{
 
 	public void setRenderizaExportar(boolean renderizaExportar) {
 		this.renderizaExportar = renderizaExportar;
-	}	
+	}
+
+	public List<SelectItem> getListTipoIndexacao() {
+		return listTipoIndexacao;
+	}
+
+	public TipoIndexacaoEnum getTipoIndexacaoSelecionado() {
+		return tipoIndexacaoSelecionado;
+	}
+
+	public void setTipoIndexacaoSelecionado(TipoIndexacaoEnum tipoIndexacaoSelecionado) {
+		this.tipoIndexacaoSelecionado = tipoIndexacaoSelecionado;
+	}
+
+	public boolean isRenderedTipoIndexacaoOutros() {
+		return renderedTipoIndexacaoOutros;
+	}
+
+	public void setRenderedTipoIndexacaoOutros(boolean renderedTipoIndexacaoOutros) {
+		this.renderedTipoIndexacaoOutros = renderedTipoIndexacaoOutros;
+	}
+
+	public boolean isRenderedTipoIndexacaoBalancete() {
+		return renderedTipoIndexacaoBalancete;
+	}
+
+	public void setRenderedTipoIndexacaoBalancete(boolean renderedTipoIndexacaoBalancete) {
+		this.renderedTipoIndexacaoBalancete = renderedTipoIndexacaoBalancete;
+	}
 }

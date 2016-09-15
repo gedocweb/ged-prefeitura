@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+
+	<p:accordionPanel multiple="true">
+		<p:tab id="tabCategoria" title="Categoria dos Documentos">
+
+			<p:commandButton value="Nova Pasta" icon="ui-icon-plus"
+				actionListener="#{painelDocumento.consultaListGrupoUsuario}"
+				oncomplete="PF('dgCategoria').show()"
+				rendered="#{painelDocumento.autorizaFuncionalidade('CADASTRAR_CATEGORIA_DOCUMENTO')}" />
+			<p:commandButton value="Alterar" icon="ui-icon-refresh"
+				actionListener="#{painelDocumento.verificaAlteracaoCategoria}"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirCategoria and painelDocumento.autorizaFuncionalidade('ALTERAR_CATEGORIA_DOCUMENTO')}" />
+			<p:commandButton id="botaoRemover" value="Remover"
+				icon="ui-icon-trash"
+				actionListener="#{painelDocumento.verificaExclusaoCategoria}"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirCategoria and painelDocumento.autorizaFuncionalidade('REMOVER_CATEGORIA_DOCUMENTO')}" />
+
+			<p:separator></p:separator>
+
+			<p:tree value="#{painelDocumento.categorias}" var="doc"
+				selectionMode="single"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirCategoria}">
+
+				<p:ajax event="select" listener="#{painelDocumento.onNodeSelect}" />
+
+				<p:treeNode expandedIcon="ui-icon-folder-open"
+					collapsedIcon="ui-icon-folder-collapsed">
+					<h:outputText value="#{doc.descricao}" />
+				</p:treeNode>
+				<p:treeNode type="document" icon="ui-icon-document">
+					<h:outputText value="#{doc.descricao}" />
+				</p:treeNode>
+			</p:tree>
+		</p:tab>
+
+		<p:tab title="Tipos de Documento">
+
+			<p:commandButton value="Novo Tipo" icon="ui-icon-plus"
+				oncomplete="PF('dgTipoDocumento').show()"
+				rendered="#{painelDocumento.autorizaFuncionalidade('CADASTRAR_TIPO_DOCUMENTO')}" />
+			<p:commandButton value="Alterar" icon="ui-icon-refresh"
+				actionListener="#{painelDocumento.verificaAlteracaoTipoDocumento}"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirTipoDocumento and painelDocumento.autorizaFuncionalidade('ALTERAR_TIPO_DOCUMENTO')}" />
+			<p:commandButton id="botaoRemoverTipoDoc" value="Remover"
+				icon="ui-icon-trash"
+				actionListener="#{painelDocumento.verificaExclusaoTipoDocumento}"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirTipoDocumento and painelDocumento.autorizaFuncionalidade('REMOVER_TIPO_DOCUMENTO')}" />
+
+			<p:separator></p:separator>
+
+			<p:orderList value="#{painelDocumento.listTipoDocumento}" var="tpDoc"
+				itemValue="#{tpDoc}" converter="tipoDocumentoConverter"
+				responsive="true"
+				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirTipoDocumento}">
+
+				<p:ajax event="select" listener="#{painelDocumento.onSelect}" />
+
+				<p:column>
+					<h:outputText value="#{tpDoc.descricao}" />
+				</p:column>
+			</p:orderList>
+
+		</p:tab>
+
+	</p:accordionPanel>
+</ui:composition>
