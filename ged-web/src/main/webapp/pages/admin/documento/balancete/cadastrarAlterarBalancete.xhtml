@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+
+		<h:panelGrid cellpadding="10" columns="4">
+
+			<p:outputLabel value="Ano:"></p:outputLabel>
+			<p:inputMask mask="9999"
+				value="#{painelBalancete.balancete.ano}" size="4">
+				<p:ajax partialSubmit="true" process="@form"></p:ajax>
+			</p:inputMask>
+
+			<p:outputLabel value="Mês:"></p:outputLabel>
+			<p:selectOneMenu 
+				value="#{painelBalancete.balancete.mes}">
+
+				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemMes}"></f:selectItems>
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Órgão:"></p:outputLabel>
+			<p:selectOneMenu 
+				value="#{painelBalancete.balancete.orgao}">
+
+				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemOrgao}"></f:selectItems>
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Volume:"></p:outputLabel>
+			<p:inputText 
+				value="#{painelBalancete.balancete.volume}" size="6">
+				<p:ajax partialSubmit="true" process="@form"></p:ajax>
+			</p:inputText>
+			
+			<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+			<p:calendar value="#{painelBalancete.balancete.dataIndexacao}">
+				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+					global="false"></p:ajax>
+			</p:calendar>
+			
+			<p:outputLabel value="Observação:"></p:outputLabel>
+			<p:inputTextarea value="#{painelBalancete.balancete.observacao}"
+				style="width:200px">
+				<p:ajax partialSubmit="true" process="@form" event="change"
+					global="false"></p:ajax>
+			</p:inputTextarea>
+			
+		</h:panelGrid>
+		
+</ui:composition>

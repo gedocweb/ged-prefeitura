@@ -54,7 +54,17 @@ public enum TipoFuncionalidadeEnum {
 	VISUALIZAR_DOCUMENTO("Visualizar Documento PDF", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
 	BAIXAR_DOCUMENTO("Baixar Documento", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
 	REMOVER_DOCUMENTO("Remover Documento", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	EXPORTAR_DOCUMENTO("Exportar Documentos", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE);
+	EXPORTAR_DOCUMENTO("Exportar Documentos", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	
+	//Balancete
+	CADASTRAR_BALANCETE("Cadastrar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	ALTERAR_BALANCETE("Alterar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	VISUALIZAR_BALANCETE("Visualizar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	BAIXAR_BALANCETE("Baixar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	REMOVER_BALANCETE("Remover Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
+	EXPORTAR_BALANCETE("Exportar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE)
+	
+	;
 	
 	private String label;
 	private FuncionalidadeEnum funcionalidade;

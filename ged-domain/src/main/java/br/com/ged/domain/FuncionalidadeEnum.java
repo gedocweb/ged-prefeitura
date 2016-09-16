@@ -60,7 +60,17 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.BAIXAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.REMOVER_DOCUMENTO,
-			TipoFuncionalidadeEnum.EXPORTAR_DOCUMENTO);
+			TipoFuncionalidadeEnum.EXPORTAR_DOCUMENTO),
+	
+	MANTER_BALANCETE("Manter Balancete",
+			AutorizacaoEnum.ADMINISTRADOR,
+			TipoFuncionalidadeEnum.CADASTRAR_BALANCETE,
+			TipoFuncionalidadeEnum.ALTERAR_BALANCETE,
+			TipoFuncionalidadeEnum.VISUALIZAR_BALANCETE,
+			TipoFuncionalidadeEnum.BAIXAR_BALANCETE,
+			TipoFuncionalidadeEnum.REMOVER_BALANCETE,
+			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE);
+	;
 	
 	private String label;
 

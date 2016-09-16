@@ -16,8 +16,8 @@ import br.com.ged.domain.Situacao;
 import br.com.ged.generics.EntidadeBasica;
  
 @Entity
-@Table(name = "tb_arquivo_doc")
-public class Arquivo extends EntidadeBasica{
+@Table(name = "tb_arquivo_balancet")
+public class ArquivoBalancete extends EntidadeBasica{
  
 	/**
 	 * 
@@ -25,9 +25,9 @@ public class Arquivo extends EntidadeBasica{
 	private static final long serialVersionUID = 7181106172249020200L;
 
 	@Id
-	@Column(name = "id_arquivo")
-	@GeneratedValue(generator = "seq_arquivo_doc", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_arquivo_doc", sequenceName = "seq_arquivo_doc",allocationSize=1)
+	@Column(name = "id_arquivo_balanc")
+	@GeneratedValue(generator = "seq_arquivo_balanc", strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "seq_arquivo_balanc", sequenceName = "seq_arquivo_balanc",allocationSize=1)
 	private Long id;
 	
 	@Column(name="descricao")
@@ -66,7 +66,7 @@ public class Arquivo extends EntidadeBasica{
 										descricao.endsWith(".GIF") || descricao.endsWith(".JPG") || descricao.endsWith(".PNG") || descricao.endsWith(".JPEG"));
 	}
 
-	public Arquivo(){
+	public ArquivoBalancete(){
 		situacao = Situacao.ATIVO;
 	}
 
@@ -129,10 +129,10 @@ public class Arquivo extends EntidadeBasica{
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Arquivo)) {
+		if (!(obj instanceof ArquivoBalancete)) {
 			return false;
 		}
-		Arquivo other = (Arquivo) obj;
+		ArquivoBalancete other = (ArquivoBalancete) obj;
 		if (contentType == null) {
 			if (other.contentType != null) {
 				return false;
