@@ -57,13 +57,21 @@ public enum TipoFuncionalidadeEnum {
 	EXPORTAR_DOCUMENTO("Exportar Documentos", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
 	
 	//Balancete
-	CADASTRAR_BALANCETE("Cadastrar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	ALTERAR_BALANCETE("Alterar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	VISUALIZAR_BALANCETE("Visualizar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	BAIXAR_BALANCETE("Baixar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	REMOVER_BALANCETE("Remover Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE),
-	EXPORTAR_BALANCETE("Exportar Balancete", FuncionalidadeEnum.MANTER_DOCUMENTO, Role.ADMIN, Role.GERENTE)
+	CADASTRAR_BALANCETE("Cadastrar Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
+	ALTERAR_BALANCETE("Alterar Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
+	VISUALIZAR_BALANCETE("Visualizar Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
+	BAIXAR_BALANCETE("Baixar Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
+	REMOVER_BALANCETE("Remover Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
+	EXPORTAR_BALANCETE("Exportar Balancete", FuncionalidadeEnum.MANTER_BALANCETE, Role.ADMIN, Role.GERENTE),
 	
+	//Recurso Humano
+	CADASTRAR_RECURSO_HUMANO("Cadastrar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	ALTERAR_RECURSO_HUMANO("Alterar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	VISUALIZAR_RECURSO_HUMANO("Visualizar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	BAIXAR_RECURSO_HUMANO("Baixar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	REMOVER_RECURSO_HUMANO("Remover Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	EXPORTAR_RECURSO_HUMANO("Exportar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE)
+		
 	;
 	
 	private String label;

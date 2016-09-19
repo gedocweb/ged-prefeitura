@@ -1,52 +1,82 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-		<h:panelGrid cellpadding="10" columns="4">
+	<h:panelGrid cellpadding="10" columns="4">
 
-			<p:outputLabel value="Ano:"></p:outputLabel>
-			<p:inputMask mask="9999"
-				value="#{painelBalancete.balancete.ano}" size="4">
-				<p:ajax partialSubmit="true" process="@form"></p:ajax>
-			</p:inputMask>
+		<p:outputLabel value="Ano:"></p:outputLabel>
+		<p:inputMask mask="9999" value="#{painelBalancete.balancete.ano}"
+			size="4">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
 
-			<p:outputLabel value="Mês:"></p:outputLabel>
-			<p:selectOneMenu 
-				value="#{painelBalancete.balancete.mes}">
+		<p:outputLabel value="Mês:"></p:outputLabel>
+		<p:selectOneMenu value="#{painelBalancete.balancete.mes}">
 
-				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
-				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemMes}"></f:selectItems>
-			</p:selectOneMenu>
-			
-			<p:outputLabel value="Órgão:"></p:outputLabel>
-			<p:selectOneMenu 
-				value="#{painelBalancete.balancete.orgao}">
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelBalancete.filtroBalanceteDTO.listSelectItemMes}"></f:selectItems>
+		</p:selectOneMenu>
 
-				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
-				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemOrgao}"></f:selectItems>
-			</p:selectOneMenu>
-			
-			<p:outputLabel value="Volume:"></p:outputLabel>
-			<p:inputText 
-				value="#{painelBalancete.balancete.volume}" size="6">
-				<p:ajax partialSubmit="true" process="@form"></p:ajax>
-			</p:inputText>
-			
-			<p:outputLabel value="Data da Indexação:"></p:outputLabel>
-			<p:calendar value="#{painelBalancete.balancete.dataIndexacao}">
-				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
-					global="false"></p:ajax>
-			</p:calendar>
-			
-			<p:outputLabel value="Observação:"></p:outputLabel>
-			<p:inputTextarea value="#{painelBalancete.balancete.observacao}"
-				style="width:200px">
-				<p:ajax partialSubmit="true" process="@form" event="change"
-					global="false"></p:ajax>
-			</p:inputTextarea>
-			
-		</h:panelGrid>
-		
+		<p:outputLabel value="Órgão:"></p:outputLabel>
+		<p:selectOneMenu value="#{painelBalancete.balancete.orgao}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelBalancete.filtroBalanceteDTO.listSelectItemOrgao}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Volume:"></p:outputLabel>
+		<p:inputText value="#{painelBalancete.balancete.volume}" size="6">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:calendar value="#{painelBalancete.balancete.dataIndexacao}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea value="#{painelBalancete.balancete.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+		<p:outputLabel value="Upload documento" rendered="#{!painelBalancete.arquivoAnexado}"></p:outputLabel>
+		<h:form enctype="multipart/form-data;charset=UTF-8"
+			acceptcharset="UTF-8" rendered="#{!painelBalancete.arquivoAnexado}">
+
+			<p:fileUpload label="Selecione o arquivo"
+				value="#{painelBalancete.uploadFile}" sizeLimit="10485760"
+				allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|docx)$/"
+				invalidSizeMessage="Arquivo inválido, são permitidos somente: docx, pdf, gif, jpg, jpeg e png."
+				fileUploadListener="#{painelBalancete.upload}" auto="true"
+				rendered="#{!painelBalancete.arquivoAnexado}" />
+		</h:form>
+
+		<p:outputPanel autoUpdate="true" 
+			rendered="#{painelBalancete.arquivoAnexado}">
+			<p:outputLabel value="#{painelBalancete.balancete.arquivo.descricao}">
+			</p:outputLabel>
+			<p:selectBooleanCheckbox label="Substituir documento anexado"
+				value="#{painelBalancete.arquivoAnexado}">
+				<p:ajax event="change" update="@form"
+					partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+
+			<br />
+
+			<p:selectBooleanCheckbox itemLabel="Converter arquivo para pdf"
+				label="Converter arquivo para pdf"
+				value="#{painelBalancete.converterArquivoParaPDF}"
+				rendered="#{painelBalancete.extensaoArquivoDiferentePDF}">
+				<p:ajax partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+		</p:outputPanel>
+
+	</h:panelGrid>
 </ui:composition>

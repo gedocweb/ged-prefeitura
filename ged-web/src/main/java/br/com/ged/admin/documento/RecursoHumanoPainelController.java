@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -21,29 +21,30 @@ import org.primefaces.model.UploadedFile;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
-import br.com.ged.dto.FiltroBalanceteDTO;
-import br.com.ged.entidades.ArquivoBalancete;
-import br.com.ged.entidades.Balancete;
+import br.com.ged.dto.FiltroRecursoHumanoDTO;
+import br.com.ged.entidades.ArquivoRecursoHumano;
+import br.com.ged.entidades.Pessoa;
+import br.com.ged.entidades.RecursoHumano;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.GenericServiceController;
-import br.com.ged.service.BalanceteService;
+import br.com.ged.service.RecursoHumanoService;
 import br.com.ged.util.container.UtilArquivo;
 
-@ManagedBean(name = "painelBalancete")
-@SessionScoped
-public class BalancetePainelController extends DocumentoSuperController {
+@ManagedBean(name = "painelRecursoHumano")
+@ViewScoped
+public class RecursoHumanoPainelController extends DocumentoSuperController {
 
 	@EJB
-	protected GenericServiceController<Balancete, Long> serviceBalancete;
+	protected GenericServiceController<RecursoHumano, Long> serviceRH;
 
 	@EJB
-	protected BalanceteService balanceteService;
+	protected RecursoHumanoService balanceteService;
 
-	private List<Balancete> listBalancete = null;
+	private List<RecursoHumano> listRecursoHumano = null;
 
-	private Balancete balancete;
+	private RecursoHumano recursoHumano;
 
-	private FiltroBalanceteDTO filtroBalanceteDTO;
+	private FiltroRecursoHumanoDTO filtroRecursoHumanoDTO;
 
 	private boolean renderedCadastro;
 	private boolean renderedPesquisar;
@@ -58,17 +59,17 @@ public class BalancetePainelController extends DocumentoSuperController {
 	@PostConstruct
 	public void inicio() {
 
-		listBalancete = new ArrayList<>();
-		filtroBalanceteDTO = new FiltroBalanceteDTO();
-		balancete = inicializaBalancete();
+		listRecursoHumano = new ArrayList<>();
+		filtroRecursoHumanoDTO = new FiltroRecursoHumanoDTO();
 
 		preparaPesquisar();
 	}
 	
-	private Balancete inicializaBalancete() {
+	private RecursoHumano inicializaRecursoHumano() {
 		
-		Balancete novoBalanc = new Balancete();
-		novoBalanc.setArquivo(new ArquivoBalancete());
+		RecursoHumano novoBalanc = new RecursoHumano();
+		novoBalanc.setPessoa(new Pessoa());
+		novoBalanc.setArquivo(new ArquivoRecursoHumano());
 		novoBalanc.setUsuario(getUsuarioLogado());
 		
 		return novoBalanc;
@@ -85,7 +86,7 @@ public class BalancetePainelController extends DocumentoSuperController {
 		extensaoArquivoDiferentePDF = Boolean.FALSE;
 		arquivoAnexado = Boolean.FALSE;
 
-		balancete = inicializaBalancete();
+		recursoHumano = inicializaRecursoHumano();
 	}
 
 	public void preparaPesquisar() {
@@ -95,7 +96,7 @@ public class BalancetePainelController extends DocumentoSuperController {
 		renderedExportar = Boolean.FALSE;
 		renderedPesquisar = Boolean.TRUE;
 
-		filtroBalanceteDTO = new FiltroBalanceteDTO();
+		filtroRecursoHumanoDTO = new FiltroRecursoHumanoDTO();
 	}
 
 	public void preparaExportar() {
@@ -105,10 +106,10 @@ public class BalancetePainelController extends DocumentoSuperController {
 		renderedExportar = Boolean.TRUE;
 		renderedPesquisar = Boolean.FALSE;
 
-		filtroBalanceteDTO = new FiltroBalanceteDTO();
+		filtroRecursoHumanoDTO = new FiltroRecursoHumanoDTO();
 	}
 
-	public void preparaAlterar(Balancete balanceteSelecionado) {
+	public void preparaAlterar(RecursoHumano balanceteSelecionado) {
 
 		renderedCadastro = Boolean.FALSE;
 		renderedAlterar = Boolean.TRUE;
@@ -125,12 +126,12 @@ public class BalancetePainelController extends DocumentoSuperController {
 			extensaoArquivoDiferentePDF = Boolean.TRUE;
 		}
 
-		balancete = balanceteSelecionado;
+		recursoHumano = balanceteSelecionado;
 	}
 
 	public void pesquisar() {
 
-		listBalancete = balanceteService.pesquisar(filtroBalanceteDTO, "arquivo");
+		listRecursoHumano = balanceteService.pesquisar(filtroRecursoHumanoDTO, "arquivo");
 	}
 
 	public void alterar() {
@@ -142,29 +143,30 @@ public class BalancetePainelController extends DocumentoSuperController {
 
 	public void excluir() {
 		
-		serviceBalancete.excluir(getBalancete());
+		serviceRH.excluir(getRecursoHumano());
+		this.pesquisar();
 	}
 
 	public void cadastrar() {
 		
 		if (!arquivoAnexado){
-			getBalancete().setArquivo(null);
+			getRecursoHumano().setArquivo(null);
 		}
 		
 		try {
 			
-			balanceteValidatorView.valida(getBalancete());
+			recursoHumanoValidatorView.valida(getRecursoHumano());
 			
-			getBalancete().setDataUltimaAlteracao(new Date());
-			getBalancete().setSituacao(Situacao.ATIVO);
+			getRecursoHumano().setDataUltimaAlteracao(new Date());
+			getRecursoHumano().setSituacao(Situacao.ATIVO);
 			
 			if (converterArquivoParaPDF){
-				getBalancete().setArquivo(UtilArquivo.converterArquivoParaPDF(getBalancete().getArquivo()));
+				getRecursoHumano().setArquivo(UtilArquivo.converterArquivoParaPDF(getRecursoHumano().getArquivo()));
 			}
 			
-			serviceBalancete.salvar(getBalancete());
+			serviceRH.salvar(getRecursoHumano());
 			
-			setBalancete(inicializaBalancete());
+			setRecursoHumano(inicializaRecursoHumano());
 			arquivoAnexado = Boolean.FALSE;
 			
 		} catch (NegocioException e) {
@@ -175,20 +177,20 @@ public class BalancetePainelController extends DocumentoSuperController {
 
 	public void upload(FileUploadEvent event) {
 
-		ArquivoBalancete arquivo = arquivoUpload(event);
+		ArquivoRecursoHumano arquivo = arquivoUpload(event);
 
-		getBalancete().setArquivo(arquivo);
+		getRecursoHumano().setArquivo(arquivo);
 		arquivoAnexado = Boolean.TRUE;
 		extensaoArquivoDiferentePDF = !arquivo.getDescricao().endsWith(".pdf");
 	}
 	
-	private ArquivoBalancete arquivoUpload(FileUploadEvent event) {
+	private ArquivoRecursoHumano arquivoUpload(FileUploadEvent event) {
 		
 		UploadedFile uploadedFile = event.getFile();
 	    String fileName = uploadedFile.getFileName();
 	    byte[] contents = uploadedFile.getContents(); 
 	    
-	    ArquivoBalancete arquivo = new ArquivoBalancete(); 
+	    ArquivoRecursoHumano arquivo = new ArquivoRecursoHumano(); 
 		arquivo.setArquivo(contents);
 		arquivo.setDescricao(fileName);
 		arquivo.setContentType(uploadedFile.getContentType());
@@ -198,12 +200,12 @@ public class BalancetePainelController extends DocumentoSuperController {
 	public StreamedContent exportar() {
 		try {
 
-			List<Balancete> documentosFiltrados = balanceteService.pesquisar(filtroBalanceteDTO, "arquivo");
+			List<RecursoHumano> documentosFiltrados = balanceteService.pesquisar(filtroRecursoHumanoDTO, "arquivo");
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ZipOutputStream zos = new ZipOutputStream(baos);
 
-			for (Balancete doc : documentosFiltrados) {
+			for (RecursoHumano doc : documentosFiltrados) {
 
 				String docDescricao = doc.getArquivo().getDescricao();
 				String zipArquivoDescricao = docDescricao;
@@ -215,7 +217,7 @@ public class BalancetePainelController extends DocumentoSuperController {
 			}
 			zos.close();
 			ByteArrayInputStream btArray = new ByteArrayInputStream(baos.toByteArray());
-			return new DefaultStreamedContent(btArray, "application/zip", "Balancetes.zip");
+			return new DefaultStreamedContent(btArray, "application/zip", "RecursoHumano.zip");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -230,24 +232,24 @@ public class BalancetePainelController extends DocumentoSuperController {
 		return Pagina.PAINEL_DOCUMENTO;
 	}
 
-	public List<Balancete> getListBalancete() {
-		return listBalancete;
+	public List<RecursoHumano> getListRecursoHumano() {
+		return listRecursoHumano;
 	}
 
-	public Balancete getBalancete() {
-		return balancete;
+	public RecursoHumano getRecursoHumano() {
+		return recursoHumano;
 	}
 
-	public void setBalancete(Balancete balancete) {
-		this.balancete = balancete;
+	public void setRecursoHumano(RecursoHumano recursoHumano) {
+		this.recursoHumano = recursoHumano;
 	}
 
-	public FiltroBalanceteDTO getFiltroBalanceteDTO() {
-		return filtroBalanceteDTO;
+	public FiltroRecursoHumanoDTO getFiltroRecursoHumanoDTO() {
+		return filtroRecursoHumanoDTO;
 	}
 
-	public void setFiltroBalanceteDTO(FiltroBalanceteDTO filtroBalanceteDTO) {
-		this.filtroBalanceteDTO = filtroBalanceteDTO;
+	public void setFiltroRecursoHumanoDTO(FiltroRecursoHumanoDTO filtroRecursoHumanoDTO) {
+		this.filtroRecursoHumanoDTO = filtroRecursoHumanoDTO;
 	}
 
 	public boolean isRenderedCadastro() {

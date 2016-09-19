@@ -10,6 +10,12 @@ public abstract class DocumentoSuperController extends AbstractManageBean{
 	@EJB
 	protected DocumentoValidadorView documentoValidatorView;
 	
+	@EJB
+	protected BalanceteValidadorView balanceteValidatorView;
+	
+	@EJB
+	protected RecursoHumanoValidadorView recursoHumanoValidatorView;
+	
 	@PostConstruct
 	public void inicio(){
 	}

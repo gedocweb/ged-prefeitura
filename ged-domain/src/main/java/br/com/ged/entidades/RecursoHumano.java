@@ -19,14 +19,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import br.com.ged.domain.MesEnum;
-import br.com.ged.domain.OrgaoEnum;
 import br.com.ged.domain.Situacao;
+import br.com.ged.domain.TipoDocumentoRH;
 import br.com.ged.generics.EntidadeBasica;
  
 @Entity
-@Table(name = "tb_balancete")
-public class Balancete extends EntidadeBasica{
+@Table(name = "tb_rh")
+public class RecursoHumano extends EntidadeBasica{
  
 	/**
 	 * 
@@ -34,24 +33,14 @@ public class Balancete extends EntidadeBasica{
 	private static final long serialVersionUID = 7181106172249020200L;
 
 	@Id
-	@Column(name = "id_balancete")
-	@GeneratedValue(generator = "seq_balancete", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_balancete", sequenceName = "seq_balancete",allocationSize=1)
+	@Column(name = "id_rh")
+	@GeneratedValue(generator = "seq_rh", strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "seq_rh", sequenceName = "seq_rh",allocationSize=1)
 	private Long id;
-	
-	@Column(name="volume")
-	private String volume;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name="mes")
-	private MesEnum mes;
-	
-	@Column(name="ano")
-	private Integer ano;
-	
 	@Enumerated(EnumType.STRING)
-	@Column(name="orgao")
-	private OrgaoEnum orgao;
+	@Column(name="tipo_documento")
+	private TipoDocumentoRH tipoDocumento;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="situacao")
@@ -64,13 +53,21 @@ public class Balancete extends EntidadeBasica{
 	@Column(name="data_indexacao")
 	private Date dataIndexacao;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_documento")
+	private Date dataDocumento;
+	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_arquivo")
-	private ArquivoBalancete arquivo;
+	private ArquivoRecursoHumano arquivo;
 	
 	@ManyToOne
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="id_pessoa")
+	private Pessoa pessoa;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_alteracao")
@@ -102,6 +99,19 @@ public class Balancete extends EntidadeBasica{
 		return dataFormat;
 	}
 	
+	@Transient
+	public String getDataDocumentoFormat() {
+		
+		String dataFormat = null;
+		
+		if (this.getDataDocumento() != null){
+			
+			dataFormat = formataData(this.getDataIndexacao(),"dd/MM/yyyy");
+		}
+		
+		return dataFormat;
+	}
+	
 	private String formataData(Date date, String pattern) {
 		String dataUltimaAlteracaoFormat;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -118,36 +128,20 @@ public class Balancete extends EntidadeBasica{
 		this.id = id;
 	}
 
-	public String getVolume() {
-		return volume;
+	public TipoDocumentoRH getTipoDocumento() {
+		return tipoDocumento;
 	}
 
-	public void setVolume(String volume) {
-		this.volume = volume;
+	public void setTipoDocumento(TipoDocumentoRH tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
-	public MesEnum getMes() {
-		return mes;
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public void setMes(MesEnum mes) {
-		this.mes = mes;
-	}
-
-	public Integer getAno() {
-		return ano;
-	}
-
-	public void setAno(Integer ano) {
-		this.ano = ano;
-	}
-
-	public OrgaoEnum getOrgao() {
-		return orgao;
-	}
-
-	public void setOrgao(OrgaoEnum orgao) {
-		this.orgao = orgao;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 	public String getObservacao() {
@@ -166,11 +160,19 @@ public class Balancete extends EntidadeBasica{
 		this.dataIndexacao = dataIndexacao;
 	}
 
-	public ArquivoBalancete getArquivo() {
+	public Date getDataDocumento() {
+		return dataDocumento;
+	}
+
+	public void setDataDocumento(Date dataDocumento) {
+		this.dataDocumento = dataDocumento;
+	}
+
+	public ArquivoRecursoHumano getArquivo() {
 		return arquivo;
 	}
 
-	public void setArquivo(ArquivoBalancete arquivo) {
+	public void setArquivo(ArquivoRecursoHumano arquivo) {
 		this.arquivo = arquivo;
 	}
 
@@ -182,19 +184,19 @@ public class Balancete extends EntidadeBasica{
 		this.usuario = usuario;
 	}
 
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
 	public Date getDataUltimaAlteracao() {
 		return dataUltimaAlteracao;
 	}
 
 	public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
-	}
-
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
 	}
 }

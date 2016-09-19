@@ -31,6 +31,9 @@ public class Pessoa extends EntidadeBasica{
 	@Column(name="nome")
 	private String nome;
 	
+	@Column(name="rg")
+	private Integer rg;
+	
 	@Column(name="situacao")
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
@@ -94,5 +97,13 @@ public class Pessoa extends EntidadeBasica{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Integer getRg() {
+		return rg;
+	}
+
+	public void setRg(Integer rg) {
+		this.rg = rg;
 	}
 }

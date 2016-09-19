@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Nome:"></p:outputLabel>
+		<p:inputText value="#{painelRecursoHumano.filtroRecursoHumanoDTO.nome}" >
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="CPF:"></p:outputLabel>
+		<p:inputMask mask="999.999.999-99" value="#{painelRecursoHumano.filtroRecursoHumanoDTO.cpf}"/>
+
+		<p:outputLabel value="Tipo de Documento:"></p:outputLabel>
+		<p:selectOneMenu 
+			value="#{painelRecursoHumano.filtroRecursoHumanoDTO.tipoDocumento}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelRecursoHumano.filtroRecursoHumanoDTO.listTipoDocumentoRH}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="RG:"></p:outputLabel>
+		<p:inputMask mask="9999999"
+			value="#{painelRecursoHumano.filtroRecursoHumanoDTO.rg}" >
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:panel header="Período">
+		
+			<p:calendar
+				value="#{painelRecursoHumano.filtroRecursoHumanoDTO.dataIndexacaoBetween.dataInicio}">
+				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+					global="false"></p:ajax>
+			</p:calendar>
+			
+			<p:outputLabel value="até"></p:outputLabel>
+			
+			<p:calendar
+				value="#{painelRecursoHumano.filtroRecursoHumanoDTO.dataIndexacaoBetween.dataFim}">
+				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+					global="false"></p:ajax>
+			</p:calendar>
+		
+		</p:panel>
+
+		<p:outputLabel value="Interessado:"></p:outputLabel>
+		<p:inputText value="#{painelRecursoHumano.usuarioLogado.pessoa.nome}"
+			readonly="true" size="30">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelRecursoHumano.filtroRecursoHumanoDTO.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+	</h:panelGrid>
+
+	<p:separator></p:separator>
+
+	<h:panelGrid style="margin:0 auto; text-align:center;">
+
+		<p:commandButton value="Pesquisar" update="@form"
+			action="#{painelRecursoHumano.pesquisar}"></p:commandButton>
+
+	</h:panelGrid>
+
+</ui:composition>

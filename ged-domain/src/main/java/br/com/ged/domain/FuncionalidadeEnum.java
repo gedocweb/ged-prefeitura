@@ -69,7 +69,16 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_BALANCETE,
 			TipoFuncionalidadeEnum.BAIXAR_BALANCETE,
 			TipoFuncionalidadeEnum.REMOVER_BALANCETE,
-			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE);
+			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE),
+	
+	MANTER_RECURSO_HUMANO("Manter Recurso Humano",
+			AutorizacaoEnum.ADMINISTRADOR,
+			TipoFuncionalidadeEnum.CADASTRAR_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.ALTERAR_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.VISUALIZAR_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.BAIXAR_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.REMOVER_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.EXPORTAR_RECURSO_HUMANO);
 	;
 	
 	private String label;

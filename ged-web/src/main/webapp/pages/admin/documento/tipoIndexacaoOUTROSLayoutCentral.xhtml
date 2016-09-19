@@ -306,7 +306,6 @@
 
 		</h:panelGrid>
 
-
 		<p:separator></p:separator>
 
 		<h:panelGrid style="margin:0 auto; text-align:center;">
@@ -332,8 +331,8 @@
 				<h:panelGrid columns="1" style="width:100%">
 
 					<p:remoteCommand name="rc" oncomplete="PF('docObservacao').show()">
-						<f:setPropertyActionListener value="#{doc.observacao}"
-							target="#{obsDocumento.observacaoDoc}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{doc}"
+							target="#{painelDocumento.documentoSelecionado}"></f:setPropertyActionListener>
 					</p:remoteCommand>
 
 					<h:graphicImage ondblclick="rc()" alt="Arquivo PDF" id="iconPdf"

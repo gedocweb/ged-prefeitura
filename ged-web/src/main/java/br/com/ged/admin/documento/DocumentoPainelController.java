@@ -3,7 +3,6 @@ package br.com.ged.admin.documento;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -18,10 +17,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xwpf.converter.pdf.PdfConverter;
-import org.apache.poi.xwpf.converter.pdf.PdfOptions;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -32,11 +27,6 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfWriter;
-
-import br.com.ged.domain.ImagemExtensao;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
@@ -54,6 +44,7 @@ import br.com.ged.framework.GenericServiceController;
 import br.com.ged.service.CategoriaDocumentoService;
 import br.com.ged.service.DocumentoService;
 import br.com.ged.service.GrupoUsuarioService;
+import br.com.ged.util.container.UtilArquivo;
 
 @ManagedBean(name="painelDocumento")
 @SessionScoped
@@ -132,6 +123,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private TipoIndexacaoEnum tipoIndexacaoSelecionado;
 	private boolean renderedTipoIndexacaoOutros;
 	private boolean renderedTipoIndexacaoBalancete;
+	private boolean renderedTipoIndexacaoRecursoHumano;
 	
 	@PostConstruct
 	public void inicio(){
@@ -722,7 +714,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			getDocumento().setSituacao(Situacao.ATIVO);
 			
 			if (converterArquivoParaPDF){
-				getDocumento().setArquivo(converterArquivoParaPDF(getDocumento().getArquivo()));
+				getDocumento().setArquivo(UtilArquivo.converterArquivoParaPDF(getDocumento().getArquivo()));
 			}
 			
 			serviceDocumento.salvar(getDocumento());
@@ -733,88 +725,6 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		} catch (NegocioException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private Arquivo converterArquivoParaPDF(Arquivo arquivo) {
-		
-		String fileName = arquivo.getDescricao();
-		byte[] contents = arquivo.getArquivo();
-		
-		if (!fileName.endsWith(".pdf")){
-	    	
-	    	Document document = new Document();
-	    	
-	    	String[] divideNomeArquivoPelaExtensao = StringUtils.split(fileName, ".");
-	    	String nomeSemExtensao = divideNomeArquivoPelaExtensao[0];
-	    	String extensao = divideNomeArquivoPelaExtensao[divideNomeArquivoPelaExtensao.length - 1];
-	    	
-	    	String filePDF = nomeSemExtensao+".pdf";
-	    	
-	    	//Converte imagem para pdf
-		    if (ImagemExtensao.isImagem(extensao)){
-		    	
-			    ByteArrayOutputStream  file =  new ByteArrayOutputStream ();
-
-			    try {
-			    	
-			    	PdfWriter.getInstance(document,file);
-			       
-			        document.open();
-			        Image image = Image.getInstance(contents);
-			        
-			        //if you would have a chapter indentation
-			        int indentation = 0;
-			        //whatever
-
-			        float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-			                       - document.rightMargin() - indentation) / image.getWidth()) * 100;
-
-			        image.scalePercent(scaler);
-
-			        document.add(image);
-			        document.close();
-			        
-			        contents = file.toByteArray();
-			        fileName = filePDF;
-			    } catch(Exception e){
-			      e.printStackTrace();
-			    }
-			    
-			//Converte word para pdf    
-		    }else if (extensao.equals("docx")){
-		    	
-		    	ByteArrayInputStream in = new ByteArrayInputStream(contents);		    	
-		    	XWPFDocument docx = null;
-		    	ByteArrayOutputStream out = null;
-				try {
-					
-					docx = new XWPFDocument(in);
-					out = new ByteArrayOutputStream();
-		            PdfOptions options = PdfOptions.create();
-		            PdfConverter.getInstance().convert( docx, out, options );
-		            
-		            contents = out.toByteArray();
-			        fileName = filePDF;
-		            
-				} catch (IOException e) {
-					e.printStackTrace();
-				}finally{
-					
-					try {
-						out.close();
-						in.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-		    }
-	    }
-		
-		arquivo.setDescricao(fileName);
-		arquivo.setArquivo(contents);
-		arquivo.setContentType("application/pdf");
-		
-		return arquivo;
 	}
 
 	public void alterarDocumento(){
@@ -845,7 +755,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			}
 			
 			if (converterArquivoParaPDF){
-				getDocumentoSelecionado().setArquivo(converterArquivoParaPDF(getDocumentoSelecionado().getArquivo()));
+				getDocumentoSelecionado().setArquivo(UtilArquivo.converterArquivoParaPDF(getDocumentoSelecionado().getArquivo()));
 			}
 			
 			serviceDocumento.merge(getDocumentoSelecionado());
@@ -903,6 +813,12 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			renderedTipoIndexacaoBalancete = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoBalancete = Boolean.FALSE;
+		}
+		
+		if (TipoIndexacaoEnum.RH.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoRecursoHumano = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoRecursoHumano = Boolean.FALSE;
 		}
 	}
 	
@@ -1146,5 +1062,13 @@ public class DocumentoPainelController extends DocumentoSuperController{
 
 	public void setRenderedTipoIndexacaoBalancete(boolean renderedTipoIndexacaoBalancete) {
 		this.renderedTipoIndexacaoBalancete = renderedTipoIndexacaoBalancete;
+	}
+
+	public boolean isRenderedTipoIndexacaoRecursoHumano() {
+		return renderedTipoIndexacaoRecursoHumano;
+	}
+
+	public void setRenderedTipoIndexacaoRecursoHumano(boolean renderedTipoIndexacaoRecursoHumano) {
+		this.renderedTipoIndexacaoRecursoHumano = renderedTipoIndexacaoRecursoHumano;
 	}
 }

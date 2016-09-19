@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Nome:"></p:outputLabel>
+		<p:inputText value="#{painelRecursoHumano.recursoHumano.pessoa.nome}" size="50" >
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="CPF:"></p:outputLabel>
+		<p:inputMask mask="999.999.999-99"  value="#{painelRecursoHumano.recursoHumano.pessoa.cpf}"/>
+
+		<p:outputLabel value="Tipo de Documento:"></p:outputLabel>
+		<p:selectOneMenu 
+			value="#{painelRecursoHumano.recursoHumano.tipoDocumento}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelRecursoHumano.filtroRecursoHumanoDTO.listTipoDocumentoRH}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="RG:"></p:outputLabel>
+		<p:inputMask mask="9999999"
+			value="#{painelRecursoHumano.recursoHumano.pessoa.rg}" >
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		
+		<p:calendar
+			value="#{painelRecursoHumano.recursoHumano.dataIndexacao}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+		
+		<p:outputLabel value="Data do Documento:"></p:outputLabel>
+		
+		<p:calendar
+			value="#{painelRecursoHumano.recursoHumano.dataDocumento}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelRecursoHumano.recursoHumano.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+		<p:outputLabel value="Upload documento" rendered="#{!painelRecursoHumano.arquivoAnexado}"></p:outputLabel>
+		<h:form enctype="multipart/form-data;charset=UTF-8"
+			acceptcharset="UTF-8" rendered="#{!painelRecursoHumano.arquivoAnexado}">
+
+			<p:fileUpload label="Selecione o arquivo"
+				value="#{painelRecursoHumano.uploadFile}" sizeLimit="10485760"
+				allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|docx)$/"
+				invalidSizeMessage="Arquivo inválido, são permitidos somente: docx, pdf, gif, jpg, jpeg e png."
+				fileUploadListener="#{painelRecursoHumano.upload}" auto="true"
+				rendered="#{!painelRecursoHumano.arquivoAnexado}" />
+		</h:form>
+
+		<p:outputPanel autoUpdate="true" 
+			rendered="#{painelRecursoHumano.arquivoAnexado}">
+			<p:outputLabel value="#{painelRecursoHumano.recursoHumano.arquivo.descricao}">
+			</p:outputLabel>
+			<p:selectBooleanCheckbox label="Substituir documento anexado"
+				value="#{painelRecursoHumano.arquivoAnexado}">
+				<p:ajax event="change" update="@form"
+					partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+
+			<br />
+
+			<p:selectBooleanCheckbox itemLabel="Converter arquivo para pdf"
+				label="Converter arquivo para pdf"
+				value="#{painelRecursoHumano.converterArquivoParaPDF}"
+				rendered="#{painelRecursoHumano.extensaoArquivoDiferentePDF}">
+				<p:ajax partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+		</p:outputPanel>
+
+	</h:panelGrid>
+</ui:composition>

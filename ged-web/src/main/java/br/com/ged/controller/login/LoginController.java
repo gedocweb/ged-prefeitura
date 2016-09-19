@@ -1,7 +1,6 @@
 package br.com.ged.controller.login;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,12 +9,9 @@ import javax.faces.bean.RequestScoped;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 
-import br.com.ged.domain.MesEnum;
-import br.com.ged.domain.OrgaoEnum;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Role;
 import br.com.ged.domain.Situacao;
-import br.com.ged.entidades.Balancete;
 import br.com.ged.entidades.Pessoa;
 import br.com.ged.entidades.Usuario;
 import br.com.ged.framework.AbstractManageBean;
@@ -50,32 +46,12 @@ public class LoginController extends AbstractManageBean {
 	@EJB
 	private GenericServiceController<Usuario, Long> usuarioService;
 	
-	@EJB
-	private GenericServiceController<Balancete, Long> mockBalancete;
-	
 	@PostConstruct
 	public void utilizandoBancoEmMemoria(){
 		
 		if (usuarioService.emptyTable(Usuario.class)){
 			criaUsuarioInicial();
-			
-			criaBalancete();
 		}
-	}
-
-	private void criaBalancete() {
-		
-		Balancete balancete = new  Balancete();
-		
-		balancete.setAno(2016);
-		balancete.setDataIndexacao(new Date());
-		balancete.setDataUltimaAlteracao(new Date());
-		balancete.setMes(MesEnum.JANEIRO);
-		balancete.setObservacao("Obs");
-		balancete.setOrgao(OrgaoEnum.EXECUTIVO);
-		balancete.setVolume("A-B");
-		
-		mockBalancete.salvar(balancete);
 	}
 
 	private void criaUsuarioInicial() {

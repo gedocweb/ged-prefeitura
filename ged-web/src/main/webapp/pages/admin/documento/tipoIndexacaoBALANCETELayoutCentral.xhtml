@@ -19,66 +19,9 @@
 		toggleable="true" toggleSpeed="500"
 		rendered="#{painelBalancete.renderedPesquisar}">
 		
-		<h:panelGrid cellpadding="10" columns="4">
-
-			<p:outputLabel value="Ano:"></p:outputLabel>
-			<p:inputMask id="txtAno" mask="9999"
-				value="#{painelBalancete.filtroBalanceteDTO.ano}" size="4">
-				<p:ajax partialSubmit="true" process="@form"></p:ajax>
-			</p:inputMask>
-
-			<p:outputLabel value="Mês:"></p:outputLabel>
-			<p:selectOneMenu id="mes"
-				value="#{painelBalancete.filtroBalanceteDTO.mes}">
-
-				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
-				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemMes}"></f:selectItems>
-			</p:selectOneMenu>
-			
-			<p:outputLabel value="Órgão:"></p:outputLabel>
-			<p:selectOneMenu id="orgao"
-				value="#{painelBalancete.filtroBalanceteDTO.orgao}">
-
-				<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
-				<f:selectItems value="#{painelBalancete.filtroBalanceteDTO.listSelectItemOrgao}"></f:selectItems>
-			</p:selectOneMenu>
-			
-			<p:outputLabel value="Volume:"></p:outputLabel>
-			<p:inputText id="txtVolume"
-				value="#{painelBalancete.filtroBalanceteDTO.volume}" size="6">
-				<p:ajax partialSubmit="true" process="@form"></p:ajax>
-			</p:inputText>
-			
-			<p:outputLabel value="Data da Indexação:"></p:outputLabel>
-			<p:calendar value="#{painelBalancete.filtroBalanceteDTO.dataIndexacao}">
-				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
-					global="false"></p:ajax>
-			</p:calendar>
-			
-			<p:outputLabel value="Interessado:"></p:outputLabel>
-			<p:inputText value="#{painelBalancete.usuarioLogado.pessoa.nome}"
-				readonly="true" size="30">
-				<p:ajax partialSubmit="true" process="@form" event="change"
-					global="false"></p:ajax>
-			</p:inputText>
-			
-			<p:outputLabel value="Observação:"></p:outputLabel>
-			<p:inputTextarea value="#{painelBalancete.filtroBalanceteDTO.observacao}"
-				style="width:200px">
-				<p:ajax partialSubmit="true" process="@form" event="change"
-					global="false"></p:ajax>
-			</p:inputTextarea>
-			
-		</h:panelGrid>
-		
-		<p:separator></p:separator>
-
-		<h:panelGrid style="margin:0 auto; text-align:center;">
-
-			<p:commandButton value="Pesquisar" type="submit"
-				action="#{painelBalancete.pesquisar}"></p:commandButton>
-
-		</h:panelGrid>
+		<ui:include src="/pages/admin/documento/balancete/pesquisarBalancete.xhtml">
+			<ui:param name="painelBalancete" value="#{painelBalancete}"></ui:param>
+		</ui:include>
 		
 	</p:fieldset>
 	
@@ -124,25 +67,9 @@
 		toggleable="true" toggleSpeed="500"
 		rendered="#{painelBalancete.renderedExportar}">
 		
-		<h:panelGrid columns="4" cellpadding="10">
-			<p:outputLabel value="Período da inclusão do documento de:"
-				for="calendaDeInclusaoExportar"></p:outputLabel>
-			<p:calendar 
-				value="#{painelBalancete.filtroBalanceteDTO.dataIndexacaoBetween.dataInicio}"></p:calendar>
-			<p:outputLabel value="até:" for="calendarAteInclusaoExportar"></p:outputLabel>
-			<p:calendar 
-				value="#{painelBalancete.filtroBalanceteDTO.dataIndexacaoBetween.dataFim}"></p:calendar>
-		</h:panelGrid>
-
-		<p:separator></p:separator>
-
-		<h:panelGrid style="margin:0 auto; text-align:center;">
-			<p:commandButton ajax="false" title="Exportar"
-				onclick="PrimeFaces.monitorDownload(start, stop);"
-				icon="ui-icon-arrowthickstop-1-s" value="Exportar">
-				<p:fileDownload value="#{painelBalancete.exportar()}" />
-			</p:commandButton>
-		</h:panelGrid>
+		<ui:include src="/pages/admin/documento/balancete/exportarBalancete.xhtml">
+			<ui:param name="painelBalancete" value="#{painelBalancete}"></ui:param>
+		</ui:include>
 		
 	</p:fieldset>
 	
@@ -157,9 +84,9 @@
 
 				<h:panelGrid columns="1" style="width:100%">
 
-					<p:remoteCommand name="rc" oncomplete="PF('docObservacao').show()">
-						<f:setPropertyActionListener value="#{doc.observacao}"
-							target="#{obsDocumento.observacaoDoc}"></f:setPropertyActionListener>
+					<p:remoteCommand name="rc" oncomplete="PF('docObservacaoBalancete').show()">
+						<f:setPropertyActionListener value="#{doc}"
+							target="#{painelBalancete.balancete}"></f:setPropertyActionListener>
 					</p:remoteCommand>
 
 					<h:graphicImage ondblclick="rc()" alt="Arquivo PDF" id="iconPdf"
@@ -173,8 +100,12 @@
 						style="font-weight:bold"></p:outputLabel>
 
 					<p:separator></p:separator>
+					
+					<h:outputText value="#{doc.orgao.label}" />
+					
+					<p:separator></p:separator>
 
-					<h:outputText value="Mês: #{doc.mes}" />
+					<h:outputText value="Mês: #{doc.mes.label}" />
 					<h:outputText value="Volume: #{doc.volume}" />
 					<h:outputText value="Data de Indexação: #{doc.dataIndexacaoFormat}"></h:outputText>
 					<h:outputText value="Última Modificação: #{doc.dataUltimaAlteracaoFormat}"></h:outputText>
@@ -184,15 +115,15 @@
 						style="width:50px;margin:0 auto; text-align:center;">
 
 						<p:commandButton icon="ui-icon-search" title="Visualizar"
-							oncomplete="PF('docView').show()"
+							oncomplete="PF('docViewBalancete').show()"
 							rendered="#{doc.arquivo.pdf and painelBalancete.autorizaFuncionalidade('VISUALIZAR_BALANCETE')}">
 							<p:ajax event="click" listener="#{basicBalanceteViewerController.carregaStreamArquivo(doc.id)}"></p:ajax>
 						</p:commandButton>
 
 						<p:commandButton icon="ui-icon-search" title="Visualizar"
-							oncomplete="PF('imagemView').show()"
+							oncomplete="PF('imagemViewBalancete').show()"
 							rendered="#{doc.arquivo.imagem and painelBalancete.autorizaFuncionalidade('VISUALIZAR_BALANCETE')}">
-							<f:setPropertyActionListener value="#{doc.id}" target="#{basicDocumentViewerController.docId}"></f:setPropertyActionListener>
+							<f:setPropertyActionListener value="#{doc.id}" target="#{basicBalanceteViewerController.docId}"></f:setPropertyActionListener>
 						</p:commandButton>
 
 						<p:commandButton ajax="false" title="Download"
@@ -210,7 +141,7 @@
 							rendered="#{painelBalancete.autorizaFuncionalidade('ALTERAR_BALANCETE')}" />
 
 						<p:commandButton icon="ui-icon-trash" title="Remover"
-							oncomplete="PF('confirmaExclusaoDoc').show()"
+							oncomplete="PF('confirmaExclusaoBalancete').show()"
 							rendered="#{painelBalancete.autorizaFuncionalidade('REMOVER_BALANCETE')}">
 							<f:setPropertyActionListener value="#{doc}"
 								target="#{painelBalancete.balancete}"></f:setPropertyActionListener>
@@ -222,7 +153,5 @@
 
 		</p:dataGrid>
 	</p:panel>
-		 
-	
 
 </ui:composition>

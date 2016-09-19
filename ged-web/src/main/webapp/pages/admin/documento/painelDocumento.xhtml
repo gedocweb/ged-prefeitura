@@ -81,10 +81,28 @@
 						<ui:param name="painelBalancete" value="#{painelBalancete}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
+				
+				<p:outputPanel autoUpdate="true"
+					rendered="#{painelDocumento.renderedTipoIndexacaoRecursoHumano}">
+					<ui:include
+						src="/pages/admin/documento/tipoIndexacaoRECURSO_HUMANOLayoutCentral.xhtml">
+						<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+					</ui:include>
+				</p:outputPanel>
 
 			</p:layoutUnit>
 
 		</p:layout>
+		
+		<ui:include
+			src="/pages/admin/documento/balancete/dialogsBalancete.xhtml">
+			<ui:param name="painelBalancete" value="#{painelBalancete}"></ui:param>
+		</ui:include>
+		
+		<ui:include
+			src="/pages/admin/documento/recursoHumano/dialogsRecursoHumano.xhtml">
+			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
 
 		<ui:include
 			src="/pages/admin/documento/tipoIndexacaoOUTROSDialogs.xhtml">

@@ -67,10 +67,23 @@ public enum Mensagem {
 	USU12(TipoMensagem.ALERTA),
 	USU13(TipoMensagem.ALERTA),
 	
+	//Balancete
+	BALANC1(TipoMensagem.ALERTA),
+	BALANC2(TipoMensagem.ALERTA),
+	BALANC3(TipoMensagem.ALERTA),
+	BALANC4(TipoMensagem.ALERTA),
+	BALANC5(TipoMensagem.ALERTA),
+	
+	//Recurso Humano
+	RH1(TipoMensagem.ALERTA),
+	RH2(TipoMensagem.ALERTA),
+	RH3(TipoMensagem.ALERTA),
+	RH4(TipoMensagem.ALERTA),
+	RH5(TipoMensagem.ALERTA),
+	RH6(TipoMensagem.ALERTA),
+	
 	//Autenticação
 	AUTH01(TipoMensagem.ALERTA),
-	
-
 	
 	//ERROS INTERNOS DO SISTEMA
 	//MEI = Mensagem de Erro Interno

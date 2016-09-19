@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Ano:"></p:outputLabel>
+		<p:inputMask  mask="9999"
+			value="#{painelBalancete.filtroBalanceteDTO.ano}" size="4">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Mês:"></p:outputLabel>
+		<p:selectOneMenu 
+			value="#{painelBalancete.filtroBalanceteDTO.mes}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelBalancete.filtroBalanceteDTO.listSelectItemMes}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Órgão:"></p:outputLabel>
+		<p:selectOneMenu 
+			value="#{painelBalancete.filtroBalanceteDTO.orgao}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelBalancete.filtroBalanceteDTO.listSelectItemOrgao}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Volume:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelBalancete.filtroBalanceteDTO.volume}" size="6">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:calendar
+			value="#{painelBalancete.filtroBalanceteDTO.dataIndexacao}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+
+		<p:outputLabel value="Interessado:"></p:outputLabel>
+		<p:inputText value="#{painelBalancete.usuarioLogado.pessoa.nome}"
+			readonly="true" size="30">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelBalancete.filtroBalanceteDTO.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+	</h:panelGrid>
+
+	<p:separator></p:separator>
+
+	<h:panelGrid style="margin:0 auto; text-align:center;">
+
+		<p:commandButton value="Pesquisar" type="submit"
+			action="#{painelBalancete.pesquisar}"></p:commandButton>
+
+	</h:panelGrid>
+
+</ui:composition>
