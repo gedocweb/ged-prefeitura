@@ -78,8 +78,16 @@ public enum TipoFuncionalidadeEnum {
 	VISUALIZAR_PROCESSO_LICITATORIO("Visualizar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
 	BAIXAR_PROCESSO_LICITATORIO("Baixar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
 	REMOVER_PROCESSO_LICITATORIO("Remover Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
-	EXPORTAR_PROCESSO_LICITATORIO("Exportar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE)
-		
+	EXPORTAR_PROCESSO_LICITATORIO("Exportar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	
+	//Lei
+	CADASTRAR_LEI("Cadastrar Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE),
+	ALTERAR_LEI("Alterar Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE),
+	VISUALIZAR_LEI("Visualizar Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE),
+	BAIXAR_LEI("Baixar Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE),
+	REMOVER_LEI("Remover Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE),
+	EXPORTAR_LEI("Exportar Lei", FuncionalidadeEnum.MANTER_LEI, Role.ADMIN, Role.GERENTE)
+	
 	;
 	
 	private String label;

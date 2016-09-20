@@ -91,6 +91,14 @@ public enum Mensagem {
 	PROCESSOLICIT6(TipoMensagem.ALERTA),
 	PROCESSOLICIT7(TipoMensagem.ALERTA),
 	
+	//Lei
+	LEI1(TipoMensagem.ALERTA),
+	LEI2(TipoMensagem.ALERTA),
+	LEI3(TipoMensagem.ALERTA),
+	LEI4(TipoMensagem.ALERTA),
+	LEI5(TipoMensagem.ALERTA),
+	LEI6(TipoMensagem.ALERTA),
+	
 	//Autenticação
 	AUTH01(TipoMensagem.ALERTA),
 	

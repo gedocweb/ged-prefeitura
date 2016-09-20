@@ -40,8 +40,7 @@
 						value="#{painelDocumento.tipoIndexacaoSelecionado}">
 
 						<p:ajax event="change"
-							listener="#{painelDocumento.selecionaTipoIndexacao}"
-							update="@form"></p:ajax>
+							listener="#{painelDocumento.selecionaTipoIndexacao}" update="@form"></p:ajax>
 
 						<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
 						<f:selectItems value="#{painelDocumento.listTipoIndexacao}"></f:selectItems>
@@ -97,10 +96,23 @@
 						<ui:param name="painelProcessoLicitatorio" value="#{painelProcessoLicitatorio}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
+				
+				<p:outputPanel autoUpdate="true"
+					rendered="#{painelDocumento.renderedTipoIndexacaoLei}">
+					<ui:include
+						src="/pages/admin/documento/tipoIndexacaoLEILayoutCentral.xhtml">
+						<ui:param name="painelLei" value="#{painelLei}"></ui:param>
+					</ui:include>
+				</p:outputPanel>
 
 			</p:layoutUnit>
 
 		</p:layout>
+		
+		<ui:include
+			src="/pages/admin/documento/lei/dialogsLei.xhtml" >
+			<ui:param name="painelLei" value="#{painelLei}"></ui:param>
+		</ui:include>
 		
 		<ui:include
 			src="/pages/admin/documento/balancete/dialogsBalancete.xhtml">

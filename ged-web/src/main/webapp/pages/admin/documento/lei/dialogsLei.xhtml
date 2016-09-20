@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog position="top" header="Observação"
+		widgetVar="docObservacaoLei" modal="true" closable="true"
+		showEffect="fade" hideEffect="fade">
+
+		<p:outputPanel autoUpdate="true">
+			<p:outputLabel value="#{painelLei.lei.observacao}"></p:outputLabel>
+		</p:outputPanel>
+	</p:dialog>
+
+	<p:dialog header="Documento" widgetVar="docViewLei"
+		position="top" modal="true" showEffect="fade" hideEffect="fade"
+		resizable="true"
+		style="text-align:center !important; border:none !important;">
+
+		<p:outputPanel autoUpdate="true">
+			<p:media player="pdf" height="700" width="800"
+				value="#{basicLeiViewerController.content}" cache="true" />
+		</p:outputPanel>
+	</p:dialog>
+
+	<p:dialog position="top" header="Lei"
+		widgetVar="imagemViewLei" modal="true" showEffect="fade"
+		hideEffect="fade" resizable="true"
+		style="text-align:center !important; border:none !important;">
+
+		<p:outputPanel autoUpdate="true">
+
+			<p:graphicImage  height="700" width="800"
+				value="#{basicLeiViewerController.streamedImageById}"
+				cache="true" />
+		</p:outputPanel>
+	</p:dialog>
+
+	<p:dialog position="top" 
+		header="#{msg['MG22']}" widgetVar="confirmaExclusaoLei" modal="true"
+		showEffect="fade" hideEffect="fade" resizable="false"
+		style="text-align:center !important; border:none !important;">
+		<p:outputPanel 
+			style="text-align:center; border:none !important;">
+			<h:panelGrid style="border:none !important;">
+
+				<p:row>
+					<p:column colspan="2">#{msg['MG23']}</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="2">
+						<p:separator></p:separator>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:commandButton oncomplete="PF('confirmaExclusaoLei').hide()"
+							action="#{painelLei.excluir}"
+							value="#{msg['MG21']}" update="@form"></p:commandButton>
+						<p:commandButton oncomplete="PF('confirmaExclusaoLei').hide()"
+							value="#{msg['MG13']}"></p:commandButton>
+					</p:column>
+				</p:row>
+
+			</h:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+
+</ui:composition>

@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -21,29 +21,29 @@ import org.primefaces.model.UploadedFile;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
-import br.com.ged.dto.FiltroProcessoLicitatorioDTO;
-import br.com.ged.entidades.ArquivoProcessoLicitatorio;
-import br.com.ged.entidades.ProcessoLicitatorio;
+import br.com.ged.dto.FiltroLeiDTO;
+import br.com.ged.entidades.ArquivoLei;
+import br.com.ged.entidades.Lei;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.GenericServiceController;
-import br.com.ged.service.ProcessoLicitatorioService;
+import br.com.ged.service.LeiService;
 import br.com.ged.util.container.UtilArquivo;
 
-@ManagedBean(name = "painelProcessoLicitatorio")
-@ViewScoped
-public class ProcessoLicitatorioPainelController extends DocumentoSuperController {
+@ManagedBean(name = "painelLei")
+@SessionScoped
+public class LeiPainelController extends DocumentoSuperController {
 
 	@EJB
-	protected GenericServiceController<ProcessoLicitatorio, Long> serviceProcessoLicitatorio;
+	protected GenericServiceController<Lei, Long> serviceLei;
 
 	@EJB
-	protected ProcessoLicitatorioService processoLicitatorioService;
+	protected LeiService leiService;
 
-	private List<ProcessoLicitatorio> listProcessoLicitatorio = null;
+	private List<Lei> listLei = null;
 
-	private ProcessoLicitatorio processoLicitatorio;
+	private Lei lei;
 
-	private FiltroProcessoLicitatorioDTO filtroProcessoLicitatorioDTO;
+	private FiltroLeiDTO filtroLeiDTO;
 
 	private boolean renderedCadastro;
 	private boolean renderedPesquisar;
@@ -58,17 +58,16 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 	@PostConstruct
 	public void inicio() {
 
-		listProcessoLicitatorio = new ArrayList<>();
-		filtroProcessoLicitatorioDTO = new FiltroProcessoLicitatorioDTO();
-		processoLicitatorio = inicializaProcessoLicitatorio();
+		listLei = new ArrayList<>();
+		filtroLeiDTO = new FiltroLeiDTO();
 
 		preparaPesquisar();
 	}
 	
-	private ProcessoLicitatorio inicializaProcessoLicitatorio() {
+	private Lei inicializaLei() {
 		
-		ProcessoLicitatorio novoBalanc = new ProcessoLicitatorio();
-		novoBalanc.setArquivo(new ArquivoProcessoLicitatorio());
+		Lei novoBalanc = new Lei();
+		novoBalanc.setArquivo(new ArquivoLei());
 		novoBalanc.setUsuario(getUsuarioLogado());
 		
 		return novoBalanc;
@@ -85,7 +84,7 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 		extensaoArquivoDiferentePDF = Boolean.FALSE;
 		arquivoAnexado = Boolean.FALSE;
 
-		processoLicitatorio = inicializaProcessoLicitatorio();
+		lei = inicializaLei();
 	}
 
 	public void preparaPesquisar() {
@@ -95,7 +94,7 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 		renderedExportar = Boolean.FALSE;
 		renderedPesquisar = Boolean.TRUE;
 
-		filtroProcessoLicitatorioDTO = new FiltroProcessoLicitatorioDTO();
+		filtroLeiDTO = new FiltroLeiDTO();
 	}
 
 	public void preparaExportar() {
@@ -105,19 +104,19 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 		renderedExportar = Boolean.TRUE;
 		renderedPesquisar = Boolean.FALSE;
 
-		filtroProcessoLicitatorioDTO = new FiltroProcessoLicitatorioDTO();
+		filtroLeiDTO = new FiltroLeiDTO();
 	}
 
-	public void preparaAlterar(ProcessoLicitatorio processoLicitatorioSelecionado) {
+	public void preparaAlterar(Lei leiSelecionado) {
 
 		renderedCadastro = Boolean.FALSE;
 		renderedAlterar = Boolean.TRUE;
 		renderedExportar = Boolean.FALSE;
 		renderedPesquisar = Boolean.FALSE;
 		
-		arquivoAnexado = processoLicitatorioSelecionado.getArquivo() != null;
+		arquivoAnexado = leiSelecionado.getArquivo() != null;
 		
-		if ( arquivoAnexado && processoLicitatorioSelecionado.getArquivo().getDescricao().endsWith(".pdf")){
+		if ( arquivoAnexado && leiSelecionado.getArquivo().getDescricao().endsWith(".pdf")){
 			
 			converterArquivoParaPDF = Boolean.FALSE;
 			extensaoArquivoDiferentePDF = Boolean.FALSE;
@@ -125,12 +124,12 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 			extensaoArquivoDiferentePDF = Boolean.TRUE;
 		}
 
-		processoLicitatorio = processoLicitatorioSelecionado;
+		lei = leiSelecionado;
 	}
 
 	public void pesquisar() {
 
-		listProcessoLicitatorio = processoLicitatorioService.pesquisar(filtroProcessoLicitatorioDTO, "arquivo");
+		listLei = leiService.pesquisar(filtroLeiDTO, "arquivo");
 	}
 
 	public void alterar() {
@@ -142,29 +141,29 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 
 	public void excluir() {
 		
-		serviceProcessoLicitatorio.excluir(getProcessoLicitatorio());
+		serviceLei.excluir(getLei());
 	}
 
 	public void cadastrar() {
 		
 		if (!arquivoAnexado){
-			getProcessoLicitatorio().setArquivo(null);
+			getLei().setArquivo(null);
 		}
 		
 		try {
 			
-			processoLicitatorioValidatorView.valida(getProcessoLicitatorio());
+			leiValidatorView.valida(getLei());
 			
-			getProcessoLicitatorio().setDataUltimaAlteracao(new Date());
-			getProcessoLicitatorio().setSituacao(Situacao.ATIVO);
+			getLei().setDataUltimaAlteracao(new Date());
+			getLei().setSituacao(Situacao.ATIVO);
 			
 			if (converterArquivoParaPDF){
-				getProcessoLicitatorio().setArquivo(UtilArquivo.converterArquivoParaPDF(getProcessoLicitatorio().getArquivo()));
+				getLei().setArquivo(UtilArquivo.converterArquivoParaPDF(getLei().getArquivo()));
 			}
 			
-			serviceProcessoLicitatorio.salvar(getProcessoLicitatorio());
+			serviceLei.salvar(getLei());
 			
-			setProcessoLicitatorio(inicializaProcessoLicitatorio());
+			setLei(inicializaLei());
 			arquivoAnexado = Boolean.FALSE;
 			
 		} catch (NegocioException e) {
@@ -175,20 +174,20 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 
 	public void upload(FileUploadEvent event) {
 
-		ArquivoProcessoLicitatorio arquivo = arquivoUpload(event);
+		ArquivoLei arquivo = arquivoUpload(event);
 
-		getProcessoLicitatorio().setArquivo(arquivo);
+		getLei().setArquivo(arquivo);
 		arquivoAnexado = Boolean.TRUE;
 		extensaoArquivoDiferentePDF = !arquivo.getDescricao().endsWith(".pdf");
 	}
 	
-	private ArquivoProcessoLicitatorio arquivoUpload(FileUploadEvent event) {
+	private ArquivoLei arquivoUpload(FileUploadEvent event) {
 		
 		UploadedFile uploadedFile = event.getFile();
 	    String fileName = uploadedFile.getFileName();
 	    byte[] contents = uploadedFile.getContents(); 
 	    
-	    ArquivoProcessoLicitatorio arquivo = new ArquivoProcessoLicitatorio(); 
+	    ArquivoLei arquivo = new ArquivoLei(); 
 		arquivo.setArquivo(contents);
 		arquivo.setDescricao(fileName);
 		arquivo.setContentType(uploadedFile.getContentType());
@@ -198,12 +197,12 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 	public StreamedContent exportar() {
 		try {
 
-			List<ProcessoLicitatorio> documentosFiltrados = processoLicitatorioService.pesquisar(filtroProcessoLicitatorioDTO, "arquivo");
+			List<Lei> documentosFiltrados = leiService.pesquisar(filtroLeiDTO, "arquivo");
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ZipOutputStream zos = new ZipOutputStream(baos);
 
-			for (ProcessoLicitatorio doc : documentosFiltrados) {
+			for (Lei doc : documentosFiltrados) {
 
 				String docDescricao = doc.getArquivo().getDescricao();
 				String zipArquivoDescricao = docDescricao;
@@ -230,24 +229,24 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 		return Pagina.PAINEL_DOCUMENTO;
 	}
 
-	public List<ProcessoLicitatorio> getListProcessoLicitatorio() {
-		return listProcessoLicitatorio;
+	public List<Lei> getListLei() {
+		return listLei;
 	}
 
-	public ProcessoLicitatorio getProcessoLicitatorio() {
-		return processoLicitatorio;
+	public Lei getLei() {
+		return lei;
 	}
 
-	public void setProcessoLicitatorio(ProcessoLicitatorio processoLicitatorio) {
-		this.processoLicitatorio = processoLicitatorio;
+	public void setLei(Lei lei) {
+		this.lei = lei;
 	}
 
-	public FiltroProcessoLicitatorioDTO getFiltroProcessoLicitatorioDTO() {
-		return filtroProcessoLicitatorioDTO;
+	public FiltroLeiDTO getFiltroLeiDTO() {
+		return filtroLeiDTO;
 	}
 
-	public void setFiltroProcessoLicitatorioDTO(FiltroProcessoLicitatorioDTO filtroProcessoLicitatorioDTO) {
-		this.filtroProcessoLicitatorioDTO = filtroProcessoLicitatorioDTO;
+	public void setFiltroLeiDTO(FiltroLeiDTO filtroLeiDTO) {
+		this.filtroLeiDTO = filtroLeiDTO;
 	}
 
 	public boolean isRenderedCadastro() {

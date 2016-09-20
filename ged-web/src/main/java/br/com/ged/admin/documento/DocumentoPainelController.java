@@ -125,6 +125,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private boolean renderedTipoIndexacaoBalancete;
 	private boolean renderedTipoIndexacaoRecursoHumano;
 	private boolean renderedTipoIndexacaoProcessoLicitatorio;
+	private boolean renderedTipoIndexacaoLei;
 	
 	@PostConstruct
 	public void inicio(){
@@ -827,6 +828,12 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		}else{
 			renderedTipoIndexacaoProcessoLicitatorio = Boolean.FALSE;
 		}
+		
+		if (TipoIndexacaoEnum.LEI.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoLei = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoLei = Boolean.FALSE;
+		}
 	}
 	
 	@Override
@@ -1086,5 +1093,12 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	public void setRenderedTipoIndexacaoProcessoLicitatorio(boolean renderedTipoIndexacaoProcessoLicitatorio) {
 		this.renderedTipoIndexacaoProcessoLicitatorio = renderedTipoIndexacaoProcessoLicitatorio;
 	}
-	
+
+	public boolean isRenderedTipoIndexacaoLei() {
+		return renderedTipoIndexacaoLei;
+	}
+
+	public void setRenderedTipoIndexacaoLei(boolean renderedTipoIndexacaoLei) {
+		this.renderedTipoIndexacaoLei = renderedTipoIndexacaoLei;
+	}
 }

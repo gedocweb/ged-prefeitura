@@ -84,7 +84,7 @@
 		    
 	    </p:panel>
 	    
-	     <p:dialog  id="infoFunc" header="Funcionalidades do Grupo: #{painelGrupoUsuario.grupoUsuarioSelecionado.grupo}" widgetVar="dgFuncionalidades" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
+	     <p:dialog position="top" id="infoFunc" header="Funcionalidades do Grupo: #{painelGrupoUsuario.grupoUsuarioSelecionado.grupo}" widgetVar="dgFuncionalidades" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
 	     
 	     	<h:panelGrid cellpadding="10" columns="3" rendered="#{painelGrupoUsuario.autorizaFuncionalidade('ALTERAR_FUNCIONALIDADE')}">
 				    	
@@ -160,7 +160,7 @@
 	    </p:dialog>
 	    
 	    
-	    <p:dialog  id="infoNovosUsuarios"  header="Adicionar Novos Usuários ao Grupo: #{painelGrupoUsuario.grupoUsuarioSelecionado.grupo}" widgetVar="dgUsuariosNovos" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
+	    <p:dialog position="top"  id="infoNovosUsuarios"  header="Adicionar Novos Usuários ao Grupo: #{painelGrupoUsuario.grupoUsuarioSelecionado.grupo}" widgetVar="dgUsuariosNovos" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
 	    	
 	    	<p:outputPanel autoUpdate="true">	
 	    	
@@ -199,7 +199,7 @@
       		</h:panelGrid>
 	    </p:dialog>
 	    
-	     <p:dialog  id="info" header="Usuários" widgetVar="dgUsuarios" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
+	     <p:dialog position="top"  id="info" header="Usuários" widgetVar="dgUsuarios" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
 	    		
 	    		<p:outputPanel autoUpdate="true">
 		    		<p:commandButton rendered="#{painelGrupoUsuario.autorizaFuncionalidade('INCLUIR_NOVO_USUARIO')}" oncomplete="PF('dgUsuariosNovos').show()" actionListener="#{painelGrupoUsuario.atualizaListaUsuariosSemGrupo}" value="Incluir mais usuários ao Grupo" icon="ui-icon-plus"></p:commandButton>
@@ -233,7 +233,7 @@
 	           </p:outputPanel>
 	    </p:dialog>
 	    
-	    <p:dialog id="dgConfirmaExclusaoFuncionaliade" header="#{msg['MG22']}" widgetVar="confirmaExclusaoFuncionaliade" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
+	    <p:dialog position="top" id="dgConfirmaExclusaoFuncionaliade" header="#{msg['MG22']}" widgetVar="confirmaExclusaoFuncionaliade" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
 	        <p:outputPanel id="confirmaExclusaoFuncionaliade" style="text-align:center; border:none !important;">
 	            <h:panelGrid style="border:none !important;">
 	 
@@ -256,7 +256,7 @@
 	        </p:outputPanel>
 	    </p:dialog>
 	    
-	    <p:dialog id="alertaExclusao" header="#{msg['MG22']}" widgetVar="confirmaExclusao" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
+	    <p:dialog position="top" id="alertaExclusao" header="#{msg['MG22']}" widgetVar="confirmaExclusao" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
 	        <p:outputPanel id="confirmaExclusao" style="text-align:center; border:none !important;">
 	            <h:panelGrid style="border:none !important;">
 	 
@@ -279,7 +279,7 @@
 	        </p:outputPanel>
 	    </p:dialog>
 	    
-	    <p:dialog id="alertaExclusaoUsuario" header="#{msg['MG22']}" widgetVar="confirmaExclusaoUsuario" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
+	    <p:dialog position="top" id="alertaExclusaoUsuario" header="#{msg['MG22']}" widgetVar="confirmaExclusaoUsuario" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
 	        <p:outputPanel id="confirmaExclusaoUsuario" style="text-align:center; border:none !important;">
 	            <h:panelGrid style="border:none !important;">
 	 
@@ -302,7 +302,7 @@
 	        </p:outputPanel>
 	    </p:dialog>
 	    
-	    <p:dialog id="dgAlteraNomeGrupo" header="Alterar nome do grupo de usuários" widgetVar="confirmaAlterarNomeGrupoDG" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
+	    <p:dialog position="top" id="dgAlteraNomeGrupo" header="Alterar nome do grupo de usuários" widgetVar="confirmaAlterarNomeGrupoDG" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
 	        
 	        <p:outputPanel id="dgAlteraNomeGrupoPn" autoUpdate="true" style="text-align:center; border:none !important;">
 	            <h:panelGrid style="border:none !important;">

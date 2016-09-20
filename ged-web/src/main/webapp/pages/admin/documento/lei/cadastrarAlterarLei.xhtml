@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Ano:"></p:outputLabel>
+		<p:inputMask  mask="9999"
+			value="#{painelLei.lei.ano}" size="4">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Nº Lei:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelLei.lei.numeroLei}" size="20">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Objeto:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelLei.lei.objeto}" size="6">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:calendar
+			value="#{painelLei.lei.dataIndexacao}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelLei.lei.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+		<p:outputLabel value="Upload documento" rendered="#{!painelLei.arquivoAnexado}"></p:outputLabel>
+		<h:form enctype="multipart/form-data;charset=UTF-8"
+			acceptcharset="UTF-8" rendered="#{!painelLei.arquivoAnexado}">
+
+			<p:fileUpload label="Selecione o arquivo"
+				value="#{painelLei.uploadFile}" sizeLimit="10485760"
+				allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|docx)$/"
+				invalidSizeMessage="Arquivo inválido, são permitidos somente: docx, pdf, gif, jpg, jpeg e png."
+				fileUploadListener="#{painelLei.upload}" auto="true"
+				rendered="#{!painelLei.arquivoAnexado}" />
+		</h:form>
+
+		<p:outputPanel autoUpdate="true" 
+			rendered="#{painelLei.arquivoAnexado}">
+			<p:outputLabel value="#{painelLei.lei.arquivo.descricao}">
+			</p:outputLabel>
+			<p:selectBooleanCheckbox label="Substituir documento anexado"
+				value="#{painelLei.arquivoAnexado}">
+				<p:ajax event="change" update="@form"
+					partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+
+			<br />
+
+			<p:selectBooleanCheckbox itemLabel="Converter arquivo para pdf"
+				label="Converter arquivo para pdf"
+				value="#{painelLei.converterArquivoParaPDF}"
+				rendered="#{painelLei.extensaoArquivoDiferentePDF}">
+				<p:ajax partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+		</p:outputPanel>
+
+	</h:panelGrid>
+</ui:composition>

@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -31,7 +31,7 @@ import br.com.ged.service.RecursoHumanoService;
 import br.com.ged.util.container.UtilArquivo;
 
 @ManagedBean(name = "painelRecursoHumano")
-@ViewScoped
+@SessionScoped
 public class RecursoHumanoPainelController extends DocumentoSuperController {
 
 	@EJB

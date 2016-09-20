@@ -88,7 +88,16 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.BAIXAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.REMOVER_PROCESSO_LICITATORIO,
-			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO)
+			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO),
+	
+	MANTER_LEI("Manter Lei",
+			AutorizacaoEnum.ADMINISTRADOR,
+			TipoFuncionalidadeEnum.CADASTRAR_LEI,
+			TipoFuncionalidadeEnum.ALTERAR_LEI,
+			TipoFuncionalidadeEnum.VISUALIZAR_LEI,
+			TipoFuncionalidadeEnum.BAIXAR_LEI,
+			TipoFuncionalidadeEnum.REMOVER_LEI,
+			TipoFuncionalidadeEnum.EXPORTAR_LEI)
 	;
 	
 	private String label;

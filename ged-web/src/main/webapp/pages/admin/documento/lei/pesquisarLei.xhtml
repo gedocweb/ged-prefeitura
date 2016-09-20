@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Ano:"></p:outputLabel>
+		<p:inputMask  mask="9999"
+			value="#{painelLei.filtroLeiDTO.ano}" size="4">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Nº Lei:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelLei.filtroLeiDTO.numeroLei}" size="20">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Objeto:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelLei.filtroLeiDTO.objeto}" size="6">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:panel header="Período">
+		
+			<p:calendar
+				value="#{painelLei.filtroLeiDTO.dataIndexacaoBetween.dataInicio}">
+				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+					global="false"></p:ajax>
+			</p:calendar>
+			
+			<p:outputLabel value="até"></p:outputLabel>
+			
+			<p:calendar
+				value="#{painelLei.filtroLeiDTO.dataIndexacaoBetween.dataFim}">
+				<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+					global="false"></p:ajax>
+			</p:calendar>
+		</p:panel>
+
+		<p:outputLabel value="Interessado:"></p:outputLabel>
+		<p:inputText value="#{painelLei.usuarioLogado.pessoa.nome}"
+			readonly="true" size="30">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelLei.filtroLeiDTO.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+	</h:panelGrid>
+
+</ui:composition>
