@@ -9,6 +9,7 @@ import javax.faces.bean.RequestScoped;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 
+import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Role;
 import br.com.ged.domain.Situacao;
@@ -73,12 +74,23 @@ public class LoginController extends AbstractManageBean {
 		usuarioService.salvar(usuario);
 	}
 
-	public void doLogin() throws IOException, ServletException {
+	public void doLogin()  {
 
 		RequestDispatcher dispatcher = getHttpRequest().getRequestDispatcher(
 				SPRING_SECURITY);
 		
-		dispatcher.forward(getHttpRequest(), getHttpResponse());
+		try {
+			dispatcher.forward(getHttpRequest(), getHttpResponse());
+		} catch (ServletException e) {
+			super.enviaMensagem(Mensagem.AUTH01);
+			e.printStackTrace();
+		} catch (IOException e) {
+			super.enviaMensagem(Mensagem.AUTH01);
+			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			super.enviaMensagem(Mensagem.AUTH01);
+		}
 		context().responseComplete();
 	}
 
