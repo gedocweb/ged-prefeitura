@@ -124,6 +124,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private boolean renderedTipoIndexacaoOutros;
 	private boolean renderedTipoIndexacaoBalancete;
 	private boolean renderedTipoIndexacaoRecursoHumano;
+	private boolean renderedTipoIndexacaoProcessoLicitatorio;
 	
 	@PostConstruct
 	public void inicio(){
@@ -820,6 +821,12 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		}else{
 			renderedTipoIndexacaoRecursoHumano = Boolean.FALSE;
 		}
+		
+		if (TipoIndexacaoEnum.PROC_LICITA.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoProcessoLicitatorio = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoProcessoLicitatorio = Boolean.FALSE;
+		}
 	}
 	
 	@Override
@@ -1071,4 +1078,13 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	public void setRenderedTipoIndexacaoRecursoHumano(boolean renderedTipoIndexacaoRecursoHumano) {
 		this.renderedTipoIndexacaoRecursoHumano = renderedTipoIndexacaoRecursoHumano;
 	}
+
+	public boolean isRenderedTipoIndexacaoProcessoLicitatorio() {
+		return renderedTipoIndexacaoProcessoLicitatorio;
+	}
+
+	public void setRenderedTipoIndexacaoProcessoLicitatorio(boolean renderedTipoIndexacaoProcessoLicitatorio) {
+		this.renderedTipoIndexacaoProcessoLicitatorio = renderedTipoIndexacaoProcessoLicitatorio;
+	}
+	
 }

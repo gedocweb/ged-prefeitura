@@ -89,6 +89,14 @@
 						<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
+				
+				<p:outputPanel autoUpdate="true"
+					rendered="#{painelDocumento.renderedTipoIndexacaoProcessoLicitatorio}">
+					<ui:include
+						src="/pages/admin/documento/tipoIndexacaoPROCESSO_LICITATORIOLayoutCentral.xhtml">
+						<ui:param name="painelProcessoLicitatorio" value="#{painelProcessoLicitatorio}"></ui:param>
+					</ui:include>
+				</p:outputPanel>
 
 			</p:layoutUnit>
 
@@ -102,6 +110,11 @@
 		<ui:include
 			src="/pages/admin/documento/recursoHumano/dialogsRecursoHumano.xhtml">
 			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
+		
+		<ui:include
+			src="/pages/admin/documento/processoLicitatorio/dialogsProcessoLicitatorio.xhtml">
+			<ui:param name="painelProcessoLicitatorio" value="#{painelProcessoLicitatorio}"></ui:param>
 		</ui:include>
 
 		<ui:include

@@ -70,7 +70,15 @@ public enum TipoFuncionalidadeEnum {
 	VISUALIZAR_RECURSO_HUMANO("Visualizar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
 	BAIXAR_RECURSO_HUMANO("Baixar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
 	REMOVER_RECURSO_HUMANO("Remover Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
-	EXPORTAR_RECURSO_HUMANO("Exportar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE)
+	EXPORTAR_RECURSO_HUMANO("Exportar Recurso Humano", FuncionalidadeEnum.MANTER_RECURSO_HUMANO, Role.ADMIN, Role.GERENTE),
+	
+	//Processo licitatorio
+	CADASTRAR_PROCESSO_LICITATORIO("Cadastrar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	ALTERAR_PROCESSO_LICITATORIO("Alterar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	VISUALIZAR_PROCESSO_LICITATORIO("Visualizar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	BAIXAR_PROCESSO_LICITATORIO("Baixar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	REMOVER_PROCESSO_LICITATORIO("Remover Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE),
+	EXPORTAR_PROCESSO_LICITATORIO("Exportar Processo Licitatório", FuncionalidadeEnum.MANTER_PROCESSO_LICITATORIO, Role.ADMIN, Role.GERENTE)
 		
 	;
 	

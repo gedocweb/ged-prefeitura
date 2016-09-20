@@ -78,7 +78,17 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_RECURSO_HUMANO,
 			TipoFuncionalidadeEnum.BAIXAR_RECURSO_HUMANO,
 			TipoFuncionalidadeEnum.REMOVER_RECURSO_HUMANO,
-			TipoFuncionalidadeEnum.EXPORTAR_RECURSO_HUMANO);
+			TipoFuncionalidadeEnum.EXPORTAR_RECURSO_HUMANO),
+	
+
+	MANTER_PROCESSO_LICITATORIO("Manter Processo Licitatório",
+			AutorizacaoEnum.ADMINISTRADOR,
+			TipoFuncionalidadeEnum.CADASTRAR_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.ALTERAR_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.VISUALIZAR_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.BAIXAR_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.REMOVER_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO)
 	;
 	
 	private String label;

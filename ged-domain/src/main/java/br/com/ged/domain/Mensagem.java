@@ -82,6 +82,15 @@ public enum Mensagem {
 	RH5(TipoMensagem.ALERTA),
 	RH6(TipoMensagem.ALERTA),
 	
+	//Processo Licitatorio
+	PROCESSOLICIT1(TipoMensagem.ALERTA),
+	PROCESSOLICIT2(TipoMensagem.ALERTA),
+	PROCESSOLICIT3(TipoMensagem.ALERTA),
+	PROCESSOLICIT4(TipoMensagem.ALERTA),
+	PROCESSOLICIT5(TipoMensagem.ALERTA),
+	PROCESSOLICIT6(TipoMensagem.ALERTA),
+	PROCESSOLICIT7(TipoMensagem.ALERTA),
+	
 	//Autenticação
 	AUTH01(TipoMensagem.ALERTA),
 	
@@ -121,7 +130,7 @@ public enum Mensagem {
 	MSA004(TipoMensagem.ESTATICO),
 	MSA005(TipoMensagem.ESTATICO), 
 	
-	ERRO_DEFAULT(TipoMensagem.ALERTA), 
+	ERRO_DEFAULT(TipoMensagem.ALERTA)
 	;
 	
 	private TipoMensagem tipo;

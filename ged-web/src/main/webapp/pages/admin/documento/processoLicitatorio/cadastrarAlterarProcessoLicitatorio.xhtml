@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGrid cellpadding="10" columns="4">
+
+		<p:outputLabel value="Ano:"></p:outputLabel>
+		<p:inputMask  mask="9999"
+			value="#{painelProcessoLicitatorio.processoLicitatorio.ano}" size="4">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputMask>
+
+		<p:outputLabel value="Modalidade da licitação:"></p:outputLabel>
+		<p:selectOneMenu 
+			value="#{painelProcessoLicitatorio.processoLicitatorio.modalidadeLicit}">
+
+			<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>
+			<f:selectItems
+				value="#{painelProcessoLicitatorio.filtroProcessoLicitatorioDTO.listSelectItemModalidadeLicit}"></f:selectItems>
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Número do processo:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelProcessoLicitatorio.processoLicitatorio.numeroProcesso}" size="20">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Objeto:"></p:outputLabel>
+		<p:inputText 
+			value="#{painelProcessoLicitatorio.processoLicitatorio.objeto}" size="6">
+			<p:ajax partialSubmit="true" process="@form"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Data da Indexação:"></p:outputLabel>
+		<p:calendar
+			value="#{painelProcessoLicitatorio.processoLicitatorio.dataIndexacao}">
+			<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+				global="false"></p:ajax>
+		</p:calendar>
+
+		<p:outputLabel value="Interessado:"></p:outputLabel>
+		<p:inputText value="#{painelProcessoLicitatorio.usuarioLogado.pessoa.nome}"
+			readonly="true" size="30">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputText>
+
+		<p:outputLabel value="Observação:"></p:outputLabel>
+		<p:inputTextarea
+			value="#{painelProcessoLicitatorio.processoLicitatorio.observacao}"
+			style="width:200px">
+			<p:ajax partialSubmit="true" process="@form" event="change"
+				global="false"></p:ajax>
+		</p:inputTextarea>
+
+		<p:outputLabel value="Upload documento" rendered="#{!painelProcessoLicitatorio.arquivoAnexado}"></p:outputLabel>
+		<h:form enctype="multipart/form-data;charset=UTF-8"
+			acceptcharset="UTF-8" rendered="#{!painelProcessoLicitatorio.arquivoAnexado}">
+
+			<p:fileUpload label="Selecione o arquivo"
+				value="#{painelProcessoLicitatorio.uploadFile}" sizeLimit="10485760"
+				allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|docx)$/"
+				invalidSizeMessage="Arquivo inválido, são permitidos somente: docx, pdf, gif, jpg, jpeg e png."
+				fileUploadListener="#{painelProcessoLicitatorio.upload}" auto="true"
+				rendered="#{!painelProcessoLicitatorio.arquivoAnexado}" />
+		</h:form>
+
+		<p:outputPanel autoUpdate="true" 
+			rendered="#{painelProcessoLicitatorio.arquivoAnexado}">
+			<p:outputLabel value="#{painelProcessoLicitatorio.processoLicitatorio.arquivo.descricao}">
+			</p:outputLabel>
+			<p:selectBooleanCheckbox label="Substituir documento anexado"
+				value="#{painelProcessoLicitatorio.arquivoAnexado}">
+				<p:ajax event="change" update="@form"
+					partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+
+			<br />
+
+			<p:selectBooleanCheckbox itemLabel="Converter arquivo para pdf"
+				label="Converter arquivo para pdf"
+				value="#{painelProcessoLicitatorio.converterArquivoParaPDF}"
+				rendered="#{painelProcessoLicitatorio.extensaoArquivoDiferentePDF}">
+				<p:ajax partialSubmit="true" process="@this"></p:ajax>
+			</p:selectBooleanCheckbox>
+		</p:outputPanel>
+
+	</h:panelGrid>
+</ui:composition>

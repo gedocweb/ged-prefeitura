@@ -16,6 +16,9 @@ public abstract class DocumentoSuperController extends AbstractManageBean{
 	@EJB
 	protected RecursoHumanoValidadorView recursoHumanoValidatorView;
 	
+	@EJB
+	protected ProcessoLicitatorioValidadorView processoLicitatorioValidatorView;
+	
 	@PostConstruct
 	public void inicio(){
 	}
