@@ -4,8 +4,7 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
 
-	<p:accordionPanel multiple="true">
-		<p:tab id="tabCategoria" title="Categoria dos Documentos">
+		<p:panel header="Categoria dos Documentos">
 
 			<p:commandButton value="Nova Pasta" icon="ui-icon-plus"
 				actionListener="#{painelDocumento.consultaListGrupoUsuario}"
@@ -35,9 +34,9 @@
 					<h:outputText value="#{doc.descricao}" />
 				</p:treeNode>
 			</p:tree>
-		</p:tab>
+		</p:panel>
 
-		<p:tab title="Tipos de Documento">
+		<p:panel header="Tipos de Documento" >
 
 			<p:commandButton value="Novo Tipo" icon="ui-icon-plus"
 				oncomplete="PF('dgTipoDocumento').show()"
@@ -54,17 +53,16 @@
 
 			<p:orderList value="#{painelDocumento.listTipoDocumento}" var="tpDoc"
 				itemValue="#{tpDoc}" converter="tipoDocumentoConverter"
-				responsive="true"
+				responsive="true" 
 				rendered="#{painelDocumento.renderizaBotoesAlterarExcluirTipoDocumento}">
 
-				<p:ajax event="select" listener="#{painelDocumento.onSelect}" />
+				<p:ajax event="select" listener="#{painelDocumento.onSelect}" global="false" async="true" />
 
 				<p:column>
 					<h:outputText value="#{tpDoc.descricao}" />
 				</p:column>
 			</p:orderList>
 
-		</p:tab>
+		</p:panel>
 
-	</p:accordionPanel>
 </ui:composition>
