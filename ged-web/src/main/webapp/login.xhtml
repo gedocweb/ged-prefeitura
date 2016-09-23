@@ -10,11 +10,14 @@
 	<ui:define name="body">	 
 	
 		<h:form id="form" prependId="false">
+		
+			<p:growl autoUpdate="true" closable="true" style="margin:0 auto; width:80%; text-align:center;" />
 			
 			<br/>
 			<br/>
 			
 			<p:graphicImage style="padding-left: 32%;" library="imagem" name="Logo.png" width="500px" height="250px" />
+			
 			
 			<br></br>
 			 <ui:fragment rendered="${!empty param['error']}">
