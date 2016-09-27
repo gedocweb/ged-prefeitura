@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import br.com.ged.util.InitConfigProperties;
+
 /**
  * 
  * @author pedro.oliveira
@@ -20,7 +22,7 @@ public enum FuncionalidadeEnum {
 	 * ADMINISTRADOR - Acesso a todas as funcionalidades
 	 */
 	MANTER_GRUPO_USUARIO("Manter Grupo de Usuário", 
-			AutorizacaoEnum.ADMINISTRADOR, 
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS, 
 			TipoFuncionalidadeEnum.CADASTRAR_GRUPO_USUARIO, 
 			TipoFuncionalidadeEnum.PESQUISAR_GRUPO_USUARIO,
 			TipoFuncionalidadeEnum.ALTERAR_NOME_GRUPO_USUARIO,
@@ -32,7 +34,7 @@ public enum FuncionalidadeEnum {
 	
 	
 	MANTER_USUARIO("Manter Usuário", 
-			AutorizacaoEnum.ADMINISTRADOR, 
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS, 
 			TipoFuncionalidadeEnum.CADASTRAR_USUARIO, 
 			TipoFuncionalidadeEnum.REMOVER_USUARIO,
 			TipoFuncionalidadeEnum.ALTERAR_USUARIO,
@@ -42,19 +44,19 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.ALTERAR_ROLE_USUARIO),
 	
 	MANTER_CATEGORIA_DOCUMENTO("Manter Categoria Documento",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,
 			TipoFuncionalidadeEnum.CADASTRAR_CATEGORIA_DOCUMENTO,
 			TipoFuncionalidadeEnum.ALTERAR_CATEGORIA_DOCUMENTO,
 			TipoFuncionalidadeEnum.REMOVER_CATEGORIA_DOCUMENTO),
 	
 	MANTER_TIPO_DOCUMENTO("Manter Tipo Documento",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,
 			TipoFuncionalidadeEnum.CADASTRAR_TIPO_DOCUMENTO,
 			TipoFuncionalidadeEnum.ALTERAR_TIPO_DOCUMENTO,
 			TipoFuncionalidadeEnum.REMOVER_TIPO_DOCUMENTO), 
 	
 	MANTER_DOCUMENTO("Manter Documento",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,
 			TipoFuncionalidadeEnum.CADASTRAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.ALTERAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.VISUALIZAR_DOCUMENTO,
@@ -63,7 +65,7 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.EXPORTAR_DOCUMENTO),
 	
 	MANTER_BALANCETE("Manter Balancete",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.PREFEITURA,
 			TipoFuncionalidadeEnum.CADASTRAR_BALANCETE,
 			TipoFuncionalidadeEnum.ALTERAR_BALANCETE,
 			TipoFuncionalidadeEnum.VISUALIZAR_BALANCETE,
@@ -72,8 +74,9 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE),
 	
 	MANTER_RECURSO_HUMANO("Manter Recurso Humano",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,
 			TipoFuncionalidadeEnum.CADASTRAR_RECURSO_HUMANO,
+			TipoFuncionalidadeEnum.PESQUISAR_RECURSO_HUMANO,
 			TipoFuncionalidadeEnum.ALTERAR_RECURSO_HUMANO,
 			TipoFuncionalidadeEnum.VISUALIZAR_RECURSO_HUMANO,
 			TipoFuncionalidadeEnum.BAIXAR_RECURSO_HUMANO,
@@ -82,7 +85,7 @@ public enum FuncionalidadeEnum {
 	
 
 	MANTER_PROCESSO_LICITATORIO("Manter Processo Licitatório",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.PREFEITURA,
 			TipoFuncionalidadeEnum.CADASTRAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.ALTERAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.VISUALIZAR_PROCESSO_LICITATORIO,
@@ -91,7 +94,7 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO),
 	
 	MANTER_LEI("Manter Lei",
-			AutorizacaoEnum.ADMINISTRADOR,
+			AutorizacaoEnum.ADMINISTRADOR, TipoApp.PREFEITURA,
 			TipoFuncionalidadeEnum.CADASTRAR_LEI,
 			TipoFuncionalidadeEnum.ALTERAR_LEI,
 			TipoFuncionalidadeEnum.VISUALIZAR_LEI,
@@ -105,12 +108,15 @@ public enum FuncionalidadeEnum {
 	private AutorizacaoEnum autorizacao;
 	
 	private TipoFuncionalidadeEnum[] funcionalidades;
+
+	private TipoApp tipoApp;
 	
-	private FuncionalidadeEnum(String label, AutorizacaoEnum autorizacao, TipoFuncionalidadeEnum... funcionalidades){
+	private FuncionalidadeEnum(String label, AutorizacaoEnum autorizacao, TipoApp tipoApp, TipoFuncionalidadeEnum... funcionalidades){
 		
 		this.label = label;
 		this.autorizacao = autorizacao;
 		this.funcionalidades = funcionalidades;
+		this.tipoApp = tipoApp;
 	}
 	
 	/**
@@ -125,11 +131,32 @@ public enum FuncionalidadeEnum {
 		
 		boolean funcionalidadeLiberada = Boolean.FALSE;
 		
+		String modoName = InitConfigProperties.getValue(TipoApp.CONFIG_PARAM_PROPERTIE);
+		
 		for (FuncionalidadeEnum funcionalidade : values()){
 			
-			if (funcionalidade.autorizacao.equals(auth) && contemFuncionalidade(tipoFuncionalidade, funcionalidade)){
-				funcionalidadeLiberada = Boolean.TRUE;
+			if (TipoApp.PREFEITURA.name().equals(modoName) && funcionalidade.tipoApp.equals(TipoApp.PREFEITURA)){
+				
+				if (funcionalidade.autorizacao.equals(auth) && contemFuncionalidade(tipoFuncionalidade, funcionalidade)){
+					funcionalidadeLiberada = Boolean.TRUE;
+				}
 			}
+			
+			if (TipoApp.PRIVADO.name().equals(modoName) && funcionalidade.tipoApp.equals(TipoApp.PRIVADO)){
+				
+				if (funcionalidade.autorizacao.equals(auth) && contemFuncionalidade(tipoFuncionalidade, funcionalidade)){
+					funcionalidadeLiberada = Boolean.TRUE;
+				}
+			}
+			
+			if (funcionalidade.tipoApp.equals(TipoApp.TODOS)){
+				
+				if (funcionalidade.autorizacao.equals(auth) && contemFuncionalidade(tipoFuncionalidade, funcionalidade)){
+					funcionalidadeLiberada = Boolean.TRUE;
+				}
+			}
+			
+			
 		}
 		
 		return funcionalidadeLiberada;
@@ -155,22 +182,43 @@ public enum FuncionalidadeEnum {
 		
 		List<SelectItem> list = new ArrayList<>();
 		
+		String modoName = InitConfigProperties.getValue(TipoApp.CONFIG_PARAM_PROPERTIE);
+		
 		for (FuncionalidadeEnum func : values()){
 			
-			SelectItem si = new SelectItem();
+			if (TipoApp.PREFEITURA.name().equals(modoName) && func.tipoApp.equals(TipoApp.PREFEITURA)){
+				
+				addFuncionalidadeSelectItem(list, func);
+			}
 			
-			si.setLabel(func.label);
-			si.setValue(func.name());
+			if (TipoApp.PRIVADO.name().equals(modoName) && func.tipoApp.equals(TipoApp.PRIVADO)){
+				
+				addFuncionalidadeSelectItem(list, func);
+			}
 			
-			list.add(si);
+			if (func.tipoApp.equals(TipoApp.TODOS)){
+				
+				addFuncionalidadeSelectItem(list, func);
+			}
+			
 		}
 		
 		return list;
 	}
 
+	private static void addFuncionalidadeSelectItem(List<SelectItem> list, FuncionalidadeEnum func) {
+		SelectItem si = new SelectItem();
+		
+		si.setLabel(func.label);
+		si.setValue(func.name());
+		
+		list.add(si);
+	}
+
 	public static List<String> listTipos(String funcionalidadeSelecionada, Role role) {
 		
 		List<String> list = new ArrayList<>();
+		String modoName = InitConfigProperties.getValue(TipoApp.CONFIG_PARAM_PROPERTIE);
 		
 		for (FuncionalidadeEnum func : values()){
 			
@@ -178,8 +226,25 @@ public enum FuncionalidadeEnum {
 				
 				for (TipoFuncionalidadeEnum tipoFunc : func.funcionalidades){
 					
-					if (tipoFunc.getRoles().contains(role)){
-						list.add(tipoFunc.getLabel());
+					if (TipoApp.PREFEITURA.name().equals(modoName) && func.tipoApp.equals(TipoApp.PREFEITURA)){
+						
+						if (tipoFunc.getRoles().contains(role)){
+							list.add(tipoFunc.getLabel());
+						}
+					}
+					
+					if (TipoApp.PRIVADO.name().equals(modoName) && func.tipoApp.equals(TipoApp.PRIVADO)){
+						
+						if (tipoFunc.getRoles().contains(role)){
+							list.add(tipoFunc.getLabel());
+						}
+					}
+					
+					if (func.tipoApp.equals(TipoApp.TODOS)){
+						
+						if (tipoFunc.getRoles().contains(role)){
+							list.add(tipoFunc.getLabel());
+						}
 					}
 				}
 				

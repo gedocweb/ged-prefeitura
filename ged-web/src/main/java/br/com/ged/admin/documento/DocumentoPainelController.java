@@ -27,6 +27,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
 
+import br.com.ged.domain.FuncionalidadeEnum;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
@@ -126,6 +127,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private boolean renderedTipoIndexacaoRecursoHumano;
 	private boolean renderedTipoIndexacaoProcessoLicitatorio;
 	private boolean renderedTipoIndexacaoLei;
+	private boolean renderedTipoIndexacao;
 	
 	@PostConstruct
 	public void inicio(){
@@ -153,6 +155,19 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		iniciaTipoDocumento();
 		renderizaTituloFieldSet();
 		listTipoIndexacao = TipoIndexacaoEnum.selectItems();
+		
+		if (super.getGrupoUsuarioLogado().getFuncionalidades() != null){
+			
+			if (!super.getGrupoUsuarioLogado().getFuncionalidades().contains(FuncionalidadeEnum.MANTER_RECURSO_HUMANO)){
+				renderedTipoIndexacao = Boolean.FALSE;
+				
+				tipoIndexacaoSelecionado = TipoIndexacaoEnum.OUTROS;
+				selecionaTipoIndexacao();
+				
+			}else{
+				renderedTipoIndexacao = Boolean.TRUE;
+			}
+		}
 	}
 	
 	public boolean getRenderizaBotaoNovaCategoria(){
@@ -811,16 +826,16 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			renderedTipoIndexacaoOutros = Boolean.FALSE;
 		}
 		
-		if (TipoIndexacaoEnum.BALANCETE.equals(tipoIndexacaoSelecionado)){
-			renderedTipoIndexacaoBalancete = Boolean.TRUE;
-		}else{
-			renderedTipoIndexacaoBalancete = Boolean.FALSE;
-		}
-		
 		if (TipoIndexacaoEnum.RH.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoRecursoHumano = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoRecursoHumano = Boolean.FALSE;
+		}
+		
+		if (TipoIndexacaoEnum.BALANCETE.equals(tipoIndexacaoSelecionado)){
+			renderedTipoIndexacaoBalancete = Boolean.TRUE;
+		}else{
+			renderedTipoIndexacaoBalancete = Boolean.FALSE;
 		}
 		
 		if (TipoIndexacaoEnum.PROC_LICITA.equals(tipoIndexacaoSelecionado)){
@@ -1101,4 +1116,9 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	public void setRenderedTipoIndexacaoLei(boolean renderedTipoIndexacaoLei) {
 		this.renderedTipoIndexacaoLei = renderedTipoIndexacaoLei;
 	}
+
+	public boolean isRenderedTipoIndexacao() {
+		return renderedTipoIndexacao;
+	}
+	
 }

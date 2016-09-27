@@ -4,7 +4,7 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
 
-	<p:commandButton value="Novo Recurso Humano" action="#{painelRecursoHumano.preparaCadastro()}" rendered="#{!painelRecursoHumano.renderedCadastro}"
+	<p:commandButton value="Novo Documento" action="#{painelRecursoHumano.preparaCadastro()}" rendered="#{!painelRecursoHumano.renderedCadastro and painelRecursoHumano.autorizaFuncionalidade('CADASTRAR_RECURSO_HUMANO')}"
 		 icon="ui-icon-plus"></p:commandButton>
 		 
  	<p:commandButton value="Pesquisar" action="#{painelRecursoHumano.preparaPesquisar()}" rendered="#{!painelRecursoHumano.renderedPesquisar}"
@@ -38,7 +38,7 @@
 		<h:panelGrid style="margin:0 auto; text-align:center;">
 
 			<p:commandButton value="Cadastrar" type="submit"
-				action="#{painelRecursoHumano.cadastrar}"></p:commandButton>
+				action="#{painelRecursoHumano.cadastrar}" rendered="#{painelRecursoHumano.autorizaFuncionalidade('CADASTRAR_RECURSO_HUMANO')}"></p:commandButton>
 
 		</h:panelGrid>
 		
@@ -56,7 +56,7 @@
 		
 		<h:panelGrid style="margin:0 auto; text-align:center;">
 
-			<p:commandButton value="Alterar" type="submit"
+			<p:commandButton value="Alterar" type="submit" rendered="#{painelRecursoHumano.autorizaFuncionalidade('ALTERAR_RECURSO_HUMANO')}"
 				action="#{painelRecursoHumano.alterar}"></p:commandButton>
 
 		</h:panelGrid>

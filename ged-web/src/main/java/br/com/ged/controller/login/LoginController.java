@@ -6,16 +6,19 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import br.com.ged.domain.Mensagem;
-import br.com.ged.domain.Pagina;
+import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.domain.Role;
 import br.com.ged.domain.Situacao;
 import br.com.ged.entidades.Pessoa;
 import br.com.ged.entidades.Usuario;
-import br.com.ged.framework.AbstractManageBean;
 import br.com.ged.framework.GenericServiceController;
 import br.com.ged.util.criptografia.CriptografiaUtil;
 
@@ -40,15 +43,27 @@ import br.com.ged.util.criptografia.CriptografiaUtil;
  */
 @ManagedBean
 @RequestScoped
-public class LoginController extends AbstractManageBean {
+public class LoginController {
 
 	private static final String SPRING_SECURITY = "/j_spring_security_check";
 	
 	@EJB
 	private GenericServiceController<Usuario, Long> usuarioService;
 	
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private ConfigLayoutCliente configLayoutCliente;
+	
+	public void preRenderView(ComponentSystemEvent event){
+		
+		this.configLayoutCliente = ClienteEnum.configLayoutLoginClientePorProperties();
+	}
+	
 	@PostConstruct
 	public void utilizandoBancoEmMemoria(){
+		
+		request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		
 		if (usuarioService.emptyTable(Usuario.class)){
 			criaUsuarioInicial();
@@ -76,26 +91,24 @@ public class LoginController extends AbstractManageBean {
 
 	public void doLogin()  {
 
-		RequestDispatcher dispatcher = getHttpRequest().getRequestDispatcher(
+		RequestDispatcher dispatcher = request.getRequestDispatcher(
 				SPRING_SECURITY);
 		
 		try {
-			dispatcher.forward(getHttpRequest(), getHttpResponse());
+			
+			dispatcher.forward(request, response);
+			FacesContext.getCurrentInstance().responseComplete();
+			
 		} catch (ServletException e) {
-			super.enviaMensagem(Mensagem.AUTH01);
 			e.printStackTrace();
 		} catch (IOException e) {
-			super.enviaMensagem(Mensagem.AUTH01);
 			e.printStackTrace();
 		}catch(Exception ex){
 			ex.printStackTrace();
-			super.enviaMensagem(Mensagem.AUTH01);
 		}
-		context().responseComplete();
 	}
 
-	@Override
-	protected Pagina getPaginaManageBean() {
-		return Pagina.LOGIN;
+	public ConfigLayoutCliente getConfigLayoutCliente() {
+		return configLayoutCliente;
 	}
 }

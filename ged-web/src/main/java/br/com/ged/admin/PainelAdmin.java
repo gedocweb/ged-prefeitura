@@ -4,6 +4,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Role;
 import br.com.ged.excecao.NegocioException;
@@ -13,8 +15,16 @@ import br.com.ged.framework.AbstractManageBean;
 @SessionScoped
 public class PainelAdmin extends AbstractManageBean{
 	
-	public void verificaAcesso(ComponentSystemEvent event){
+	private ConfigLayoutCliente configLayoutCliente;
+	
+	public void preRenderView(ComponentSystemEvent event){
 		
+		configLayoutCliente = ClienteEnum.configLayoutInfoUsuarioClientePorProperties();
+		
+		verificaAcesso();
+	}
+
+	private void verificaAcesso() {
 		if (isColaborador()){
 			
 			try {
@@ -42,6 +52,10 @@ public class PainelAdmin extends AbstractManageBean{
 
 	private boolean isColaborador() {
 		return getUsuarioLogado() != null && getUsuarioLogado().getRole().equals(Role.COLABORADOR);
+	}
+
+	public ConfigLayoutCliente getConfigLayoutCliente() {
+		return configLayoutCliente;
 	}
 
 	@Override

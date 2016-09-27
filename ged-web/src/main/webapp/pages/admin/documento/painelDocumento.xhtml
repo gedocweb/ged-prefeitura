@@ -9,6 +9,8 @@
 	<ui:define name="title">Gerência de Documentos</ui:define>
 
 	<ui:define name="body">
+	
+		<f:event listener="#{painelDocumento.preRenderView}" type="preRenderView" />
 
 		<p:separator style="margin:0 auto; text-align:center;"></p:separator>
 
@@ -34,7 +36,7 @@
 
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
-					<p:outputLabel for="tipoIndexacao" value="Tipo de indexação:" />
+					<p:outputLabel for="tipoIndexacao" value="Departamento:" />
 
 					<p:selectOneMenu id="tipoIndexacao"
 						value="#{painelDocumento.tipoIndexacaoSelecionado}">
@@ -48,7 +50,7 @@
 
 				</h:panelGrid>
 
-				<p:outputPanel autoUpdate="true"
+				<p:outputPanel 
 					rendered="#{painelDocumento.renderedTipoIndexacaoOutros}">
 					<ui:include
 						src="/pages/admin/documento/tipoIndexacaoOUTROSLayoutLateral.xhtml">
@@ -60,10 +62,11 @@
 
 			<p:layoutUnit position="center" id="painelPrincipal">
 
-				<p:graphicImage style="padding-left: 15%; padding-top: 4%;"
-					library="imagem" name="marca_dagua_solucao_digitalizacao.png"
-					width="700px" height="450px"
-					rendered="#{painelDocumento.tipoIndexacaoSelecionado eq null}" />
+				<p:graphicImage style="#{painelDocumento.configLayoutCliente.styleCss}" library="imagem" 
+				name="#{painelDocumento.configLayoutCliente.nomeImage}" 
+				width="#{painelDocumento.configLayoutCliente.width}" 
+				height="#{painelDocumento.configLayoutCliente.height}" 
+				rendered="#{painelDocumento.tipoIndexacaoSelecionado eq null}" />
 
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoOutros}">

@@ -61,6 +61,9 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	private GenericServiceController<GrupoUsuario, Long> service;
 	
 	@EJB
+	private GenericServiceController<Usuario, Long> serviceUsuario;
+	
+	@EJB
 	protected UsuarioService usuarioService;
 	
 	@EJB
@@ -74,6 +77,20 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	
 	@Override
 	public boolean autorizaFuncionalidade(TipoFuncionalidadeEnum tipoFuncionalidade){
+		
+		if (usuarioJaAtivoSessao() || !usuarioLogado.isLogado()){
+    			try {
+    				
+    				if (!usuarioJaRedirecionadoParaTelaLogin()){
+    					redirecionaPagina(Pagina.LOGIN);
+    					enviaMensagem(Mensagem.USU11);
+    				}
+					
+				} catch (NegocioException e) {
+					e.printStackTrace();
+				}
+    		return false;
+    	}
 		
 		if (grupoUsuarioLogado == null){
 			
@@ -91,6 +108,21 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 		}
 		
 		return grupoUsuarioLogado.getTiposFuncionalidades().contains(tipoFuncionalidade);
+	}
+
+	private boolean usuarioJaRedirecionadoParaTelaLogin() {
+		
+		if (getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN) == null){
+			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.FALSE);
+		}else{
+			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.TRUE);
+		}
+		
+		return (Boolean)getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN);
+	}
+
+	private boolean usuarioJaAtivoSessao() {
+		return getAtributoSessao(AtributoSessao.USUARIO_ATIVO) != null && !(Boolean)getAtributoSessao(AtributoSessao.USUARIO_ATIVO);
 	}
 	
 	@PostConstruct
@@ -121,7 +153,7 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	        			
 	        			FiltroGrupoUsuarioDTO filtroGrupo = new FiltroGrupoUsuarioDTO();
 			        	filtroGrupo.setIdUsuario(usuarioLogado.getId());
-			        	grupoUsuarioLogado = grupoUsuarioService.pesquisar(filtroGrupo,"tiposFuncionalidades").iterator().next();
+			        	grupoUsuarioLogado = grupoUsuarioService.pesquisar(filtroGrupo,"tiposFuncionalidades", "funcionalidades").iterator().next();
 			        	
 			        	setAtributoSessao(AtributoSessao.GRUPO_USUARIO_LOGADO, grupoUsuarioLogado);
 	        			
@@ -173,9 +205,27 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 		}
 		
 		if (username != null && getAtributoSessao(AtributoSessao.USUARIO_LOGADO) == null){
+			
+			usuario = usuarioService.usuarioPorUsername(username.toString());
+			
+			if (usuario != null && usuario.isLogado()){
+				setAtributoSessao(AtributoSessao.USUARIO_ATIVO, Boolean.FALSE);
+				enviaMensagem(Mensagem.USU11);
+			}else{
+				
+				usuario.setLogado(Boolean.TRUE);
+				serviceUsuario.mergeSemMensagem(usuario);
+				setAtributoSessao(AtributoSessao.USUARIO_ATIVO, Boolean.TRUE);
+			}
+			
+			setAtributoSessao(AtributoSessao.USUARIO_LOGADO, usuario);
+			
+			return usuario;
+			
+		}else{
+			
 			usuario = usuarioService.usuarioPorUsername(username.toString());
 			setAtributoSessao(AtributoSessao.USUARIO_LOGADO, usuario);
-		}else{
 			usuario = (Usuario) getAtributoSessao(AtributoSessao.USUARIO_LOGADO);
 		}
 		
@@ -223,7 +273,11 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 		adicionaMensagensNaSessao();
 		
 		try {
-			externalContext().redirect(caminhoPagina);
+			
+			if(!getHttpResponse().isCommitted()){
+				externalContext().redirect(caminhoPagina);
+			}
+				
 		} catch (IOException e) {
 			throw new NegocioException(Mensagem.MEI009, e);
 		}
@@ -242,6 +296,12 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	 * @throws NegocioException
 	 */
 	public void logout() throws NegocioException {
+		
+		if (usuarioLogado != null){
+			
+			usuarioLogado.setLogado(Boolean.FALSE);
+			serviceUsuario.mergeSemMensagem(usuarioLogado);
+		}
 		
 		paraThread = Boolean.TRUE;
 		usuarioLogado = null;

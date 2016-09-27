@@ -69,7 +69,7 @@
 
 	<h:panelGrid style="margin:0 auto; text-align:center;">
 
-		<p:commandButton value="Pesquisar" update="@form"
+		<p:commandButton value="Pesquisar" update="@form" rendered="#{painelRecursoHumano.autorizaFuncionalidade('PESQUISAR_RECURSO_HUMANO')}"
 			action="#{painelRecursoHumano.pesquisar}"></p:commandButton>
 
 	</h:panelGrid>

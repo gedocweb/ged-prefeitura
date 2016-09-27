@@ -40,7 +40,6 @@
     <build>
         <finalName>gedapp</finalName>
         <plugins>
-            <!--Ear plugin -creating the ear - watch out skinny WARS!-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
@@ -51,6 +50,8 @@
                         <webModule>
                             <groupId>br.com.ged</groupId>
                             <artifactId>ged-web</artifactId>
+                            <contextRoot>/ged-solucao</contextRoot>
+<!--                             <contextRoot>/ged-pratika</contextRoot> -->
                         </webModule>
                         <ejbModule>
                             <groupId>br.com.ged</groupId>

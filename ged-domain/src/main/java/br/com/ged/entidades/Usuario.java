@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import br.com.ged.domain.Role;
 import br.com.ged.domain.Situacao;
 import br.com.ged.generics.EntidadeBasica;
@@ -49,6 +51,10 @@ public class Usuario extends EntidadeBasica{
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="id_pessoa")
 	private Pessoa pessoa;
+    
+    @Column(name="logado_sistema")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean logado; 
     
 	public Usuario(){
 		situacao = Situacao.ATIVO;
@@ -100,6 +106,14 @@ public class Usuario extends EntidadeBasica{
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public boolean isLogado() {
+		return logado;
+	}
+
+	public void setLogado(boolean logado) {
+		this.logado = logado;
 	}
 
 	@Override

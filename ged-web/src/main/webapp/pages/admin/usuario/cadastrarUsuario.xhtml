@@ -37,9 +37,7 @@
 	            	<p:inputMask mask="(99)-99999-9999" id="celular" value="#{cadastroUsuario.usuario.pessoa.celular}"/>
 		           	
 		           	<p:outputLabel for="email" value="E-mail" />
-		           	<p:inputText id="email" required="true" label="email" size="40"
-						requiredMessage="E-mail é obrigatório para o cadastro."
-						validatorMessage="E-mail inválido."
+		           	<p:inputText id="email" label="email" size="40"
 						value="#{cadastroUsuario.usuario.pessoa.email}">
 				
 					  <f:validateRegex

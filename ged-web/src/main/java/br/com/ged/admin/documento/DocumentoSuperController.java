@@ -1,8 +1,10 @@
 package br.com.ged.admin.documento;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.event.ComponentSystemEvent;
 
+import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.framework.AbstractManageBean;
 
 public abstract class DocumentoSuperController extends AbstractManageBean{
@@ -22,8 +24,14 @@ public abstract class DocumentoSuperController extends AbstractManageBean{
 	@EJB
 	protected LeiValidadorView leiValidatorView;
 	
-	@PostConstruct
-	public void inicio(){
-	}
+	private ConfigLayoutCliente configLayoutCliente;
 	
+	public void preRenderView(ComponentSystemEvent event){
+		
+		configLayoutCliente = ClienteEnum.configLayoutMarcaDaguaClientePorProperties();
+	}
+
+	public ConfigLayoutCliente getConfigLayoutCliente() {
+		return configLayoutCliente;
+	}
 }
