@@ -27,12 +27,17 @@
 				itemLabel="Incluir sub categorias na pesquisa"
 				label="Incluir sub categorias na pesquisa"
 				value="#{painelDocumento.pesquisarSubCategorias}">
+				
+				<p:ajax partialSubmit="true" process="@form"></p:ajax>
 			</p:selectBooleanCheckbox>
 
 			<p:selectBooleanCheckbox
 				itemLabel="Incluir todos os tipos de documento na pesquisa"
 				label="Incluir todos os tipos de documento na pesquisa"
 				value="#{painelDocumento.pesquisarTodosTiposDocuemento}">
+				
+				<p:ajax partialSubmit="true" process="@form"></p:ajax>
+				
 			</p:selectBooleanCheckbox>
 
 		</h:panelGrid>

@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.domain.Role;
 import br.com.ged.domain.Situacao;
@@ -56,7 +56,7 @@ public class LoginController {
 	
 	public void preRenderView(ComponentSystemEvent event){
 		
-		this.configLayoutCliente = ClienteEnum.configLayoutLoginClientePorProperties();
+		this.configLayoutCliente = EmpresaEnum.configLayoutLoginClientePorProperties();
 	}
 	
 	@PostConstruct

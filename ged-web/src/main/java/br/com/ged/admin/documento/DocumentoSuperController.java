@@ -3,7 +3,7 @@ package br.com.ged.admin.documento;
 import javax.ejb.EJB;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.framework.AbstractManageBean;
 
@@ -28,7 +28,7 @@ public abstract class DocumentoSuperController extends AbstractManageBean{
 	
 	public void preRenderView(ComponentSystemEvent event){
 		
-		configLayoutCliente = ClienteEnum.configLayoutMarcaDaguaClientePorProperties();
+		configLayoutCliente = EmpresaEnum.configLayoutMarcaDaguaClientePorProperties();
 	}
 
 	public ConfigLayoutCliente getConfigLayoutCliente() {

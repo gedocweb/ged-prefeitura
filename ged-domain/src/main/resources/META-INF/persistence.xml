@@ -7,7 +7,8 @@
     <persistence-unit name="desenvolvimento" transaction-type="JTA">
     
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/ged</jta-data-source>
+		<jta-data-source>java:jboss/datasources/ged-araujo</jta-data-source>
+<!-- 		<jta-data-source>java:jboss/datasources/ged</jta-data-source> -->
 		
 		<properties>
 		

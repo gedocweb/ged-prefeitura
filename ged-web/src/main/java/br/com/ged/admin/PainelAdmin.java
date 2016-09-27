@@ -4,7 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.com.ged.domain.ClienteEnum;
+import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.ConfigLayoutCliente;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Role;
@@ -19,7 +19,7 @@ public class PainelAdmin extends AbstractManageBean{
 	
 	public void preRenderView(ComponentSystemEvent event){
 		
-		configLayoutCliente = ClienteEnum.configLayoutInfoUsuarioClientePorProperties();
+		configLayoutCliente = EmpresaEnum.configLayoutInfoUsuarioClientePorProperties();
 		
 		verificaAcesso();
 	}

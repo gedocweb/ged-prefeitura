@@ -50,8 +50,8 @@
                         <webModule>
                             <groupId>br.com.ged</groupId>
                             <artifactId>ged-web</artifactId>
-                            <contextRoot>/ged-solucao</contextRoot>
-<!--                             <contextRoot>/ged-pratika</contextRoot> -->
+<!--                             <contextRoot>/ged-solucao</contextRoot> -->
+                            <contextRoot>/ged-pratika</contextRoot>
                         </webModule>
                         <ejbModule>
                             <groupId>br.com.ged</groupId>
