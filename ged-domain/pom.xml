@@ -7,7 +7,6 @@
   </parent>
   <artifactId>ged-domain</artifactId>
   <name>ged-domain</name>
-  <description>JPA entities for our project - domain model</description>
   <build>
   	<finalName>${project.artifactId}</finalName>
   </build>

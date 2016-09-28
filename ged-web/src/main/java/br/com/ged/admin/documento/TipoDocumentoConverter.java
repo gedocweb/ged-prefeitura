@@ -17,7 +17,7 @@ public class TipoDocumentoConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if((value != null && value.trim().length() > 0)) {
             try {
-            	TipoDocumentoController controller = (TipoDocumentoController) fc.getExternalContext().getApplicationMap().get(TipoDocumentoController.NOME_CONTROLLER);
+            	TipoDocumentoController controller = (TipoDocumentoController) fc.getExternalContext().getSessionMap().get(TipoDocumentoController.NOME_CONTROLLER);
             	TipoDocumento tpDoc = controller.getById(Long.valueOf(value));
                 return tpDoc;
             } catch(NumberFormatException e) {

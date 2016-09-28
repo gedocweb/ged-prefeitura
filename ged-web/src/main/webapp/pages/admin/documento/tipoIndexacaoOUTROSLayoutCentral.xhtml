@@ -89,7 +89,7 @@
 
 			<p:outputLabel value="Upload documento digitalizado"
 				rendered="#{painelDocumento.renderizaCadastro}"></p:outputLabel>
-			<h:form id="formUpload" enctype="multipart/form-data;charset=UTF-8"
+			<h:form onkeypress="if (event.keyCode == 13) { return false; }" id="formUpload" enctype="multipart/form-data;charset=UTF-8"
 				acceptcharset="UTF-8"
 				rendered="#{painelDocumento.renderizaCadastro and !painelDocumento.arquivoAnexado}">
 				<p:fileUpload label="Selecione o arquivo do computador"
@@ -239,7 +239,7 @@
 			<p:outputPanel autoUpdate="true"
 				rendered="#{!painelDocumento.arquivoAnexado}">
 
-				<h:form id="formUploadAlterar"
+				<h:form onkeypress="if (event.keyCode == 13) { return false; }" id="formUploadAlterar"
 					enctype="multipart/form-data;charset=UTF-8" acceptcharset="UTF-8">
 					<p:fileUpload label="Selecione o arquivo do computador"
 						sizeLimit="10485760"

@@ -22,19 +22,19 @@ public enum EmpresaEnum {
 	
 	public static ClienteEnum configClienteEnumAtivo(){
 		
-		String nameClienteEnum = InitConfigProperties.getValue(CONFIG_PARAM_EMPRESA);
-		String nameConfigClienteEnum = InitConfigProperties.getValue(CONFIG_PARAM_CLIENTE);
+		String nameEmpresaEnum = InitConfigProperties.getValue(CONFIG_PARAM_EMPRESA);
+		String nameClienteEnum = InitConfigProperties.getValue(CONFIG_PARAM_CLIENTE);
 		
 		for (EmpresaEnum clEnum : values()){
 			
-			if (clEnum.name().equals(nameClienteEnum)){
+			if (clEnum.name().equals(nameEmpresaEnum)){
 				
 				if (clEnum.config == null)
 					continue;
 				
 				for (ClienteEnum config : clEnum.config){
 					
-					if (config.name().equals(nameConfigClienteEnum)){
+					if (config.name().equals(nameClienteEnum)){
 						return config;
 					}
 				}

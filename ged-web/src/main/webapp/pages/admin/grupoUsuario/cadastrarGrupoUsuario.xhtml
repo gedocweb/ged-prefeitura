@@ -119,7 +119,7 @@
 			    
 			    	<h:panelGrid columns="2" style="text-align: center;margin:0 auto;">
 				    	<p:commandButton update="@form" value="#{msg['MG18']}" action="#{cadastroGrupoUsuario.cadastrar}"></p:commandButton>
-				     	<p:commandButton value="#{msg['MG24']}" action="#{cadastroGrupoUsuario.redirecionaPagina('PAINEL_ADMIN')}"></p:commandButton>
+				     	<p:commandButton value="#{msg['MG01']}" action="#{cadastroGrupoUsuario.redirecionaPagina('PAINEL_GRUPO_USUARIO')}"></p:commandButton>
 				    </h:panelGrid>
 			    
 			    </div>
@@ -129,7 +129,7 @@
 		</p:panel>
 		
 		
-		 <p:dialog  id="info" header="Funcionalidade: #{cadastroGrupoUsuario.tituloDialogFunc}" widgetVar="func" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
+		 <p:dialog position="top" id="info" header="Funcionalidade: #{cadastroGrupoUsuario.tituloDialogFunc}" widgetVar="func" width="40%" modal="true" showEffect="fade" hideEffect="fade" style="text-align:center; border:none !important;">
 	          
 	          <p:outputPanel autoUpdate="true">
 	          
@@ -157,7 +157,7 @@
 	          <p:commandButton oncomplete="PF('func').hide()" value="#{msg['MG24']}"></p:commandButton>
 	    </p:dialog>
 	    
-	    <p:dialog id="alertaExclusao" header="#{msg['MG22']}" widgetVar="confirmaExclusao" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
+	    <p:dialog position="top" id="alertaExclusao" header="#{msg['MG22']}" widgetVar="confirmaExclusao" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center !important; border:none !important;" >
 	        <p:outputPanel id="confirmaExclusao" style="text-align:center; border:none !important;">
 	            <h:panelGrid style="border:none !important;">
 	 

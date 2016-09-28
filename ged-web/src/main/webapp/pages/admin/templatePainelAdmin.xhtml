@@ -69,7 +69,7 @@
 	
 		<f:event listener="#{painelAdmin.renderizaMensagensDaSessao()}" type="preRenderView" />
 		
-		<h:form id="form">
+		<h:form onkeypress="if (event.keyCode == 13) { return false; }" id="form">
 		 
 			<p:growl id="messages" autoUpdate="true" closable="true" style="margin:0 auto; width:80%; text-align:center;" />
 			

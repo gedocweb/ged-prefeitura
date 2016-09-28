@@ -104,8 +104,14 @@ public class GrupoUsuarioPainelController extends GrupoUsuarioSuperController{
 			return;
 		}
 		
-		getGrupoUsuarioSelecionado().getFuncionalidades().add(funcionalidadeSelecionadaParaAdicionar);
-		service.merge(getGrupoUsuarioSelecionado());
+		if (!getGrupoUsuarioSelecionado().getFuncionalidades().contains(funcionalidadeSelecionadaParaAdicionar)){
+			getGrupoUsuarioSelecionado().getFuncionalidades().add(funcionalidadeSelecionadaParaAdicionar);
+			service.merge(getGrupoUsuarioSelecionado());
+		}else{
+			enviaMensagem(Mensagem.GRUPOUSUARIO21);
+		}
+		
+		
 	}
 	
 	public void adicionaNovosUsuarios(){

@@ -47,7 +47,7 @@
 		</p:inputTextarea>
 
 		<p:outputLabel value="Upload documento" rendered="#{!painelBalancete.arquivoAnexado}"></p:outputLabel>
-		<h:form enctype="multipart/form-data;charset=UTF-8"
+		<h:form onkeypress="if (event.keyCode == 13) { return false; }" enctype="multipart/form-data;charset=UTF-8"
 			acceptcharset="UTF-8" rendered="#{!painelBalancete.arquivoAnexado}">
 
 			<p:fileUpload label="Selecione o arquivo"

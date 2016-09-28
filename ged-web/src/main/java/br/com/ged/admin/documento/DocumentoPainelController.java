@@ -140,8 +140,8 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		tipoDocumento = new TipoDocumento();
 		tipoDocumentoSelecionado = new TipoDocumento();
 		
-		if (super.externalContext().getApplicationMap().get(TipoDocumentoController.NOME_CONTROLLER) == null){
-			super.externalContext().getApplicationMap().put(TipoDocumentoController.NOME_CONTROLLER, tipoDocumentoController);
+		if (super.externalContext().getSessionMap().get(TipoDocumentoController.NOME_CONTROLLER) == null){
+			super.externalContext().getSessionMap().put(TipoDocumentoController.NOME_CONTROLLER, tipoDocumentoController);
 		}
 		
 		documento = inicializaDocumento();
@@ -181,12 +181,23 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	
 	public void consultaListGrupoUsuario(){
 		
+		if (categoriaSelecionada != null && categoriaSelecionada.getId() != null){
+			diretorioRaizSelecionado = Boolean.FALSE;
+		}else{
+			diretorioRaizSelecionado = Boolean.TRUE;
+		}
+		
 		listGrupoUsuarioCategoria = grupoUsuarioService.listNomeGrupoUsuario();
+		listGrupoUsuarioCategoriaSelecionados = new ArrayList<>();
 	}
 	
 	public void selecionaTodosGruposUsuario(){
 		listGrupoUsuarioCategoriaSelecionados = new ArrayList<>();
 		listGrupoUsuarioCategoriaSelecionados.addAll(listGrupoUsuarioCategoria);
+	}
+	
+	public void selecionaNenhumGruposUsuario(){
+		listGrupoUsuarioCategoriaSelecionados = new ArrayList<>();
 	}
 
 	private Documento inicializaDocumento() {
@@ -435,7 +446,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		
 		if (categoriaSelecionada != null && categoriaSelecionada.getId() != null){
 			
-			listGrupoUsuarioCategoriaSelecionados = new ArrayList<>();
+			selecionaNenhumGruposUsuario();
 			
 			consultaListGrupoUsuario();
 			

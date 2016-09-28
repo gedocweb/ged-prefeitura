@@ -29,6 +29,7 @@ public enum Mensagem {
 	GRUPOUSUARIO18(TipoMensagem.ALERTA),
 	GRUPOUSUARIO19(TipoMensagem.ALERTA),
 	GRUPOUSUARIO20(TipoMensagem.ALERTA),
+	GRUPOUSUARIO21(TipoMensagem.ALERTA),
 	
 	//Categoria Documento
 	CATDOC1(TipoMensagem.ALERTA),
