@@ -161,6 +161,37 @@ public class ConsultasDaoJpa<T> extends AbstractModel{
 
 		return (List<T>) criteria.list();
     }
+	
+    public Criteria criteriaPesquisa(Object filtroDTO, Class<T> entidade) {
+		
+		Criteria criteria = getSession().createCriteria(entidade);
+
+		List<String> todosAlias = new ArrayList<String>();
+		
+		Map<?, ?> mapa = UtilReflexao.obterAtributos(filtroDTO);
+		
+		for (Map.Entry<?, ?> entry : mapa.entrySet()) {
+
+			String propriedade = (String) entry.getKey();
+			Object valor = entry.getValue();
+
+			Field field = UtilReflexao.getCampoComAnotacao(filtroDTO.getClass(), EntityProperty.class, propriedade);
+
+			if (field != null && valor != null) {
+
+				String join = field.getAnnotation(EntityProperty.class).value();
+				boolean isPesquisaExata = field.getAnnotation(EntityProperty.class).pesquisaExata();
+				boolean ignoraCaseSensitive = field.getAnnotation(EntityProperty.class).ignoraCaseSensitive();
+				boolean listIds = field.getAnnotation(EntityProperty.class).listIds();
+
+				montaJoinsParaOrdenacao(criteria, todosAlias, join);
+
+				montaWhere(criteria, valor, join, isPesquisaExata, ignoraCaseSensitive, listIds);
+			}
+		}
+
+		return criteria;
+    }
 
 	private void montaWhere(Criteria criteria, Object valor, String join, boolean isPesquisaExata, boolean ignoraCaseSensitive, boolean listIds) {
 		
@@ -435,4 +466,13 @@ public class ConsultasDaoJpa<T> extends AbstractModel{
 		 
 		 return em.unwrap(Session.class);
 	 }
+
+	public Integer countPesquisa(Object filtroDTO, Class<T> clzz) {
+		
+		Criteria criteria = criteriaPesquisa(filtroDTO, clzz);
+		
+		criteria.setProjection(Projections.count("id"));
+		
+		return (Integer) criteria.uniqueResult();
+	}
 }

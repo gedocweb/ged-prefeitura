@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+		      	xmlns:h="http://java.sun.com/jsf/html"
+		      	xmlns:f="http://java.sun.com/jsf/core"
+		      	xmlns:p="http://primefaces.org/ui"
+		      	template="/pages/admin/templatePaginasAdmin.xhtml">
+
+	<ui:define name="title">Relatório de Monitoramento de Usuários</ui:define>
+
+	<ui:define name="body">
+	
+		<p:panel id="pesquisa" header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" >
+		    
+		    <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;" >
+
+				<p:outputLabel for="nomeGrupoSelectOne" value="Nome do grupo:" />
+		
+				<p:selectOneMenu id="nomeGrupoSelectOne" value="#{painelRelatorioMonitoramentoUsuario.idGrupoSelecionado}" panelStyle="width:180px"
+                         effect="fade" var="nomeGrupo" style="width:160px" filter="true" filterMatchMode="startsWith">
+                         
+		            <f:selectItems value="#{painelRelatorioMonitoramentoUsuario.selectItemsGrupoUsuario}"/>
+		 
+		            <p:column>
+		                <h:outputText value="#{nomeGrupo}" />
+		            </p:column>
+		        </p:selectOneMenu>
+		        
+		        <p:outputLabel for="nomeUsuarioSelectOne" value="Nome do usuário:" />
+		
+				<p:selectOneMenu id="nomeUsuarioSelectOne" value="#{painelRelatorioMonitoramentoUsuario.idUsuarioSelecionado}" panelStyle="width:180px"
+                         effect="fade" var="nomeUsuario" style="width:160px" filter="true" filterMatchMode="startsWith">
+                         
+		            <f:selectItems value="#{painelRelatorioMonitoramentoUsuario.selectItemsUsuario}"/>
+		 
+		            <p:column>
+		                <h:outputText value="#{nomeUsuario}" />
+		            </p:column>
+		        </p:selectOneMenu>
+
+				<p:selectBooleanCheckbox itemLabel="Deste mês" label="Deste mês"
+					value="#{painelRelatorioMonitoramentoUsuario.periodoMesAtual}">
+
+					<p:ajax partialSubmit="true" process="@form"></p:ajax>
+				</p:selectBooleanCheckbox>
+				
+			</h:panelGrid>
+		    
+		    <h:panelGrid columns="3" cellpadding="10" style="margin:0 auto;">
+		
+				<p:commandButton id="btnPesquisar" value="Monitorar" 
+					action="#{painelRelatorioMonitoramentoUsuario.pesquisar()}" update="@form" />
+				<p:commandButton id="btnLimpar" value="#{msg['MG17']}" 
+					action="#{painelRelatorioMonitoramentoUsuario.inicio()}" update="@form" />
+		
+			</h:panelGrid>
+
+			<p:separator style="margin:0 auto; width:80%; text-align:center;"></p:separator>
+			
+      	</p:panel>
+		    
+	    <p:panel style="margin:0 auto; width:80%; text-align:center;" header="#{painelRelatorioMonitoramentoUsuario.departamentoSelecionado.label}">
+	    	
+	    	<p:outputLabel value="Inseridos" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntInseridos}" />
+	    	
+	    	<p:outputLabel value="Alterados" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntAlterados}" />
+	    	
+	    	<p:outputLabel value="Excluidos" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntExcluidos}" />
+	    	
+	    	<p:outputLabel value="Visualizados" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntVisualizados}" />
+	    	
+	    	<p:outputLabel value="Baixados" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntBaixados}" />
+	    	
+	    	<p:outputLabel value="Exportados" />
+	    	<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntExportados}" />
+	    </p:panel>
+	</ui:define>
+</ui:composition>

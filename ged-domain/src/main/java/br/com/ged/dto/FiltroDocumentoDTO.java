@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.ged.anotations.EntityProperty;
+import br.com.ged.domain.Situacao;
 import br.com.ged.generics.DataFiltroBetween;
 
 public class FiltroDocumentoDTO implements Serializable{
@@ -37,6 +38,9 @@ public class FiltroDocumentoDTO implements Serializable{
 	
 	@EntityProperty(value="categoria.id")
 	private Long idCategoria;
+	
+	@EntityProperty(value="situacao")
+	private Situacao situacao;
 	
 	public FiltroDocumentoDTO(){
 		dataInclusaoDocumento = new DataFiltroBetween();
@@ -106,5 +110,13 @@ public class FiltroDocumentoDTO implements Serializable{
 
 	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
+	}
+
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 }

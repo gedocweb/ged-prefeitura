@@ -18,9 +18,11 @@ public interface UsuarioService {
 	 * @param filtro
 	 * @return
 	 */
-	List<Usuario> pesquisar(FiltroUsuarioDTO filtro);
+	List<Usuario> pesquisar(FiltroUsuarioDTO filtro, String ...hbInitialize);
 
 	Usuario usuarioPorUsername(String objUsuarioSessao);
 
 	void excluir(Long id);
+
+	String nomeUsuarioPorId(Long idUsuario);
 }

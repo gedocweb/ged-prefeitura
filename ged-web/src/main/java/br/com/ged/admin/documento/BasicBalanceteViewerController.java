@@ -13,8 +13,10 @@ import javax.faces.event.PhaseId;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.entidades.Balancete;
 import br.com.ged.framework.GenericServiceController;
+import br.com.ged.service.audit.BalanceteAuditService;
 
 @ManagedBean  
 @ApplicationScoped
@@ -27,6 +29,9 @@ public class BasicBalanceteViewerController implements Serializable {
     @EJB
     private GenericServiceController<Balancete, Long> serviceDoc;
     
+    @EJB
+    private BalanceteAuditService balanceteAuditService;
+    
     private Long docId;
   
     public void carregaStreamArquivo(Long idDocumento) {  
@@ -37,10 +42,11 @@ public class BasicBalanceteViewerController implements Serializable {
         		
         		System.out.println(BasicBalanceteViewerController.class.getName()+" idDocumento ta null");
         		return;
-        		
         	}
         	
         	Balancete doc = serviceDoc.getById(Balancete.class, idDocumento, "arquivo");
+        	
+        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.VISUALIZACAO);
         	
         	ByteArrayInputStream btArray = new ByteArrayInputStream(doc.getArquivo().getArquivo());
         	
@@ -61,6 +67,8 @@ public class BasicBalanceteViewerController implements Serializable {
         else if (docId != null){
             
         	Balancete doc = serviceDoc.getById(Balancete.class, docId, "arquivo");
+        	
+        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.BAIXADOS);
             
             docId = null;
         	

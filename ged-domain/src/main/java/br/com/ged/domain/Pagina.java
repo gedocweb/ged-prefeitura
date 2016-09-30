@@ -22,7 +22,8 @@ public enum Pagina {
 	PAINEL_GRUPO_USUARIO("/pages/admin/grupoUsuario/painelGrupoUsuario.jsf"), 
 	CADASTRAR_GRUPO_USUARIO("/pages/admin/grupoUsuario/cadastrarGrupoUsuario.jsf"),
 	
-	PAINEL_DOCUMENTO("/pages/admin/documento/painelDocumento.jsf");
+	PAINEL_DOCUMENTO("/pages/admin/documento/painelDocumento.jsf"), 
+	RELATORIO_MONITORAMENTO_USUARIO("/pages/admin/relatorio/relatorioMonitoramentoUsuario.jsf");
 	
 	private String valor;
 	

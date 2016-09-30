@@ -20,8 +20,8 @@ public class UsuarioServiceImpl extends ConsultasDaoJpa<Usuario> implements Usua
 	private GenericService<Usuario, Long> serviceGeneric;
 	
 	@Override
-	public List<Usuario> pesquisar(FiltroUsuarioDTO filtro) {
-		return filtrarPesquisa(filtro, Usuario.class);
+	public List<Usuario> pesquisar(FiltroUsuarioDTO filtro, String...hbinitialize) {
+		return filtrarPesquisa(filtro, Usuario.class,hbinitialize);
 	}
 
 	@Override
@@ -37,6 +37,7 @@ public class UsuarioServiceImpl extends ConsultasDaoJpa<Usuario> implements Usua
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void excluir(Long id) {
 		
+		//TODO Auditoria
 		Query qr = em.createNativeQuery("DELETE FROM rl_grupousuario_usuario WHERE id_usuario = :idUsuario");
 		qr.setParameter("idUsuario", id);
 		
@@ -45,5 +46,15 @@ public class UsuarioServiceImpl extends ConsultasDaoJpa<Usuario> implements Usua
 		
 		qr.executeUpdate();
 		serviceGeneric.excluir(usuario);
+	}
+
+	@Override
+	public String nomeUsuarioPorId(Long idUsuario) {
+		
+		FiltroUsuarioDTO filtro = new FiltroUsuarioDTO();
+		
+		filtro.setIdUsuario(idUsuario);
+		
+		return primeiroRegistroPorFiltro(filtro, Usuario.class,"pessoa").getPessoa().getNome();
 	}
 }

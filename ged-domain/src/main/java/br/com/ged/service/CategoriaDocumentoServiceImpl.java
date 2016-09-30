@@ -3,29 +3,17 @@ package br.com.ged.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import br.com.ged.domain.Mensagem;
 import br.com.ged.dto.FiltroCategoriaDocumentoDTO;
 import br.com.ged.entidades.Categoria;
-import br.com.ged.entidades.Documento;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.generics.ConsultasDaoJpa;
-import br.com.ged.generics.model.GenericPersistence;
 
 @Stateless
 public class CategoriaDocumentoServiceImpl extends ConsultasDaoJpa<Categoria> implements CategoriaDocumentoService{
-	
-	@EJB
-	private ConsultasDaoJpa<Documento> reposirotyDocumento;
-	
-	@EJB
-	private GenericPersistence<Documento, Long> genericPersistenceDocumento;
-	
-	@EJB
-	private GenericPersistence<Categoria, Long> genericPersistence;
 	
 	@Override
 	public List<Categoria> pesquisar(FiltroCategoriaDocumentoDTO filtro, String... hbInitialize) {
@@ -52,6 +40,7 @@ public class CategoriaDocumentoServiceImpl extends ConsultasDaoJpa<Categoria> im
 
 	private void excluiCategoria(Long idCategoria) {
 		
+		//TODO Auditoria
 		
 		Query queryDocumento = em.createNativeQuery("DELETE FROM tb_documento WHERE id_categoria = :id");
 		Query query = em.createNativeQuery("DELETE FROM rl_categoria_grupousuario WHERE id_categoria = :id");

@@ -18,6 +18,9 @@ public class FiltroUsuarioDTO {
 	@EntityProperty("pessoa.nome")
 	private String nomeUsuario;
 	
+	@EntityProperty("id")
+	private Long idUsuario;
+	
 	public FiltroUsuarioDTO(){
 		situacao = Situacao.ATIVO;
 	}
@@ -52,5 +55,13 @@ public class FiltroUsuarioDTO {
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
+	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }

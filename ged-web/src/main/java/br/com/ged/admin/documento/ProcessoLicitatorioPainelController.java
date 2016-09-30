@@ -142,6 +142,7 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 
 	public void excluir() {
 		
+		//TODO Auditoria
 		serviceProcessoLicitatorio.excluir(getProcessoLicitatorio());
 	}
 
@@ -162,6 +163,7 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 				getProcessoLicitatorio().setArquivo(UtilArquivo.converterArquivoParaPDF(getProcessoLicitatorio().getArquivo()));
 			}
 			
+			//TODO Auditoria
 			serviceProcessoLicitatorio.salvar(getProcessoLicitatorio());
 			
 			setProcessoLicitatorio(inicializaProcessoLicitatorio());
@@ -220,6 +222,8 @@ public class ProcessoLicitatorioPainelController extends DocumentoSuperControlle
 		} catch (Exception e) {
 			e.printStackTrace();
 			enviaMensagem(Mensagem.ERRO_DEFAULT);
+		}finally{
+			//TODO Auditoria
 		}
 
 		return null;

@@ -32,7 +32,7 @@ import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
 import br.com.ged.domain.TipoFuncionalidadeEnum;
-import br.com.ged.domain.TipoIndexacaoEnum;
+import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.dto.FiltroDocumentoDTO;
 import br.com.ged.entidades.Arquivo;
 import br.com.ged.entidades.Categoria;
@@ -121,7 +121,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	private List<String> listGrupoUsuarioCategoriaSelecionados;
 	
 	private List<SelectItem> listTipoIndexacao;
-	private TipoIndexacaoEnum tipoIndexacaoSelecionado;
+	private DepartamentoEnum tipoIndexacaoSelecionado;
 	private boolean renderedTipoIndexacaoOutros;
 	private boolean renderedTipoIndexacaoBalancete;
 	private boolean renderedTipoIndexacaoRecursoHumano;
@@ -154,14 +154,14 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		iniciaCategoria();
 		iniciaTipoDocumento();
 		renderizaTituloFieldSet();
-		listTipoIndexacao = TipoIndexacaoEnum.selectItems();
+		listTipoIndexacao = DepartamentoEnum.selectItems();
 		
 		if (super.getGrupoUsuarioLogado().getFuncionalidades() != null){
 			
 			if (!super.getGrupoUsuarioLogado().getFuncionalidades().contains(FuncionalidadeEnum.MANTER_RECURSO_HUMANO)){
 				renderedTipoIndexacao = Boolean.FALSE;
 				
-				tipoIndexacaoSelecionado = TipoIndexacaoEnum.OUTROS;
+				tipoIndexacaoSelecionado = DepartamentoEnum.OUTROS;
 				selecionaTipoIndexacao();
 				
 			}else{
@@ -465,6 +465,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			
 		try{
 			
+			//TODO Auditoria
 			categoriaService.excluir(categoriaSelecionada);
 			iniciaCategoria();
 			categoria = new Categoria();
@@ -492,6 +493,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				categoria.setCategoriaPai(categoriaSelecionada);
 			}
 			
+			//TODO Auditoria
 			serviceCategoria.salvar(categoria);
 			iniciaCategoria();
 			categoriaSelecionada = new Categoria();
@@ -518,7 +520,6 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	}
 	
 	//Tipo documento
-	
 	private void iniciaTipoDocumento() {
 		
 		listTipoDocumento = serviceTipoDocumento.listarTodos(TipoDocumento.class);
@@ -540,6 +541,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			
 			tipoDocumentoValidador.validaCadastro(tipoDocumento);
 			
+			//TODO Auditoria
 			serviceTipoDocumento.salvar(tipoDocumento);
 			iniciaTipoDocumento();
 			tipoDocumentoSelecionado = new TipoDocumento();
@@ -578,6 +580,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		
 		try{
 			
+			//TODO Auditoria
 			serviceTipoDocumento.excluir(tipoDocumentoSelecionado);
 			iniciaTipoDocumento();
 			tipoDocumento = new TipoDocumento();
@@ -595,6 +598,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			
 			tipoDocumentoValidador.validaAlteracao(tipoDocumentoSelecionado);
 			
+			//TODO Auditoria
 			serviceTipoDocumento.merge(tipoDocumentoSelecionado);
 			iniciaTipoDocumento();
 			tipoDocumentoSelecionado = null;
@@ -607,11 +611,11 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		}
 	}
 	
-	public String createPathFromCategory(Categoria pai, Categoria atual, String path){
+	public String pathCategoria(Categoria pai, Categoria atual, String path){
 		if(pai.getId() == atual.getId()){
 			return pai.getDescricao();
 		}
-		return createPathFromCategory(pai, atual.getCategoriaPai(), path) + File.separator + atual.getDescricao();  
+		return pathCategoria(pai, atual.getCategoriaPai(), path) + File.separator + atual.getDescricao();  
 	}
 	
 	public StreamedContent exportar(){
@@ -638,7 +642,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				String docDescricao = doc.getArquivo().getDescricao();
 				/*String zipArquivoDescricao = doc.getCategoria().getId() ==  getCategoriaSelecionada().getId() ? docDescricao :
 					createPathFromCategory(categoriaSelecionada, doc.getCategoria(), "") + File.separator + docDescricao;*/						
-				String zipArquivoDescricao = createPathFromCategory(categoriaSelecionada, doc.getCategoria(), "") + File.separator + docDescricao;
+				String zipArquivoDescricao = pathCategoria(categoriaSelecionada, doc.getCategoria(), "") + File.separator + docDescricao;
 				ZipEntry entry = new ZipEntry(zipArquivoDescricao);
 				entry.setSize(doc.getArquivo().getArquivo().length);
 				zos.putNextEntry(entry);
@@ -682,6 +686,8 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				filtroDocumentoDTO.setIdTipoDocumento(null);
 			}
 			
+			filtroDocumentoDTO.setSituacao(Situacao.ATIVO);
+			
 			listDocumento = documentoService.pesquisar(filtroDocumentoDTO,"arquivo");
 			
 			for (Documento doc : listDocumento){
@@ -715,7 +721,12 @@ public class DocumentoPainelController extends DocumentoSuperController{
 
 	public void excluirDocumento(){
 		
-		serviceDocumento.excluir(getDocumentoSelecionado());
+		getDocumentoSelecionado().setSituacao(Situacao.INATIVO);
+		getDocumentoSelecionado().setDataUltimaAlteracao(new Date());
+		getDocumentoSelecionado().setUsuario(getUsuarioLogado());
+		
+		//TODO Auditoria
+		serviceDocumento.merge(getDocumentoSelecionado());
 		
 		documento = inicializaDocumento();
 		documentoSelecionado = inicializaDocumento();
@@ -745,6 +756,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				getDocumento().setArquivo(UtilArquivo.converterArquivoParaPDF(getDocumento().getArquivo()));
 			}
 			
+			//TODO Auditoria
 			serviceDocumento.salvar(getDocumento());
 			
 			setDocumento(inicializaDocumento());
@@ -786,6 +798,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				getDocumentoSelecionado().setArquivo(UtilArquivo.converterArquivoParaPDF(getDocumentoSelecionado().getArquivo()));
 			}
 			
+			//TODO Auditoria
 			serviceDocumento.merge(getDocumentoSelecionado());
 			
 			setDocumentoSelecionado(inicializaDocumento());
@@ -831,31 +844,31 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	
 	public void selecionaTipoIndexacao(){
 		
-		if (TipoIndexacaoEnum.OUTROS.equals(tipoIndexacaoSelecionado)){
+		if (DepartamentoEnum.OUTROS.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoOutros = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoOutros = Boolean.FALSE;
 		}
 		
-		if (TipoIndexacaoEnum.RH.equals(tipoIndexacaoSelecionado)){
+		if (DepartamentoEnum.RH.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoRecursoHumano = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoRecursoHumano = Boolean.FALSE;
 		}
 		
-		if (TipoIndexacaoEnum.BALANCETE.equals(tipoIndexacaoSelecionado)){
+		if (DepartamentoEnum.BALANCETE.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoBalancete = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoBalancete = Boolean.FALSE;
 		}
 		
-		if (TipoIndexacaoEnum.PROC_LICITA.equals(tipoIndexacaoSelecionado)){
+		if (DepartamentoEnum.PROC_LICITA.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoProcessoLicitatorio = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoProcessoLicitatorio = Boolean.FALSE;
 		}
 		
-		if (TipoIndexacaoEnum.LEI.equals(tipoIndexacaoSelecionado)){
+		if (DepartamentoEnum.LEI.equals(tipoIndexacaoSelecionado)){
 			renderedTipoIndexacaoLei = Boolean.TRUE;
 		}else{
 			renderedTipoIndexacaoLei = Boolean.FALSE;
@@ -1080,11 +1093,11 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		return listTipoIndexacao;
 	}
 
-	public TipoIndexacaoEnum getTipoIndexacaoSelecionado() {
+	public DepartamentoEnum getTipoIndexacaoSelecionado() {
 		return tipoIndexacaoSelecionado;
 	}
 
-	public void setTipoIndexacaoSelecionado(TipoIndexacaoEnum tipoIndexacaoSelecionado) {
+	public void setTipoIndexacaoSelecionado(DepartamentoEnum tipoIndexacaoSelecionado) {
 		this.tipoIndexacaoSelecionado = tipoIndexacaoSelecionado;
 	}
 

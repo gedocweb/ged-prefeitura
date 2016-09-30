@@ -21,12 +21,16 @@ import org.primefaces.model.UploadedFile;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
+import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroBalanceteDTO;
 import br.com.ged.entidades.ArquivoBalancete;
 import br.com.ged.entidades.Balancete;
+import br.com.ged.entidades.auditoria.BalanceteAudit;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.GenericServiceController;
+import br.com.ged.framework.GenericServiceControllerAudit;
 import br.com.ged.service.BalanceteService;
+import br.com.ged.service.audit.BalanceteAuditService;
 import br.com.ged.util.container.UtilArquivo;
 
 @ManagedBean(name = "painelBalancete")
@@ -35,10 +39,16 @@ public class BalancetePainelController extends DocumentoSuperController {
 
 	@EJB
 	protected GenericServiceController<Balancete, Long> serviceBalancete;
+	
+	@EJB
+	protected GenericServiceControllerAudit<BalanceteAudit, Long> serviceBalanceteAudit;
 
 	@EJB
 	protected BalanceteService balanceteService;
-
+	
+	@EJB
+	protected BalanceteAuditService balanceteAuditService;
+	
 	private List<Balancete> listBalancete = null;
 
 	private Balancete balancete;
@@ -142,6 +152,8 @@ public class BalancetePainelController extends DocumentoSuperController {
 
 	public void excluir() {
 		
+		//TODO Auditoria
+		balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.EXCLUIR);
 		serviceBalancete.excluir(getBalancete());
 	}
 
@@ -160,6 +172,13 @@ public class BalancetePainelController extends DocumentoSuperController {
 			
 			if (converterArquivoParaPDF){
 				getBalancete().setArquivo(UtilArquivo.converterArquivoParaPDF(getBalancete().getArquivo()));
+			}
+			
+			//TODO Auditoria
+			if (getBalancete().getId() == null){
+				balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.CADASTRO);
+			}else{
+				balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.ALTERACAO);
 			}
 			
 			serviceBalancete.salvar(getBalancete());
@@ -204,6 +223,9 @@ public class BalancetePainelController extends DocumentoSuperController {
 			ZipOutputStream zos = new ZipOutputStream(baos);
 
 			for (Balancete doc : documentosFiltrados) {
+				
+				//TODO Auditoria
+				balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.EXPORTADO);
 
 				String docDescricao = doc.getArquivo().getDescricao();
 				String zipArquivoDescricao = docDescricao;

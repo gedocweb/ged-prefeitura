@@ -143,6 +143,7 @@ public class RecursoHumanoPainelController extends DocumentoSuperController {
 
 	public void excluir() {
 		
+		//TODO Auditoria
 		serviceRH.excluir(getRecursoHumano());
 		this.pesquisar();
 	}
@@ -164,6 +165,7 @@ public class RecursoHumanoPainelController extends DocumentoSuperController {
 				getRecursoHumano().setArquivo(UtilArquivo.converterArquivoParaPDF(getRecursoHumano().getArquivo()));
 			}
 			
+			//TODO Auditoria
 			serviceRH.salvar(getRecursoHumano());
 			
 			setRecursoHumano(inicializaRecursoHumano());
@@ -222,6 +224,8 @@ public class RecursoHumanoPainelController extends DocumentoSuperController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			enviaMensagem(Mensagem.ERRO_DEFAULT);
+		}finally{
+			//TODO Auditoria
 		}
 
 		return null;

@@ -141,6 +141,7 @@ public class LeiPainelController extends DocumentoSuperController {
 
 	public void excluir() {
 		
+		//TODO Auditoria
 		serviceLei.excluir(getLei());
 	}
 
@@ -161,6 +162,7 @@ public class LeiPainelController extends DocumentoSuperController {
 				getLei().setArquivo(UtilArquivo.converterArquivoParaPDF(getLei().getArquivo()));
 			}
 			
+			//TODO Auditoria
 			serviceLei.salvar(getLei());
 			
 			setLei(inicializaLei());
@@ -219,6 +221,8 @@ public class LeiPainelController extends DocumentoSuperController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			enviaMensagem(Mensagem.ERRO_DEFAULT);
+		}finally{
+			//TODO Auditoria
 		}
 
 		return null;

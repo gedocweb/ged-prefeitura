@@ -35,4 +35,5 @@ public class GrupoUsuarioServiceImpl implements GrupoUsuarioService{
 	public List<String> listNomeGrupoUsuario() {
 		return reposiroty.listUnicaColuna("grupo", GrupoUsuario.class);
 	}
+
 }

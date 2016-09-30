@@ -7,7 +7,7 @@ import javax.faces.model.SelectItem;
 
 import br.com.ged.util.InitConfigProperties;
 
-public enum TipoIndexacaoEnum {
+public enum DepartamentoEnum {
 
 	BALANCETE("Balancete", TipoApp.PREFEITURA),
 	RH("RH - Recurso Humano", TipoApp.TODOS),
@@ -18,7 +18,7 @@ public enum TipoIndexacaoEnum {
 	private String label;
 	private TipoApp tipoApp;
 	
-	private TipoIndexacaoEnum(String label, TipoApp tipoApp){
+	private DepartamentoEnum(String label, TipoApp tipoApp){
 		this.label = label;
 		this.tipoApp = tipoApp;
 	}
@@ -29,7 +29,7 @@ public enum TipoIndexacaoEnum {
 		
 		String modoName = InitConfigProperties.getValue(TipoApp.CONFIG_PARAM_PROPERTIE);
 		
-		for (TipoIndexacaoEnum tpIndexEnum : values()){
+		for (DepartamentoEnum tpIndexEnum : values()){
 			
 			if (TipoApp.PREFEITURA.name().equals(modoName) && tpIndexEnum.tipoApp.equals(TipoApp.PREFEITURA)){
 				
@@ -51,7 +51,7 @@ public enum TipoIndexacaoEnum {
 		return list;
 	}
 
-	private static void addTipoIndexacao(List<SelectItem> list, TipoIndexacaoEnum tpIndexEnum) {
+	private static void addTipoIndexacao(List<SelectItem> list, DepartamentoEnum tpIndexEnum) {
 		
 		SelectItem si = new SelectItem();
 		

@@ -1,55 +1,109 @@
-ALTER TABLE tb_categoria DROP CONSTRAINT tbctgriadctgriapai;
-ALTER TABLE tb_documento DROP CONSTRAINT tbdocumentodrquivo;
-ALTER TABLE tb_documento DROP CONSTRAINT tbdocumentodsuario;
-ALTER TABLE tb_documento DROP CONSTRAINT tbdcumentodtipodoc;
-ALTER TABLE tb_documento DROP CONSTRAINT tbdcmentodctegoria;
-ALTER TABLE tb_usuario DROP CONSTRAINT tbusuarioid_pessoa;
-ALTER TABLE tb_balancete DROP CONSTRAINT tbbalancetedrquivo;
-ALTER TABLE tb_balancete DROP CONSTRAINT tbbalancetedsuario;
-ALTER TABLE tb_rh DROP CONSTRAINT tb_rh_id_arquivo;
-ALTER TABLE tb_rh DROP CONSTRAINT tb_rh_id_usuario;
-ALTER TABLE tb_rh DROP CONSTRAINT FK_tb_rh_id_pessoa;
-ALTER TABLE tb_proc_licit DROP CONSTRAINT tbproclicitdrquivo;
-ALTER TABLE tb_proc_licit DROP CONSTRAINT tbproclicitdsuario;
-ALTER TABLE tb_lei DROP CONSTRAINT tb_lei_id_arquivo;
-ALTER TABLE tb_lei DROP CONSTRAINT tb_lei_id_usuario;
-ALTER TABLE rl_categoria_grupousuario DROP CONSTRAINT rlctgrgrpsriodctgr;
-ALTER TABLE rl_categoria_grupousuario DROP CONSTRAINT rlctgrgrpsrodgrpsr;
-ALTER TABLE rl_func_grupo_usuario DROP CONSTRAINT rlfncgrGrpsrdgrpsr;
-ALTER TABLE rl_tipo_func_grupo_usuario DROP CONSTRAINT rltpfncGrpsrdgrpsr;
-ALTER TABLE rl_grupousuario_usuario DROP CONSTRAINT rlgrpsrsariodgrpsr;
-ALTER TABLE rl_grupousuario_usuario DROP CONSTRAINT rlgrpsrousuariodsr;
-DROP TABLE tb_arquivo_doc;
-DROP TABLE tb_categoria;
-DROP TABLE tb_documento;
-DROP TABLE tb_grupo_usuario;
-DROP TABLE tb_pessoa;
-DROP TABLE tb_tipo_doc;
-DROP TABLE tb_usuario;
-DROP TABLE tb_balancete;
-DROP TABLE tb_arquivo_balancet;
-DROP TABLE tb_arquivo_rh;
-DROP TABLE tb_rh;
-DROP TABLE tb_arq_proc_licit;
-DROP TABLE tb_proc_licit;
-DROP TABLE tb_arq_lei;
-DROP TABLE tb_lei;
-DROP TABLE rl_categoria_grupousuario;
-DROP TABLE rl_func_grupo_usuario;
-DROP TABLE rl_tipo_func_grupo_usuario;
-DROP TABLE rl_grupousuario_usuario;
-DROP SEQUENCE seq_tipo_doc restrict;
-DROP SEQUENCE seq_categoria restrict;
-DROP SEQUENCE seq_pessoa restrict;
-DROP SEQUENCE seq_arquivo_doc restrict;
-DROP SEQUENCE seq_arq_proc_licit restrict;
-DROP SEQUENCE seq_rh restrict;
-DROP SEQUENCE seq_arq_lei restrict;
-DROP SEQUENCE seq_lei restrict;
-DROP SEQUENCE seq_balancete restrict;
-DROP SEQUENCE seq_usuario restrict;
-DROP SEQUENCE seq_documento restrict;
-DROP SEQUENCE seq_arquivo_balanc restrict;
-DROP SEQUENCE seq_arquivo_rh restrict;
-DROP SEQUENCE seq_grupo_usuario restrict;
-DROP SEQUENCE seq_proc_licit restrict;
+ALTER TABLE tb_categoria DROP CONSTRAINT tbctgriadctgriapai
+ALTER TABLE tb_documento DROP CONSTRAINT tbdocumentodrquivo
+ALTER TABLE tb_documento DROP CONSTRAINT tbdocumentodsuario
+ALTER TABLE tb_documento DROP CONSTRAINT tbdcumentodtipodoc
+ALTER TABLE tb_documento DROP CONSTRAINT tbdcmentodctegoria
+ALTER TABLE tb_usuario DROP CONSTRAINT tbusuarioid_pessoa
+ALTER TABLE tb_balancete DROP CONSTRAINT tbbalancetedrquivo
+ALTER TABLE tb_balancete DROP CONSTRAINT tbbalancetedsuario
+ALTER TABLE tb_rh DROP CONSTRAINT tb_rh_id_arquivo
+ALTER TABLE tb_rh DROP CONSTRAINT tb_rh_id_usuario
+ALTER TABLE tb_rh DROP CONSTRAINT FK_tb_rh_id_pessoa
+ALTER TABLE tb_proc_licit DROP CONSTRAINT tbproclicitdrquivo
+ALTER TABLE tb_proc_licit DROP CONSTRAINT tbproclicitdsuario
+ALTER TABLE tb_lei DROP CONSTRAINT tb_lei_id_arquivo
+ALTER TABLE tb_lei DROP CONSTRAINT tb_lei_id_usuario
+ALTER TABLE tb_categoria_audit DROP CONSTRAINT tbctgruditdctgrpai
+ALTER TABLE tb_documento_audit DROP CONSTRAINT tbdcmntoauditdsrio
+ALTER TABLE tb_documento_audit DROP CONSTRAINT tbdcmntauditdctgra
+ALTER TABLE tb_documento_audit DROP CONSTRAINT tbdcmntoauditdrqvo
+ALTER TABLE tb_documento_audit DROP CONSTRAINT tbdcmntoauditdtpdc
+ALTER TABLE tb_usr_audit DROP CONSTRAINT tbusrauditidpessoa
+ALTER TABLE tb_balancete_audit DROP CONSTRAINT tbblnceteauditdsro
+ALTER TABLE tb_balancete_audit DROP CONSTRAINT tbblncteauditdrqvo
+ALTER TABLE tb_rh_audit DROP CONSTRAINT tbrhauditidarquivo
+ALTER TABLE tb_rh_audit DROP CONSTRAINT tbrhauditidusuario
+ALTER TABLE tb_rh_audit DROP CONSTRAINT tbrhauditid_pessoa
+ALTER TABLE tb_proc_licit_audit DROP CONSTRAINT tbprclcitauditdsro
+ALTER TABLE tb_proc_licit_audit DROP CONSTRAINT tbprclcitauditdrqv
+ALTER TABLE tb_lei_audit DROP CONSTRAINT tbleiauditdarquivo
+ALTER TABLE tb_lei_audit DROP CONSTRAINT tbleiauditdusuario
+ALTER TABLE rl_categoria_grupousuario DROP CONSTRAINT rlctgrgrpsriodctgr
+ALTER TABLE rl_categoria_grupousuario DROP CONSTRAINT rlctgrgrpsrodgrpsr
+ALTER TABLE rl_func_grupo_usuario DROP CONSTRAINT rlfncgrGrpsrdgrpsr
+ALTER TABLE rl_tipo_func_grupo_usuario DROP CONSTRAINT rltpfncGrpsrdgrpsr
+ALTER TABLE rl_grupousuario_usuario DROP CONSTRAINT rlgrpsrsariodgrpsr
+ALTER TABLE rl_grupousuario_usuario DROP CONSTRAINT rlgrpsrousuariodsr
+ALTER TABLE rl_cat_grup_usr_audit DROP CONSTRAINT rlctgrpsruditdctgr
+ALTER TABLE rl_cat_grup_usr_audit DROP CONSTRAINT rlctgrpsrditdgrpsr
+ALTER TABLE rl_func_grup_usr_audit DROP CONSTRAINT rlfGrpsrdtdgrpsrdt
+ALTER TABLE rl_tp_func_grup_usr_audit DROP CONSTRAINT rltGrpsrdtdgrpsrdt
+ALTER TABLE rl_grupousr_usr DROP CONSTRAINT rlgrpousrusrdsario
+ALTER TABLE rl_grupousr_usr DROP CONSTRAINT rlgrpsrsrdgrpsario
+DROP TABLE tb_arquivo_doc
+DROP TABLE tb_categoria
+DROP TABLE tb_documento
+DROP TABLE tb_grupo_usuario
+DROP TABLE tb_pessoa
+DROP TABLE tb_tipo_doc
+DROP TABLE tb_usuario
+DROP TABLE tb_balancete
+DROP TABLE tb_arquivo_balancet
+DROP TABLE tb_arquivo_rh
+DROP TABLE tb_rh
+DROP TABLE tb_arq_proc_licit
+DROP TABLE tb_proc_licit
+DROP TABLE tb_arq_lei
+DROP TABLE tb_lei
+DROP TABLE tb_arquivo_doc_audit
+DROP TABLE tb_categoria_audit
+DROP TABLE tb_documento_audit
+DROP TABLE tb_grup_usr_audit
+DROP TABLE tb_pessoa_audit
+DROP TABLE tb_tp_doc_audit
+DROP TABLE tb_usr_audit
+DROP TABLE tb_balancete_audit
+DROP TABLE tb_arquivo_balancet_audit
+DROP TABLE tb_arquivo_rh_audit
+DROP TABLE tb_rh_audit
+DROP TABLE tb_arq_proc_licit_audit
+DROP TABLE tb_proc_licit_audit
+DROP TABLE tb_arq_lei_audit
+DROP TABLE tb_lei_audit
+DROP TABLE rl_categoria_grupousuario
+DROP TABLE rl_func_grupo_usuario
+DROP TABLE rl_tipo_func_grupo_usuario
+DROP TABLE rl_grupousuario_usuario
+DROP TABLE rl_cat_grup_usr_audit
+DROP TABLE rl_func_grup_usr_audit
+DROP TABLE rl_tp_func_grup_usr_audit
+DROP TABLE rl_grupousr_usr
+DROP SEQUENCE seq_arquivo_balanc_audit RESTRICT
+DROP SEQUENCE seq_balancete_audit RESTRICT
+DROP SEQUENCE seq_categoria RESTRICT
+DROP SEQUENCE seq_categoria_audit RESTRICT
+DROP SEQUENCE seq_documento_audit RESTRICT
+DROP SEQUENCE seq_rh RESTRICT
+DROP SEQUENCE seq_usr_audit RESTRICT
+DROP SEQUENCE seq_arq_proc_licit_audit RESTRICT
+DROP SEQUENCE seq_tipo_doc RESTRICT
+DROP SEQUENCE seq_arq_lei RESTRICT
+DROP SEQUENCE seq_proc_licit RESTRICT
+DROP SEQUENCE seq_lei RESTRICT
+DROP SEQUENCE seq_arquivo_rh RESTRICT
+DROP SEQUENCE seq_grupo_usuario RESTRICT
+DROP SEQUENCE seq_documento RESTRICT
+DROP SEQUENCE seq_arq_proc_licit RESTRICT
+DROP SEQUENCE seq_arq_lei_audit RESTRICT
+DROP SEQUENCE seq_pessoa_audit RESTRICT
+DROP SEQUENCE seq_lei_audit RESTRICT
+DROP SEQUENCE seq_pessoa RESTRICT
+DROP SEQUENCE seq_arquivo_rh_audit RESTRICT
+DROP SEQUENCE seq_usuario RESTRICT
+DROP SEQUENCE seq_balancete RESTRICT
+DROP SEQUENCE seq_arquivo_balanc RESTRICT
+DROP SEQUENCE seq_tp_doc_audit RESTRICT
+DROP SEQUENCE seq_arquivo_doc RESTRICT
+DROP SEQUENCE seq_grup_usr_audit RESTRICT
+DROP SEQUENCE seq_proc_licit_audit RESTRICT
+DROP SEQUENCE seq_arquivo_doc_audit RESTRICT
