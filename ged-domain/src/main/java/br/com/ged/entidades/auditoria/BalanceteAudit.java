@@ -1,19 +1,16 @@
 package br.com.ged.entidades.auditoria;
  
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +22,7 @@ import br.com.ged.domain.Situacao;
 import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.entidades.Balancete;
 import br.com.ged.generics.EntidadeBasicaAudit;
+import br.com.ged.util.DataUtil;
  
 @Entity
 @Table(name = "tb_balancete_audit")
@@ -35,11 +33,8 @@ public class BalanceteAudit extends EntidadeBasicaAudit{
 	 */
 	private static final long serialVersionUID = 7181106172249020200L;
 
-	@Id
-	@Column(name = "id_balancete_audit")
-	@GeneratedValue(generator = "seq_balancete_audit", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_balancete_audit", sequenceName = "seq_balancete_audit",allocationSize=1)
-	private Long id;
+	@EmbeddedId
+	private BalanceteAuditPK id;
 	
 	@Column(name="volume")
 	private String volume;
@@ -67,38 +62,48 @@ public class BalanceteAudit extends EntidadeBasicaAudit{
 	private Date dataIndexacao;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_arquivo")
+	@JoinColumns({
+		@JoinColumn(name = "tipo_op_audit_arq", referencedColumnName="tp_operacao"),
+	  	@JoinColumn(name = "id_ent_arq", referencedColumnName="id_arq_balanc"),
+	  	@JoinColumn(name = "id_dt_hora_arq", referencedColumnName="data_hora")
+	})
 	private ArquivoBalanceteAudit arquivo;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_usuario")
+	@JoinColumns({
+  	  @JoinColumn(name = "tipo_op_audit_usr", referencedColumnName="tp_operacao"),
+  	  @JoinColumn(name = "id_ent_usr", referencedColumnName="id_usuario"),
+  	  @JoinColumn(name = "id_dt_hora_usr", referencedColumnName="data_hora")
+	})
 	private UsuarioAudit usuario;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_alteracao")
 	private Date dataUltimaAlteracao;
 	
-	public BalanceteAudit(Balancete balancete, TipoOperacaoAudit tipoOperacaoAudit) {
+	public BalanceteAudit(Balancete balancete, TipoOperacaoAudit tipoOperacaoAudit, Long dateTimeMili) {
 		
-		super(balancete.getId(), tipoOperacaoAudit);
+		this.id = new BalanceteAuditPK();
 		
-		this.setId(null);
+		id.setIdEntidade(balancete.getId());
+		id.setTipoOperacaoAudit(tipoOperacaoAudit);
+		id.setDataHora(dateTimeMili);
+		
 		this.ano =  balancete.getAno();
-		this.arquivo = new ArquivoBalanceteAudit(balancete.getArquivo(), tipoOperacaoAudit);
+		this.arquivo = new ArquivoBalanceteAudit(balancete.getArquivo(), tipoOperacaoAudit, dateTimeMili);
 		this.dataIndexacao = balancete.getDataIndexacao();
 		this.dataUltimaAlteracao = balancete.getDataUltimaAlteracao();
 		this.mes = balancete.getMes();
 		this.observacao = balancete.getObservacao();
 		this.orgao = balancete.getOrgao();
 		this.situacao = balancete.getSituacao();
-		this.usuario = new UsuarioAudit(balancete.getUsuario(), tipoOperacaoAudit);
+		this.usuario = new UsuarioAudit(balancete.getUsuario(), tipoOperacaoAudit, dateTimeMili);
 		this.volume = balancete.getVolume();
 	}
 	
 	public BalanceteAudit() {
 	}
-
-
+	
 	@Transient
 	public String getDataUltimaAlteracaoFormat() {
 		
@@ -106,7 +111,7 @@ public class BalanceteAudit extends EntidadeBasicaAudit{
 		
 		if (this.getDataUltimaAlteracao() != null){
 			
-			dataFormat = formataData(this.getDataUltimaAlteracao(), "dd/MM/yyyy hh:mm:ss");
+			dataFormat = DataUtil.formataData(this.getDataUltimaAlteracao(), "dd/MM/yyyy hh:mm:ss");
 		}
 		
 		return dataFormat;
@@ -119,105 +124,53 @@ public class BalanceteAudit extends EntidadeBasicaAudit{
 		
 		if (this.getDataIndexacao() != null){
 			
-			dataFormat = formataData(this.getDataIndexacao(),"dd/MM/yyyy");
+			dataFormat = DataUtil.formataData(this.getDataIndexacao(),"dd/MM/yyyy");
 		}
 		
 		return dataFormat;
 	}
 	
-	private String formataData(Date date, String pattern) {
-		String dataUltimaAlteracaoFormat;
-		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		
-		dataUltimaAlteracaoFormat = dateFormat.format(date);
-		return dataUltimaAlteracaoFormat;
-	}
-
-	public Long getId() {
+	public BalanceteAuditPK getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getVolume() {
 		return volume;
 	}
 
-	public void setVolume(String volume) {
-		this.volume = volume;
-	}
-
 	public MesEnum getMes() {
 		return mes;
-	}
-
-	public void setMes(MesEnum mes) {
-		this.mes = mes;
 	}
 
 	public Integer getAno() {
 		return ano;
 	}
 
-	public void setAno(Integer ano) {
-		this.ano = ano;
-	}
-
 	public OrgaoEnum getOrgao() {
 		return orgao;
-	}
-
-	public void setOrgao(OrgaoEnum orgao) {
-		this.orgao = orgao;
 	}
 
 	public String getObservacao() {
 		return observacao;
 	}
 
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
 	public Date getDataIndexacao() {
 		return dataIndexacao;
-	}
-
-	public void setDataIndexacao(Date dataIndexacao) {
-		this.dataIndexacao = dataIndexacao;
 	}
 
 	public ArquivoBalanceteAudit getArquivo() {
 		return arquivo;
 	}
 
-	public void setArquivo(ArquivoBalanceteAudit arquivo) {
-		this.arquivo = arquivo;
-	}
-
 	public UsuarioAudit getUsuario() {
 		return usuario;
-	}
-
-	public void setUsuario(UsuarioAudit usuario) {
-		this.usuario = usuario;
 	}
 
 	public Date getDataUltimaAlteracao() {
 		return dataUltimaAlteracao;
 	}
 
-	public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
-		this.dataUltimaAlteracao = dataUltimaAlteracao;
-	}
-
 	public Situacao getSituacao() {
 		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
 	}
 }

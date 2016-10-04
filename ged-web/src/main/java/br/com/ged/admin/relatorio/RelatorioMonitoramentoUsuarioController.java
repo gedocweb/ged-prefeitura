@@ -12,6 +12,7 @@ import javax.faces.model.SelectItem;
 
 import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.domain.Pagina;
+import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.dto.FiltroUsuarioDTO;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
@@ -43,8 +44,6 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 	private List<SelectItem> selectItemsUsuario;
 	private List<SelectItem> selectItemsDepartamento;
 	
-	private List<BalanceteAudit> listBalanceteAudit;
-	
 	@EJB
 	private GrupoUsuarioService grupoUsuarioService;
 	
@@ -58,6 +57,8 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 	private FiltroBalanceteAuditDTO filtroBalanceteAuditDTO;
 	
 	private RetornoMonitoramentoUsuarioDTO retornoMonitoramento;
+	
+	private List<BalanceteAudit> listDetalheBalanceteAudit;
 	
 	@PostConstruct	
 	public void inicio(){
@@ -135,14 +136,27 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 		
 		filtroMonitoramento.setIdUsuario(idUsuarioSelecionado);
 		
-		if (DepartamentoEnum.BALANCETE.equals(departamentoSelecionado)){
+		if (isDepartamentoBalancete()){
 			
 			retornoMonitoramento = balanceteAuditService.monitoramento(filtroMonitoramento);
 		}
 	}
 
-	public void detalhar(){
+	public void detalhar(TipoOperacaoAudit operacaoAudit){
 		
+		if (isDepartamentoBalancete()){
+			
+			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = new FiltroBalanceteAuditDTO();
+			
+			filtroBalanceteAuditDTO.setDataBetween(filtroMonitoramento.getDataFiltroBetween());
+			filtroBalanceteAuditDTO.setIdUsuario(idUsuarioSelecionado);
+
+			listDetalheBalanceteAudit = balanceteAuditService.detalharOperacao(filtroBalanceteAuditDTO, operacaoAudit);
+		}
+	}
+
+	private boolean isDepartamentoBalancete() {
+		return DepartamentoEnum.BALANCETE.equals(departamentoSelecionado);
 	}
 	
 	@Override
@@ -222,19 +236,15 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 		this.selectItemsDepartamento = selectItemsDepartamento;
 	}
 
-	public List<BalanceteAudit> getListBalanceteAudit() {
-		return listBalanceteAudit;
-	}
-
-	public void setListBalanceteAudit(List<BalanceteAudit> listBalanceteAudit) {
-		this.listBalanceteAudit = listBalanceteAudit;
-	}
-
 	public FiltroBalanceteAuditDTO getFiltroBalanceteAuditDTO() {
 		return filtroBalanceteAuditDTO;
 	}
 
 	public RetornoMonitoramentoUsuarioDTO getRetornoMonitoramento() {
 		return retornoMonitoramento;
+	}
+
+	public List<BalanceteAudit> getListDetalheBalanceteAudit() {
+		return listDetalheBalanceteAudit;
 	}
 }

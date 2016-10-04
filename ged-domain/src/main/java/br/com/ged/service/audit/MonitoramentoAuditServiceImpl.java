@@ -16,119 +16,55 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 	private BalanceteAuditService balanceteAuditService;
 
 	@Override
-	public Integer countAlterados(FiltroMonitoramentoAuditDTO filtro) {
+	public Long countAlterados(FiltroMonitoramentoAuditDTO filtro) {
 		
-		Integer count = BigInteger.ZERO.intValue();
-		
-		if (validaFiltro(filtro, TipoOperacaoAudit.ALTERACAO)){
-			
-			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-			
-			Integer resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO);
-			
-			if (resultadoConsulta != null){
-				
-				final int METADE_DOS_REGISTROS_DO_ALTERAR = 2;
-				
-				//Está dividido pq a auditoria do modo alterar, 
-				//salva o objeto antes da alteração e pós operação
-				//deixando a auditoria duplicada.
-				count = resultadoConsulta / METADE_DOS_REGISTROS_DO_ALTERAR;
-			}
-			
-		}
-		
-		return count;
+		return countBalancete(filtro, TipoOperacaoAudit.ALTERADO_POS);
 	}
 
 	@Override
-	public Integer countInseridos(FiltroMonitoramentoAuditDTO filtro) {
+	public Long countInseridos(FiltroMonitoramentoAuditDTO filtro) {
 
-		Integer count = BigInteger.ZERO.intValue();
-		
-		if (validaFiltro(filtro, TipoOperacaoAudit.CADASTRO)){
-			
-			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-			
-			Integer resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO);
-			
-			if (resultadoConsulta != null){
-				
-				count = resultadoConsulta;
-			}
-			
-		}
-		
-		return count;
+		return countBalancete(filtro, TipoOperacaoAudit.CADASTRADO);
 	}
 
 	@Override
-	public Integer countBaixados(FiltroMonitoramentoAuditDTO filtro) {
+	public Long countBaixados(FiltroMonitoramentoAuditDTO filtro) {
 
-		Integer count = BigInteger.ZERO.intValue();
-		
-		if (validaFiltro(filtro, TipoOperacaoAudit.BAIXADOS)){
-			
-			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-			
-			Integer resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO);
-			
-			if (resultadoConsulta != null){
-				
-				count = resultadoConsulta;
-			}
-			
-		}
-		
-		return count;
+		return countBalancete(filtro, TipoOperacaoAudit.BAIXADO);
 	}
 
 	@Override
-	public Integer countVisualizados(FiltroMonitoramentoAuditDTO filtro) {
+	public Long countVisualizados(FiltroMonitoramentoAuditDTO filtro) {
 
-		Integer count = BigInteger.ZERO.intValue();
-		
-		if (validaFiltro(filtro, TipoOperacaoAudit.VISUALIZACAO)){
-			
-			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-			
-			Integer resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO);
-			
-			if (resultadoConsulta != null){
-				
-				count = resultadoConsulta;
-			}
-			
-		}
-		
-		return count;
+		return countBalancete(filtro, TipoOperacaoAudit.VISUALIZADO);
 	}
 
 	@Override
-	public Integer countExcluidos(FiltroMonitoramentoAuditDTO filtro) {
+	public Long countExcluidos(FiltroMonitoramentoAuditDTO filtro) {
 
-		Integer count = BigInteger.ZERO.intValue();
+		return countBalancete(filtro, TipoOperacaoAudit.EXCLUIDO);
+	}
+	
+	@Override
+	public Long countExportados(FiltroMonitoramentoAuditDTO filtro) {
+		return countBalancete(filtro, TipoOperacaoAudit.EXPORTADO);
+	}
+
+	private Long countBalancete(FiltroMonitoramentoAuditDTO filtro, TipoOperacaoAudit tipoOp) {
 		
-		if (validaFiltro(filtro, TipoOperacaoAudit.EXCLUIR)){
+		FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
+		
+		Long resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO,tipoOp);
+		
+		Long count = BigInteger.ZERO.longValue();
+		
+		if (resultadoConsulta != null){
 			
-			FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-			
-			Integer resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO);
-			
-			if (resultadoConsulta != null){
-				
-				count = resultadoConsulta;
-			}
-			
+			count  = resultadoConsulta;
 		}
-		
 		return count;
 	}
 	
-	private boolean validaFiltro(FiltroMonitoramentoAuditDTO filtro, TipoOperacaoAudit tipoOperacaoAudit) {
-		return filtro != null && tipoOperacaoAudit.equals(filtro.getTipoOperacaoAudit());
-	}
-
 	private FiltroBalanceteAuditDTO converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(FiltroMonitoramentoAuditDTO filtro) {
 		
 		FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = new FiltroBalanceteAuditDTO();

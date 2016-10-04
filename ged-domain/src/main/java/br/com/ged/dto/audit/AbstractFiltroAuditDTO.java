@@ -8,9 +8,6 @@ public abstract class AbstractFiltroAuditDTO {
 	@EntityProperty("tipoOperacaoAudit")
 	protected TipoOperacaoAudit tipoOperacaoAudit;
 	
-	@EntityProperty("idEntidade")
-	protected Long idEntidade;
-
 	public TipoOperacaoAudit getTipoOperacaoAudit() {
 		return tipoOperacaoAudit;
 	}
@@ -19,11 +16,4 @@ public abstract class AbstractFiltroAuditDTO {
 		this.tipoOperacaoAudit = tipoOperacaoAudit;
 	}
 
-	public Long getIdEntidade() {
-		return idEntidade;
-	}
-
-	public void setIdEntidade(Long idEntidade) {
-		this.idEntidade = idEntidade;
-	}
 }

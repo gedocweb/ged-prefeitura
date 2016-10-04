@@ -6,6 +6,7 @@ import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.entidades.Balancete;
 import br.com.ged.entidades.auditoria.BalanceteAudit;
+import br.com.ged.entidades.auditoria.BalanceteAuditPK;
 
 /**
  * 
@@ -21,9 +22,13 @@ public interface BalanceteAuditService extends IResultadoMonitoramento{
 	 * @param hibernateInitialize 
 	 * @return
 	 */
-	List<BalanceteAudit> pesquisar(FiltroBalanceteAuditDTO filtroDoc, String...strings);
+	List<BalanceteAudit> detalharOperacao(FiltroBalanceteAuditDTO filtroDoc, TipoOperacaoAudit tipoOp);
 
-	Integer countBalanceteAudit(FiltroBalanceteAuditDTO filtroBalanceteAuditDTO);
+	Long countBalanceteAudit(FiltroBalanceteAuditDTO filtroBalanceteAuditDTO, TipoOperacaoAudit tipoOp);
 
 	void auditoriaBalancete(Balancete balancete, TipoOperacaoAudit alteracao);
+
+	void auditoriaBalancete(Balancete balancetePreAlteracao, Balancete balancetePosAlteracao);
+	
+	BalanceteAudit getById(BalanceteAuditPK balanceteAuditPK);
 }

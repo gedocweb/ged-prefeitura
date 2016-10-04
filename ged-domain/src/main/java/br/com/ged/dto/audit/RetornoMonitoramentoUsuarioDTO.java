@@ -8,17 +8,17 @@ public class RetornoMonitoramentoUsuarioDTO {
 	
 	private String nomeUsuarioPessoa;
 	
-	private Integer qntInseridos;
+	private Long qntInseridos;
 	
-	private Integer qntAlterados;
+	private Long qntAlterados;
 	
-	private Integer qntExcluidos;
+	private Long qntExcluidos;
 	
-	private Integer qntBaixados;
+	private Long qntBaixados;
 	
-	private Integer qntVisualizados;
+	private Long qntVisualizados;
 	
-	private Integer qntExportados;
+	private Long qntExportados;
 
 	public DepartamentoEnum getDeparamento() {
 		return deparamento;
@@ -36,51 +36,51 @@ public class RetornoMonitoramentoUsuarioDTO {
 		this.nomeUsuarioPessoa = nomeUsuarioPessoa;
 	}
 
-	public Integer getQntInseridos() {
+	public Long getQntInseridos() {
 		return qntInseridos;
 	}
 
-	public void setQntInseridos(Integer qntInseridos) {
+	public void setQntInseridos(Long qntInseridos) {
 		this.qntInseridos = qntInseridos;
 	}
 
-	public Integer getQntAlterados() {
+	public Long getQntAlterados() {
 		return qntAlterados;
 	}
 
-	public void setQntAlterados(Integer qntAlterados) {
+	public void setQntAlterados(Long qntAlterados) {
 		this.qntAlterados = qntAlterados;
 	}
 
-	public Integer getQntExcluidos() {
+	public Long getQntExcluidos() {
 		return qntExcluidos;
 	}
 
-	public void setQntExcluidos(Integer qntExcluidos) {
+	public void setQntExcluidos(Long qntExcluidos) {
 		this.qntExcluidos = qntExcluidos;
 	}
 
-	public Integer getQntBaixados() {
+	public Long getQntBaixados() {
 		return qntBaixados;
 	}
 
-	public void setQntBaixados(Integer qntBaixados) {
+	public void setQntBaixados(Long qntBaixados) {
 		this.qntBaixados = qntBaixados;
 	}
 
-	public Integer getQntVisualizados() {
+	public Long getQntVisualizados() {
 		return qntVisualizados;
 	}
 
-	public void setQntVisualizados(Integer qntVisualizados) {
+	public void setQntVisualizados(Long qntVisualizados) {
 		this.qntVisualizados = qntVisualizados;
 	}
 
-	public Integer getQntExportados() {
+	public Long getQntExportados() {
 		return qntExportados;
 	}
 
-	public void setQntExportados(Integer qntExportados) {
+	public void setQntExportados(Long qntExportados) {
 		this.qntExportados = qntExportados;
 	}
 }

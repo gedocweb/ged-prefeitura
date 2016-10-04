@@ -46,7 +46,7 @@ public class BasicBalanceteViewerController implements Serializable {
         	
         	Balancete doc = serviceDoc.getById(Balancete.class, idDocumento, "arquivo");
         	
-        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.VISUALIZACAO);
+        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.VISUALIZADO);
         	
         	ByteArrayInputStream btArray = new ByteArrayInputStream(doc.getArquivo().getArquivo());
         	
@@ -68,7 +68,7 @@ public class BasicBalanceteViewerController implements Serializable {
             
         	Balancete doc = serviceDoc.getById(Balancete.class, docId, "arquivo");
         	
-        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.BAIXADOS);
+        	balanceteAuditService.auditoriaBalancete(doc, TipoOperacaoAudit.BAIXADO);
             
             docId = null;
         	

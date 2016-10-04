@@ -467,12 +467,11 @@ public class ConsultasDaoJpa<T> extends AbstractModel{
 		 return em.unwrap(Session.class);
 	 }
 
-	public Integer countPesquisa(Object filtroDTO, Class<T> clzz) {
+	public Long countPesquisa(Object filtroDTO, Class<T> clzz, String propriedade) {
 		
 		Criteria criteria = criteriaPesquisa(filtroDTO, clzz);
 		
-		criteria.setProjection(Projections.count("id"));
 		
-		return (Integer) criteria.uniqueResult();
+		return (Long) Long.valueOf(criteria.list().size());
 	}
 }

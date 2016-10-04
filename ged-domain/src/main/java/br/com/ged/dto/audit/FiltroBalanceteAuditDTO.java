@@ -10,7 +10,7 @@ public class FiltroBalanceteAuditDTO extends AbstractFiltroAuditDTO {
 	
 	private Boolean desteMes;
 	
-	@EntityProperty("usuario.id")
+	@EntityProperty("usuario.id.idEntidade")
 	private Long idUsuario;
 	
 	public FiltroBalanceteAuditDTO(){

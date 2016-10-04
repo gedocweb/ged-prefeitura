@@ -2,15 +2,13 @@ package br.com.ged.entidades.auditoria;
  
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -30,11 +28,8 @@ public class UsuarioAudit extends EntidadeBasicaAudit{
 	 */
 	private static final long serialVersionUID = 7181106172249020200L;
 
-	@Id
-	@Column(name = "id_usr_audit")
-	@GeneratedValue(generator = "seq_usr_audit", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_usr_audit", sequenceName = "seq_usr_audit",allocationSize=1)
-	private Long id;
+	@EmbeddedId
+	private UsuarioAuditPK id;
 	
 	@Column(name = "usuario")
 	private String usuario;
@@ -51,7 +46,11 @@ public class UsuarioAudit extends EntidadeBasicaAudit{
 	private Role role;
 	
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="id_pessoa")
+    @JoinColumns({
+		@JoinColumn(name = "tipo_op_audit_pess", referencedColumnName="tp_operacao"),
+	    @JoinColumn(name = "id_ent_pess", referencedColumnName="id_pessoa"),
+	    @JoinColumn(name = "id_data_hora", referencedColumnName="data_hora")
+	})
 	private PessoaAudit pessoa;
     
     @Column(name="logado_sistema")
@@ -62,11 +61,13 @@ public class UsuarioAudit extends EntidadeBasicaAudit{
 		situacao = Situacao.ATIVO;
 	}
 
-	public UsuarioAudit(Usuario usuario, TipoOperacaoAudit tipoOperacaoAudit) {
+	public UsuarioAudit(Usuario usuario, TipoOperacaoAudit tipoOperacaoAudit, Long dateTimeMili) {
 		
-		super(usuario.getId(), tipoOperacaoAudit);
+		this.id = new UsuarioAuditPK();
 		
-		this.setId(null);
+		id.setIdEntidade(usuario.getId());
+		id.setTipoOperacaoAudit(tipoOperacaoAudit);
+		id.setDataHora(dateTimeMili);
 		
 		this.setLogado(usuario.isLogado());
 		this.setPessoa(new PessoaAudit(usuario.getPessoa(), tipoOperacaoAudit));
@@ -76,11 +77,11 @@ public class UsuarioAudit extends EntidadeBasicaAudit{
 		this.setUsuario(usuario.getUsuario());
 	}
 
-	public Long getId() {
+	public UsuarioAuditPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UsuarioAuditPK id) {
 		this.id = id;
 	}
 

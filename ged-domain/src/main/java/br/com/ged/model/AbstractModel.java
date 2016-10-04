@@ -8,4 +8,8 @@ public abstract class AbstractModel {
 	@PersistenceContext
 	protected EntityManager em;
 	
+	public EntityManager getEm(){
+		return em;
+	}
+	
 }

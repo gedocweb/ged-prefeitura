@@ -164,9 +164,9 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
         				if (AutorizacaoEnum.ADMINISTRADOR.equals(autorizacao)){
         					
         					GrupoUsuario grupoUsuarioAdmin = new GrupoUsuario();
-        					grupoUsuarioAdmin.setFuncionalidades(Arrays.asList(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO));
+        					grupoUsuarioAdmin.setFuncionalidades(Arrays.asList(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO, FuncionalidadeEnum.MANTER_BALANCETE));
         					
-        					grupoUsuarioAdmin.setTiposFuncionalidades(TipoFuncionalidadeEnum.permissoesPorFuncionalidades(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO));
+        					grupoUsuarioAdmin.setTiposFuncionalidades(TipoFuncionalidadeEnum.permissoesPorFuncionalidades(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO, FuncionalidadeEnum.MANTER_BALANCETE));
         					
         					grupoUsuarioAdmin.setSituacao(Situacao.ATIVO);
         					grupoUsuarioAdmin.setGrupo("Grupo Suporte Admin - "+usuarioLogado.getPessoa().getNome());

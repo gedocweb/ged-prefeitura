@@ -16,9 +16,10 @@ public interface MonitoramentoAuditService {
 	 * @param hibernateInitialize 
 	 * @return
 	 */
-	Integer countAlterados(FiltroMonitoramentoAuditDTO filtro);
-	Integer countInseridos(FiltroMonitoramentoAuditDTO filtro);
-	Integer countBaixados(FiltroMonitoramentoAuditDTO filtro);
-	Integer countVisualizados(FiltroMonitoramentoAuditDTO filtro);
-	Integer countExcluidos(FiltroMonitoramentoAuditDTO filtro);
+	Long countAlterados(FiltroMonitoramentoAuditDTO filtro);
+	Long countInseridos(FiltroMonitoramentoAuditDTO filtro);
+	Long countBaixados(FiltroMonitoramentoAuditDTO filtro);
+	Long countVisualizados(FiltroMonitoramentoAuditDTO filtro);
+	Long countExcluidos(FiltroMonitoramentoAuditDTO filtro);
+	Long countExportados(FiltroMonitoramentoAuditDTO filtro);
 }

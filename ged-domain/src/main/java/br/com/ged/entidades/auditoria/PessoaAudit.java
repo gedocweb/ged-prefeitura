@@ -1,13 +1,12 @@
 package br.com.ged.entidades.auditoria;
  
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.com.ged.domain.Situacao;
@@ -24,11 +23,8 @@ public class PessoaAudit extends EntidadeBasicaAudit{
 	 */
 	private static final long serialVersionUID = 7181106172249020200L;
 
-	@Id
-	@Column(name = "id_pessoa_audit")
-	@GeneratedValue(generator = "seq_pessoa_audit", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_pessoa_audit", sequenceName = "seq_pessoa_audit",allocationSize=1)
-	private Long id;
+	@EmbeddedId
+	private PessoaAuditPK id;
 	
 	@Column(name="nome")
 	private String nome;
@@ -55,8 +51,11 @@ public class PessoaAudit extends EntidadeBasicaAudit{
 
 	public PessoaAudit(Pessoa pessoa, TipoOperacaoAudit tipoOperacaoAudit) {
 		
-		super(pessoa.getId(), tipoOperacaoAudit);
-		this.setId(null);
+		this.id = new PessoaAuditPK();
+		
+		id.setIdEntidade(pessoa.getId());
+		id.setTipoOperacaoAudit(tipoOperacaoAudit);
+		id.setDataHora(new Date().getTime());
 		
 		this.setCelular(pessoa.getCelular());
 		this.setCpf(pessoa.getCpf());
@@ -66,7 +65,7 @@ public class PessoaAudit extends EntidadeBasicaAudit{
 		this.setSituacao(pessoa.getSituacao());
 	}
 
-	public Long getId() {
+	public PessoaAuditPK getId() {
 		return id;
 	}
 
@@ -94,7 +93,7 @@ public class PessoaAudit extends EntidadeBasicaAudit{
 		this.cpf = cpf;
 	}
 
-	public void setId(Long id) {
+	public void setId(PessoaAuditPK id) {
 		this.id = id;
 	}
 

@@ -2,34 +2,42 @@ package br.com.ged.domain;
 
 public enum TipoOperacaoAudit {
 	
-	CADASTRO,
+	//Documento...
 	
-	EXPORTADO,
+	CADASTRADO("Cadastro"),
 	
-	ALTERACAO(Tempo.ANTES),
+	EXPORTADO("Exportado"),
 	
-	BAIXADOS,
+	ALTERADO_PRE("Alterado"),
 	
-	EXCLUIR,
+	ALTERADO_POS("Alterado"),
 	
-	VISUALIZACAO;
+	BAIXADO("Baixado"),
 	
-	private Tempo tempo;
+	EXCLUIDO("Excluido"),
 	
-	private TipoOperacaoAudit() {
-		tempo = null;
-	}
+	VISUALIZADO("Visualizado");
 	
-	private TipoOperacaoAudit(Tempo tempo) {
+	private String label;
+	
+	private TipoOperacaoAudit(String label) {
 		
-		this.tempo = tempo;
+		this.label = label;
 	}
 
-	public Tempo getTempo() {
-		return tempo;
+	public Boolean getOperacaoAlterar() {
+		return operacaoAlterar(this);
 	}
 
-	public void setTempo(Tempo tempo) {
-		this.tempo = tempo;
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public static boolean operacaoAlterar(TipoOperacaoAudit tipoOperacaoAudit) {
+		return ALTERADO_PRE.equals(tipoOperacaoAudit) || ALTERADO_POS.equals(tipoOperacaoAudit);
 	}
 }

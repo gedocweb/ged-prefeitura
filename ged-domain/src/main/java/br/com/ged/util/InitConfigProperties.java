@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import br.com.ged.domain.Mensagem;
-
 public final class InitConfigProperties {
 	
 	private static final String ARQUIVO_CONFIGURACAO = "/config.properties";

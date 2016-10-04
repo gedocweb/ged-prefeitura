@@ -2,6 +2,7 @@ package br.com.ged.admin.documento;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -64,6 +66,8 @@ public class BalancetePainelController extends DocumentoSuperController {
 
 	private boolean extensaoArquivoDiferentePDF;
 	private boolean converterArquivoParaPDF;
+	
+	private Balancete balancetePreAlteracao;
 
 	@PostConstruct
 	public void inicio() {
@@ -136,6 +140,23 @@ public class BalancetePainelController extends DocumentoSuperController {
 		}
 
 		balancete = balanceteSelecionado;
+		
+		preAlteracaoAuditoria(balanceteSelecionado);
+	}
+
+	private void preAlteracaoAuditoria(Balancete balanceteSelecionado) {
+		
+		try {
+			balancetePreAlteracao = (Balancete) BeanUtils.cloneBean(balanceteSelecionado);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void pesquisar() {
@@ -153,7 +174,7 @@ public class BalancetePainelController extends DocumentoSuperController {
 	public void excluir() {
 		
 		//TODO Auditoria
-		balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.EXCLUIR);
+		balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.EXCLUIDO);
 		serviceBalancete.excluir(getBalancete());
 	}
 
@@ -174,14 +195,14 @@ public class BalancetePainelController extends DocumentoSuperController {
 				getBalancete().setArquivo(UtilArquivo.converterArquivoParaPDF(getBalancete().getArquivo()));
 			}
 			
-			//TODO Auditoria
-			if (getBalancete().getId() == null){
-				balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.CADASTRO);
-			}else{
-				balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.ALTERACAO);
-			}
+			serviceBalancete.salvar(balancete);
 			
-			serviceBalancete.salvar(getBalancete());
+			//TODO Auditoria
+			if (renderedCadastro){
+				balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.CADASTRADO);
+			}else if (renderedAlterar){
+				balanceteAuditService.auditoriaBalancete(balancetePreAlteracao, getBalancete());
+			}
 			
 			setBalancete(inicializaBalancete());
 			arquivoAnexado = Boolean.FALSE;

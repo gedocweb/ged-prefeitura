@@ -1,12 +1,9 @@
 package br.com.ged.entidades.auditoria;
  
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,11 +23,8 @@ public class ArquivoBalanceteAudit extends EntidadeBasicaAudit{
 	 */
 	private static final long serialVersionUID = 7181106172249020200L;
 
-	@Id
-	@Column(name = "id_arquivo_balanc_audit")
-	@GeneratedValue(generator = "seq_arquivo_balanc_audit", strategy = GenerationType.AUTO)
-	@SequenceGenerator(name = "seq_arquivo_balanc_audit", sequenceName = "seq_arquivo_balanc_audit",allocationSize=1)
-	private Long id;
+	@EmbeddedId
+	private ArquivoBalanceteAuditPK id;
 	
 	@Column(name="descricao")
 	private String descricao;
@@ -55,11 +49,13 @@ public class ArquivoBalanceteAudit extends EntidadeBasicaAudit{
 	@Transient
 	private transient boolean word;
 	
-	public ArquivoBalanceteAudit(ArquivoBalancete arquivo, TipoOperacaoAudit tipoOperacaoAudit) {
+	public ArquivoBalanceteAudit(ArquivoBalancete arquivo, TipoOperacaoAudit tipoOperacaoAudit, Long dateTimeMili) {
 		
-		super(arquivo.getId(), tipoOperacaoAudit);
+		this.id = new ArquivoBalanceteAuditPK();
 		
-		this.setId(null);
+		id.setIdEntidade(arquivo.getId());
+		id.setTipoOperacaoAudit(tipoOperacaoAudit);
+		id.setDataHora(dateTimeMili);
 		
 		this.arquivo = arquivo.getArquivo();
 		this.contentType = arquivo.getContentType();
@@ -84,11 +80,11 @@ public class ArquivoBalanceteAudit extends EntidadeBasicaAudit{
 										descricao.endsWith(".GIF") || descricao.endsWith(".JPG") || descricao.endsWith(".PNG") || descricao.endsWith(".JPEG"));
 	}
 
-	public Long getId() {
+	public ArquivoBalanceteAuditPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(ArquivoBalanceteAuditPK id) {
 		this.id = id;
 	}
 
