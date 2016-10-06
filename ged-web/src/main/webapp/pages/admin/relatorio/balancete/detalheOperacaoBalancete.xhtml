@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="balanc"
+		value="#{painelRelatorioMonitoramento.listDetalheBalanceteAudit}">
+
+		<p:column headerText="Tipo da Operação">
+			<h:outputText value="#{balanc.id.tipoOperacaoAudit.label}"></h:outputText>
+		</p:column>
+
+		<p:column headerText="Data da operação">
+			<h:outputText value="#{balanc.id.dataHoraFormat}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Órgão">
+			<h:outputText value="#{balanc.orgao.label}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Data da indexação">
+			<h:outputText value="#{balanc.dataIndexacaoFormat}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Mais informações">
+			<p:commandButton value="Dossiê"
+				oncomplete="PF('dossieBalancete').show()"
+				rendered="#{!balanc.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{balanc}"
+					target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+
+			<p:commandButton value="Comparar"
+				action="#{painelRelatorioMonitoramentoBalancete.preDossieAlteracao}"
+				oncomplete="PF('dossieBalanceteAlterar').show()"
+				rendered="#{balanc.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{balanc}"
+					target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

@@ -1,7 +1,7 @@
 package br.com.ged.admin.usuario.grupo;
 
-import br.com.ged.domain.Situacao;
-import br.com.ged.domain.TipoFuncionalidadeEnum;
+import br.com.ged.domain.entidade.Situacao;
+import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
 
 public class TipoFuncionalidadeDTO {
 

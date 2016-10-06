@@ -7,10 +7,10 @@ import java.util.NoSuchElementException;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
-import br.com.ged.domain.FuncionalidadeEnum;
 import br.com.ged.domain.Mensagem;
-import br.com.ged.domain.Situacao;
-import br.com.ged.domain.TipoFuncionalidadeEnum;
+import br.com.ged.domain.entidade.FuncionalidadeEnum;
+import br.com.ged.domain.entidade.Situacao;
+import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.dto.FiltroUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;

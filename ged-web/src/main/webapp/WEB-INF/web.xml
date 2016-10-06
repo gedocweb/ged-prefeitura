@@ -39,7 +39,7 @@
   
   <filter>
     <filter-name>FilterEncoding</filter-name>
-    <filter-class>br.com.ged.admin.documento.FilterEncoding</filter-class>
+    <filter-class>br.com.ged.admin.controller.documento.FilterEncoding</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>FilterEncoding</filter-name>

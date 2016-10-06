@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.model.SelectItem;
 
-import br.com.ged.domain.Role;
+import br.com.ged.domain.entidade.Role;
 import br.com.ged.dto.FiltroUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
 import br.com.ged.entidades.Usuario;
@@ -16,7 +16,7 @@ import br.com.ged.util.criptografia.CriptografiaUtil;
 
 public abstract class UsuarioSuperController extends AbstractManageBean{
 	
-	private Usuario usuario;
+	private Usuario usuario; 
 	
 	@EJB
 	protected GenericServiceController<Usuario, Long> service;

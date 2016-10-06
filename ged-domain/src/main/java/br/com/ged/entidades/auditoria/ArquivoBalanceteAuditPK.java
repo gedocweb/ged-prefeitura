@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
  
 @Embeddable
 public class ArquivoBalanceteAuditPK implements Serializable{

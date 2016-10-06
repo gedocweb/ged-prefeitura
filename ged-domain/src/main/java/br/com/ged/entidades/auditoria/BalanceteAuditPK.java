@@ -9,7 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.util.DataUtil;
  
 @Embeddable

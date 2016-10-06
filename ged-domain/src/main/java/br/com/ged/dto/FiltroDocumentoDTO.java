@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.generics.DataFiltroBetween;
 
 public class FiltroDocumentoDTO implements Serializable{

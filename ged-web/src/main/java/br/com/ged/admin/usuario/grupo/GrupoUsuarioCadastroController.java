@@ -11,9 +11,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.ged.domain.FuncionalidadeEnum;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.TipoFuncionalidadeEnum;
+import br.com.ged.domain.entidade.FuncionalidadeEnum;
+import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
 import br.com.ged.excecao.NegocioException;

@@ -1,8 +1,8 @@
 package br.com.ged.dto;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.Role;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.Role;
+import br.com.ged.domain.entidade.Situacao;
 
 public class FiltroUsuarioDTO {
 

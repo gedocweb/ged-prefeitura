@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.generics.EntidadeBasica;
  
 @Entity

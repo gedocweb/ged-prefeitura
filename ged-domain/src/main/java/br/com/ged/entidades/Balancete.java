@@ -19,9 +19,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import br.com.ged.domain.MesEnum;
-import br.com.ged.domain.OrgaoEnum;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.MesEnum;
+import br.com.ged.domain.entidade.OrgaoEnum;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.generics.EntidadeBasica;
  
 @Entity

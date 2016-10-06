@@ -1,6 +1,6 @@
 package br.com.ged.dto.audit;
 
-import br.com.ged.domain.DepartamentoEnum;
+import br.com.ged.domain.entidade.DepartamentoEnum;
 
 public class RetornoMonitoramentoUsuarioDTO {
 

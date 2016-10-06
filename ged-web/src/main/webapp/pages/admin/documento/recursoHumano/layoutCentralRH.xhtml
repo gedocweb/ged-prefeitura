@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+
+	<p:commandButton value="Novo Documento" action="#{painelRecursoHumano.preparaCadastro()}" rendered="#{!painelRecursoHumano.renderedCadastro and painelRecursoHumano.autorizaFuncionalidade('CADASTRAR_RECURSO_HUMANO')}"
+		 icon="ui-icon-plus"></p:commandButton>
+		 
+ 	<p:commandButton value="Pesquisar" action="#{painelRecursoHumano.preparaPesquisar()}" rendered="#{!painelRecursoHumano.renderedPesquisar}"
+		 icon="ui-icon-search"></p:commandButton>
+		 
+	<p:commandButton value="Exportar" action="#{painelRecursoHumano.preparaExportar()}" rendered="#{!painelRecursoHumano.renderedExportar and painelRecursoHumano.autorizaFuncionalidade('EXPORTAR_RECURSO_HUMANO')}"
+		 icon="ui-icon-plus" ></p:commandButton>
+	
+	<p:separator></p:separator>
+		 
+	<p:fieldset legend="Pesquisar"
+		toggleable="true" toggleSpeed="500"
+		rendered="#{painelRecursoHumano.renderedPesquisar and painelRecursoHumano.autorizaFuncionalidade('PESQUISAR_RECURSO_HUMANO')}">
+		
+		<ui:include src="/pages/admin/documento/recursoHumano/pesquisarRecursoHumano.xhtml">
+			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
+		
+	</p:fieldset>
+	
+	<p:fieldset legend="Cadastrar"
+		toggleable="true" toggleSpeed="500"
+		rendered="#{painelRecursoHumano.renderedCadastro}">
+		
+		<ui:include src="/pages/admin/documento/recursoHumano/cadastrarAlterarRecursoHumano.xhtml">
+			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
+		
+		<p:separator></p:separator>
+		
+		<h:panelGrid style="margin:0 auto; text-align:center;">
+
+			<p:commandButton value="Cadastrar" type="submit"
+				action="#{painelRecursoHumano.cadastrar}" rendered="#{painelRecursoHumano.autorizaFuncionalidade('CADASTRAR_RECURSO_HUMANO')}"></p:commandButton>
+
+		</h:panelGrid>
+		
+	</p:fieldset>
+	
+	<p:fieldset legend="Alterar"
+		toggleable="true" toggleSpeed="500"
+		rendered="#{painelRecursoHumano.renderedAlterar}">
+		
+		<ui:include src="/pages/admin/documento/recursoHumano/cadastrarAlterarRecursoHumano.xhtml">
+			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
+		
+		<p:separator></p:separator>
+		
+		<h:panelGrid style="margin:0 auto; text-align:center;">
+
+			<p:commandButton value="Alterar" type="submit" rendered="#{painelRecursoHumano.autorizaFuncionalidade('ALTERAR_RECURSO_HUMANO')}"
+				action="#{painelRecursoHumano.alterar}"></p:commandButton>
+
+		</h:panelGrid>
+		
+	</p:fieldset>
+	
+	<p:fieldset legend="Exportar"
+		toggleable="true" toggleSpeed="500"
+		rendered="#{painelRecursoHumano.renderedExportar}">
+		
+		<ui:include src="/pages/admin/documento/recursoHumano/exportarRecursoHumano.xhtml">
+			<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
+		</ui:include>
+		
+	</p:fieldset>
+	
+	<p:panel  header="Documentos Digitalizados"
+		rendered="#{painelRecursoHumano.renderedPesquisar}">
+
+		<p:dataGrid var="doc" value="#{painelRecursoHumano.listRecursoHumano}"
+			columns="3" layout="grid" rows="12" paginator="true" 
+			emptyMessage="Nenhum documento digitalizado.">
+
+			<p:panel header="#{doc.pessoa.nome}" style="text-align:center">
+
+				<h:panelGrid columns="1" style="width:100%">
+
+					<p:remoteCommand name="rc" oncomplete="PF('docObservacaoRecursoHumano').show()">
+						<f:setPropertyActionListener value="#{doc}"
+							target="#{painelRecursoHumano.recursoHumano}"></f:setPropertyActionListener>
+					</p:remoteCommand>
+
+					<h:graphicImage ondblclick="rc()" alt="Arquivo PDF" 
+						value="icon/pdf.png" rendered="#{doc.arquivo.pdf}" />
+					<h:graphicImage ondblclick="rc()" alt="Imagem" 
+						value="icon/imagem.png" rendered="#{doc.arquivo.imagem}" />
+					<h:graphicImage ondblclick="rc()" alt="Imagem" 
+						value="icon/word.png" rendered="#{doc.arquivo.word}" />
+
+					<p:outputLabel value="#{doc.arquivo.descricao}"
+						style="font-weight:bold"></p:outputLabel>
+
+					<p:separator></p:separator>
+					
+					<h:outputText value="Documento: #{doc.tipoDocumento.label}" />
+					
+					<p:separator></p:separator>
+
+					<h:outputText value="CPF: #{doc.pessoa.cpf}" />
+					<h:outputText value="RG: #{doc.pessoa.rg}" />
+					<h:outputText value="Data do documento: #{doc.dataDocumentoFormat}" />
+					<h:outputText value="Data de Indexação: #{doc.dataIndexacaoFormat}"></h:outputText>
+					<h:outputText value="Última Modificação: #{doc.dataUltimaAlteracaoFormat}"></h:outputText>
+					<h:outputText value="Autor: #{doc.usuario.pessoa.nome}"></h:outputText>
+
+					<h:panelGrid columns="4"
+						style="width:50px;margin:0 auto; text-align:center;">
+
+						<p:commandButton icon="ui-icon-search" title="Visualizar"
+							oncomplete="PF('docViewRecursoHumano').show()"
+							rendered="#{doc.arquivo.pdf and painelRecursoHumano.autorizaFuncionalidade('VISUALIZAR_RECURSO_HUMANO')}">
+							<p:ajax event="click" listener="#{basicRecursoHumanoViewerController.carregaStreamArquivo(doc.id)}"></p:ajax>
+						</p:commandButton>
+
+						<p:commandButton icon="ui-icon-search" title="Visualizar"
+							oncomplete="PF('imagemViewRecursoHumano').show()"
+							rendered="#{doc.arquivo.imagem and painelRecursoHumano.autorizaFuncionalidade('VISUALIZAR_RECURSO_HUMANO')}">
+							<f:setPropertyActionListener value="#{doc.id}" target="#{basicRecursoHumanoViewerController.docId}"></f:setPropertyActionListener>
+						</p:commandButton>
+
+						<p:commandButton ajax="false" title="Download"
+							onclick="PrimeFaces.monitorDownload(start, stop);"
+							icon="ui-icon-arrowthickstop-1-s"
+							rendered="#{painelRecursoHumano.autorizaFuncionalidade('BAIXAR_RECURSO_HUMANO')}">
+							<f:setPropertyActionListener value="#{doc.id}"
+								target="#{basicRecursoHumanoViewerController.docId}"></f:setPropertyActionListener>
+							<p:fileDownload
+								value="#{basicRecursoHumanoViewerController.streamedImageById}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="ui-icon-refresh" title="Alterar"
+							action="#{painelRecursoHumano.preparaAlterar(doc)}"
+							rendered="#{painelRecursoHumano.autorizaFuncionalidade('ALTERAR_RECURSO_HUMANO')}" />
+
+						<p:commandButton icon="ui-icon-trash" title="Remover"
+							oncomplete="PF('confirmaExclusaoRecursoHumano').show()"
+							rendered="#{painelRecursoHumano.autorizaFuncionalidade('REMOVER_RECURSO_HUMANO')}">
+							<f:setPropertyActionListener value="#{doc}"
+								target="#{painelRecursoHumano.recursoHumano}"></f:setPropertyActionListener>
+						</p:commandButton>
+
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:panel>
+
+		</p:dataGrid>
+	</p:panel>
+
+</ui:composition>

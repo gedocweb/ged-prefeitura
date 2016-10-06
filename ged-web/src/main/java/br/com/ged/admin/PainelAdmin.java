@@ -4,10 +4,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.ConfigLayoutCliente;
+import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.Role;
+import br.com.ged.domain.entidade.Role;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.AbstractManageBean;
 

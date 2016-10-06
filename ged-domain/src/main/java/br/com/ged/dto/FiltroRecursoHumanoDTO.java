@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.TipoDocumentoRH;
+import br.com.ged.domain.entidade.TipoDocumentoRH;
 import br.com.ged.generics.DataFiltroBetween;
 
 public class FiltroRecursoHumanoDTO {

@@ -5,8 +5,8 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.FuncionalidadeEnum;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.FuncionalidadeEnum;
+import br.com.ged.domain.entidade.Situacao;
 
 public class FiltroGrupoUsuarioDTO {
 

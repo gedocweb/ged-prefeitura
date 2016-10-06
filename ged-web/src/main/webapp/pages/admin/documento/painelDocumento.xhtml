@@ -53,7 +53,7 @@
 				<p:outputPanel 
 					rendered="#{painelDocumento.renderedTipoIndexacaoOutros}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoOUTROSLayoutLateral.xhtml">
+						src="/pages/admin/documento/outros/layoutLateralEsquerdoOutros.xhtml">
 						<ui:param name="painelDocumento" value="#{painelDocumento}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -71,7 +71,7 @@
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoOutros}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoOUTROSLayoutCentral.xhtml">
+						src="/pages/admin/documento/outros/layoutCentralOutros.xhtml">
 						<ui:param name="painelDocumento" value="#{painelDocumento}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -79,7 +79,7 @@
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoBalancete}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoBALANCETELayoutCentral.xhtml">
+						src="/pages/admin/documento/balancete/layoutCentralBalancete.xhtml">
 						<ui:param name="painelBalancete" value="#{painelBalancete}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -87,7 +87,7 @@
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoRecursoHumano}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoRECURSO_HUMANOLayoutCentral.xhtml">
+						src="/pages/admin/documento/recursoHumano/layoutCentralRH.xhtml">
 						<ui:param name="painelRecursoHumano" value="#{painelRecursoHumano}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -95,7 +95,7 @@
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoProcessoLicitatorio}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoPROCESSO_LICITATORIOLayoutCentral.xhtml">
+						src="/pages/admin/documento/processoLicitatorio/layoutCentralProcessoLicitatorio.xhtml">
 						<ui:param name="painelProcessoLicitatorio" value="#{painelProcessoLicitatorio}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -103,7 +103,7 @@
 				<p:outputPanel autoUpdate="true"
 					rendered="#{painelDocumento.renderedTipoIndexacaoLei}">
 					<ui:include
-						src="/pages/admin/documento/tipoIndexacaoLEILayoutCentral.xhtml">
+						src="/pages/admin/documento/lei/layoutCentralLei.xhtml">
 						<ui:param name="painelLei" value="#{painelLei}"></ui:param>
 					</ui:include>
 				</p:outputPanel>
@@ -133,7 +133,7 @@
 		</ui:include>
 
 		<ui:include
-			src="/pages/admin/documento/tipoIndexacaoOUTROSDialogs.xhtml">
+			src="/pages/admin/documento/outros/dialogsOutros.xhtml">
 			<ui:param name="painelDocumento" value="#{painelDocumento}"></ui:param>
 		</ui:include>
 	</ui:define>

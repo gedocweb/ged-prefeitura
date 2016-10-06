@@ -2,7 +2,7 @@ package br.com.ged.service.audit;
 
 import java.util.List;
 
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.entidades.Balancete;
 import br.com.ged.entidades.auditoria.BalanceteAudit;

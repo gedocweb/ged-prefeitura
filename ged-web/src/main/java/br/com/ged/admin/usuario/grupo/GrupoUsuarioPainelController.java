@@ -10,10 +10,10 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.CellEditEvent;
 
-import br.com.ged.domain.FuncionalidadeEnum;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.FuncionalidadeEnum;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
 import br.com.ged.entidades.Usuario;

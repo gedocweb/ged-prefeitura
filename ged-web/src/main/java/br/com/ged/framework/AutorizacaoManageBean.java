@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import br.com.ged.controller.login.AuthenticationProviderCustom;
 import br.com.ged.domain.AutorizacaoEnum;
-import br.com.ged.domain.TipoFuncionalidadeEnum;
+import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.util.container.AtributoSessao;
 import br.com.ged.util.criptografia.CriptografiaUtil;

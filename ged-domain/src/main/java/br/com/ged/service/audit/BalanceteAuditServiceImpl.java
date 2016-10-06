@@ -7,8 +7,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import br.com.ged.domain.DepartamentoEnum;
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.DepartamentoEnum;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.dto.audit.RetornoMonitoramentoUsuarioDTO;

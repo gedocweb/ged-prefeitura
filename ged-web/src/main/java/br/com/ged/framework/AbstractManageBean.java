@@ -20,13 +20,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.ged.domain.AutorizacaoEnum;
-import br.com.ged.domain.FuncionalidadeEnum;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.Role;
-import br.com.ged.domain.Situacao;
-import br.com.ged.domain.TipoFuncionalidadeEnum;
 import br.com.ged.domain.TipoMensagem;
+import br.com.ged.domain.entidade.FuncionalidadeEnum;
+import br.com.ged.domain.entidade.Role;
+import br.com.ged.domain.entidade.Situacao;
+import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
 import br.com.ged.domain.relatorio.RelatorioEnum;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
@@ -75,22 +75,27 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	
 	private boolean administrador;
 	
+	public boolean autorizaFuncionalidadeMenu(FuncionalidadeEnum funcionalidade){
+		
+		return grupoUsuarioLogado.getFuncionalidades().contains(funcionalidade);
+	}
+	
 	@Override
 	public boolean autorizaFuncionalidade(TipoFuncionalidadeEnum tipoFuncionalidade){
 		
-		if (usuarioJaAtivoSessao() || !usuarioLogado.isLogado()){
-    			try {
-    				
-    				if (!usuarioJaRedirecionadoParaTelaLogin()){
-    					redirecionaPagina(Pagina.LOGIN);
-    					enviaMensagem(Mensagem.USU11);
-    				}
-					
-				} catch (NegocioException e) {
-					e.printStackTrace();
-				}
-    		return false;
-    	}
+//		if (usuarioJaAtivoSessao() || !usuarioLogado.isLogado()){
+//    			try {
+//    				
+//    				if (!usuarioJaRedirecionadoParaTelaLogin()){
+//    					redirecionaPagina(Pagina.LOGIN);
+//    					enviaMensagem(Mensagem.USU11);
+//    				}
+//					
+//				} catch (NegocioException e) {
+//					e.printStackTrace();
+//				}
+//    		return false;
+//    	}
 		
 		if (grupoUsuarioLogado == null){
 			
@@ -164,9 +169,9 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
         				if (AutorizacaoEnum.ADMINISTRADOR.equals(autorizacao)){
         					
         					GrupoUsuario grupoUsuarioAdmin = new GrupoUsuario();
-        					grupoUsuarioAdmin.setFuncionalidades(Arrays.asList(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO, FuncionalidadeEnum.MANTER_BALANCETE));
+        					grupoUsuarioAdmin.setFuncionalidades(Arrays.asList(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO));
         					
-        					grupoUsuarioAdmin.setTiposFuncionalidades(TipoFuncionalidadeEnum.permissoesPorFuncionalidades(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO, FuncionalidadeEnum.MANTER_BALANCETE));
+        					grupoUsuarioAdmin.setTiposFuncionalidades(TipoFuncionalidadeEnum.permissoesPorFuncionalidades(FuncionalidadeEnum.MANTER_GRUPO_USUARIO, FuncionalidadeEnum.MANTER_USUARIO));
         					
         					grupoUsuarioAdmin.setSituacao(Situacao.ATIVO);
         					grupoUsuarioAdmin.setGrupo("Grupo Suporte Admin - "+usuarioLogado.getPessoa().getNome());

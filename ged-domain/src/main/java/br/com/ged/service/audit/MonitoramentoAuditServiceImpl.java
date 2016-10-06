@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 

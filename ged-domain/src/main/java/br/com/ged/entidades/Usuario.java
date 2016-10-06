@@ -15,8 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import br.com.ged.domain.Role;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.Role;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.generics.EntidadeBasica;
  
 @Entity

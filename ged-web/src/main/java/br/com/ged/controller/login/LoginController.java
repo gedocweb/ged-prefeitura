@@ -13,10 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.ged.domain.EmpresaEnum;
 import br.com.ged.domain.ConfigLayoutCliente;
-import br.com.ged.domain.Role;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.EmpresaEnum;
+import br.com.ged.domain.entidade.Role;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.entidades.Pessoa;
 import br.com.ged.entidades.Usuario;
 import br.com.ged.framework.GenericServiceController;

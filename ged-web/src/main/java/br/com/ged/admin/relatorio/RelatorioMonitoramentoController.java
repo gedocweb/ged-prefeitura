@@ -10,9 +10,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
-import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.DepartamentoEnum;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;

@@ -5,11 +5,11 @@
 		      	xmlns:p="http://primefaces.org/ui"
 		      	template="/pages/admin/templatePaginasAdmin.xhtml">
 
-	<ui:define name="title">Relatório de Monitoramento de Usuários</ui:define>
+	<ui:define name="title">Relatório para Monitoramento de Usuários</ui:define>
 
 	<ui:define name="body">
 	
-		<p:panel  header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" >
+		<p:panel  header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" rendered="#{painelRelatorioMonitoramento.autorizaFuncionalidade('MONITORAR_OPERACAO')}">
 		    
 		    <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;" >
 
@@ -48,8 +48,25 @@
 				<p:selectBooleanCheckbox itemLabel="Deste mês" label="Deste mês"
 					value="#{painelRelatorioMonitoramento.periodoMesAtual}">
 
-					<p:ajax partialSubmit="true" process="@form"></p:ajax>
+					<p:ajax event="change" partialSubmit="true" process="@form" update="@form"></p:ajax>
 				</p:selectBooleanCheckbox>
+				
+				<p:panel  header="Período da Operação" rendered="#{!painelRelatorioMonitoramento.periodoMesAtual}">
+				
+					<p:calendar
+						value="#{painelRelatorioMonitoramento.periodoInicial}">
+						<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+							global="false"></p:ajax>
+					</p:calendar>
+					
+					<p:outputLabel value="até"></p:outputLabel>
+					
+					<p:calendar
+						value="#{painelRelatorioMonitoramento.periodoFinal}">
+						<p:ajax partialSubmit="true" process="@form" event="dateSelect"
+							global="false"></p:ajax>
+					</p:calendar>
+				</p:panel>
 				
 			</h:panelGrid>
 		    
@@ -77,8 +94,8 @@
 				    	<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntInseridos}" />
 		    			<p:separator></p:separator>
 		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('CADASTRADO')}" 
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntInseridos > 0}" 
-		    							update="@form" oncomplete="scrollFocus('form:j_id_2g')"></p:commandButton>
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntInseridos > 0  and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}" 
+		    							update="@form" oncomplete="scrollBottom()"></p:commandButton>
 			    	</p:panel>
 	    			
 			    </div>
@@ -87,8 +104,8 @@
 			    	<p:panel header="Alterados">
 		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntAlterados}" />
 		    			<p:separator></p:separator>
-		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('ALTERADO_PRE')}"  update="@form"
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntAlterados > 0}"></p:commandButton>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('ALTERADO_PRE')}"  update="@form" oncomplete="scrollBottom()"
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntAlterados > 0 and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}"></p:commandButton>
 	    			</p:panel>
 			    </div>
 			    
@@ -96,8 +113,8 @@
 			    	<p:panel header="Excluidos">
 		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExcluidos}" />
 		    			<p:separator></p:separator>
-		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXCLUIDO')}"  update="@form"
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExcluidos > 0}"></p:commandButton>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXCLUIDO')}"  update="@form" oncomplete="scrollBottom()"
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExcluidos > 0 and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}"></p:commandButton>
 	    			</p:panel>
 			    </div>
 			    
@@ -106,8 +123,8 @@
 			    	<p:panel header="Baixados">
 		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntBaixados}" />
 		    			<p:separator></p:separator>
-		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('BAIXADO')}"  update="@form"
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntBaixados > 0}"></p:commandButton>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('BAIXADO')}"  update="@form" oncomplete="scrollBottom()"
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntBaixados > 0 and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}"></p:commandButton>
 	    			</p:panel>
     			</div>
     			
@@ -115,8 +132,8 @@
     				<p:panel header="Visualizados">
 		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntVisualizados}" />
 		    			<p:separator></p:separator>
-		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('VISUALIZADO')}"  update="@form"
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntVisualizados > 0}"></p:commandButton>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('VISUALIZADO')}"  update="@form" oncomplete="scrollBottom()"
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntVisualizados > 0 and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}"></p:commandButton>
 	    			</p:panel>
     			</div>
     			
@@ -124,8 +141,8 @@
 					<p:panel header="Exportados">
 		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExportados}" />
 		    			<p:separator></p:separator>
-		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXPORTADO')}"  update="@form"
-		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExportados > 0}"></p:commandButton>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXPORTADO')}"  update="@form" oncomplete="scrollBottom()"
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExportados > 0 and painelRelatorioMonitoramento.autorizaFuncionalidade('DETALHAR_OPERACAO')}"></p:commandButton>
 	    			</p:panel>
     			</div>
 			</div>
@@ -134,241 +151,13 @@
 		<p:panel header="Detalhes da operação" rendered="#{painelRelatorioMonitoramento.renderedDetalhar}"
 			style="margin:0 auto; width:80%; text-align:center;">
 
-			<p:outputPanel autoUpdate="true">
-
-				<p:dataTable var="balanc"
-					value="#{painelRelatorioMonitoramento.listDetalheBalanceteAudit}">
-
-					<p:column headerText="Tipo da Operação">
-						<h:outputText value="#{balanc.id.tipoOperacaoAudit.label}"></h:outputText>
-					</p:column>
-
-					<p:column headerText="Data da operação">
-						<h:outputText value="#{balanc.id.dataHoraFormat}">
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="Órgão">
-						<h:outputText value="#{balanc.orgao.label}">
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="Data da indexação">
-						<h:outputText value="#{balanc.dataIndexacaoFormat}">
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="Mais informações">
-						<p:commandButton value="Dossiê"
-							oncomplete="PF('dossieBalancete').show()"
-							rendered="#{!balanc.id.tipoOperacaoAudit.operacaoAlterar}">
-							<f:setPropertyActionListener value="#{balanc}"
-								target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
-						</p:commandButton>
-
-						<p:commandButton value="Comparar"
-							action="#{painelRelatorioMonitoramentoBalancete.preDossieAlteracao}"
-							oncomplete="PF('dossieBalanceteAlterar').show()"
-							rendered="#{balanc.id.tipoOperacaoAudit.operacaoAlterar}">
-							<f:setPropertyActionListener value="#{balanc}"
-								target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
+			<p:outputPanel autoUpdate="true" rendered="#{painelRelatorioMonitoramento.departamentoSelecionado.balancete}">
+				<ui:include src="/pages/admin/relatorio/balancete/detalheOperacaoBalancete.xhtml" />
 			</p:outputPanel>
+			
 		</p:panel>
-
-		<p:dialog header="Dossiê da operação" widgetVar="dossieBalancete"
-			position="top" modal="true" showEffect="fade" hideEffect="fade"
-			resizable="true"
-			style="text-align:center !important; border:none !important;">
-
-			<p:outputPanel autoUpdate="true">
-			
-				<p:separator></p:separator>
-						
-					<h:outputText value="Data da operação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.id.dataHoraFormat}" />
-						
-				<p:separator></p:separator>
-			
-				<p:panel header="Ano: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.ano}" style="text-align:center">
-				
-					<h:panelGrid columns="1" style="width:100%">
-	
-						<h:graphicImage  alt="Arquivo PDF" 
-							value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.arquivo.pdf}" />
-						<h:graphicImage  alt="Imagem" 
-							value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.arquivo.imagem}" />
-						<h:graphicImage  alt="Imagem" 
-							value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.arquivo.word}" />
-	
-						<p:outputLabel value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.arquivo.descricao}"
-							style="font-weight:bold"></p:outputLabel>
-	
-						<p:separator></p:separator>
-						
-						<h:outputText value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.orgao.label}" />
-						
-						<p:separator></p:separator>
-	
-						<h:outputText value="Mês: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.mes.label}" />
-						<h:outputText value="Volume: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.volume}" />
-						<h:outputText value="Data de Indexação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.dataIndexacaoFormat}"></h:outputText>
-						<h:outputText value="Última Modificação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.dataUltimaAlteracaoFormat}"></h:outputText>
-						<h:outputText value="Autor: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.usuario.pessoa.nome}"></h:outputText>
-						
-						<p:separator></p:separator>
-						<h:outputText value="Observação: "/>
-						<p:inputTextarea value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.observacao}"
-							style="width:200px" readonly="true"> 
-						</p:inputTextarea>
-	
-						<h:panelGrid columns="1"
-							style="width:50px;margin:0 auto; text-align:center;">
-	
-							<p:commandButton ajax="false" title="Download" value="Download"
-								onclick="PrimeFaces.monitorDownload(start, stop);"
-								icon="ui-icon-arrowthickstop-1-s">
-								<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.id}" target="#{basicBalanceteAuditViewerController.balanceteAuditPK}"></f:setPropertyActionListener>
-								<p:fileDownload	value="#{basicBalanceteAuditViewerController.streamedDownaload}" />
-							</p:commandButton>
-							
-						</h:panelGrid>
-					</h:panelGrid>
-				</p:panel>
-				
-			</p:outputPanel>
-	</p:dialog>
-	
-	<p:dialog header="Dossiê da alteração" widgetVar="dossieBalanceteAlterar"
-			position="top" modal="true" showEffect="fade" hideEffect="fade"
-			resizable="true"
-			style="text-align:center !important; border:none !important;">
-
-			<p:outputPanel autoUpdate="true">
-			
-				<p:separator></p:separator>
-						
-					<h:outputText value="Data da alteração: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionado.id.dataHoraFormat}" />
-						
-				<p:separator></p:separator>
-			
-				<div class="ui-g">
-			    
-				    <div class="ui-g-6">
-				    
-				    	<p:separator></p:separator>
-						
-							<h:outputText style="text-align:center" value="Antes" />
-								
-						<p:separator></p:separator>
-				    
-				    	<p:panel header="Ano: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.ano}" style="text-align:center">
-			
-							<h:panelGrid columns="1" style="width:100%">
-			
-								<h:graphicImage  alt="Arquivo PDF" 
-									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.arquivo.pdf}" />
-								<h:graphicImage  alt="Imagem" 
-									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.arquivo.imagem}" />
-								<h:graphicImage  alt="Imagem" 
-									value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.arquivo.word}" />
-			
-								<p:outputLabel value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.arquivo.descricao}"
-									style="font-weight:bold"></p:outputLabel>
-			
-								<p:separator></p:separator>
-								
-								<h:outputText value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.orgao.label}" />
-								
-								<p:separator></p:separator>
-			
-								<h:outputText value="Mês: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.mes.label}" />
-								<h:outputText value="Volume: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.volume}" />
-								<h:outputText value="Data de Indexação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.dataIndexacaoFormat}"></h:outputText>
-								<h:outputText value="Última Modificação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
-								<h:outputText value="Autor: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.usuario.pessoa.nome}"></h:outputText>
-								
-								<p:separator></p:separator>
-								<h:outputText value="Observação: "/>
-								<p:inputTextarea value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.observacao}"
-									style="width:200px" readonly="true"> 
-								</p:inputTextarea>
-			
-								<h:panelGrid columns="1"
-									style="width:50px;margin:0 auto; text-align:center;">
-			
-									<p:commandButton ajax="false" title="Download" value="Download"
-										onclick="PrimeFaces.monitorDownload(start, stop);"
-										icon="ui-icon-arrowthickstop-1-s">
-										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPreAlteracao.id}" target="#{basicBalanceteAuditViewerController.balanceteAuditPK}"></f:setPropertyActionListener>
-										<p:fileDownload	value="#{basicBalanceteAuditViewerController.streamedDownaload}" />
-									</p:commandButton>
-									
-								</h:panelGrid>
-							</h:panelGrid>
-						</p:panel>				
-				    </div>
-				    
-				    <div class="ui-g-6">
-				    
-				    	<p:separator></p:separator>
-						
-							<h:outputText style="text-align:center" value="Depois" />
-								
-						<p:separator></p:separator>
-				    
-				    	<p:panel header="Ano: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.ano}" style="text-align:center">
-			
-							<h:panelGrid columns="1" style="width:100%">
-			
-								<h:graphicImage  alt="Arquivo PDF" 
-									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.arquivo.pdf}" />
-								<h:graphicImage  alt="Imagem" 
-									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.arquivo.imagem}" />
-								<h:graphicImage  alt="Imagem" 
-									value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.arquivo.word}" />
-			
-								<p:outputLabel value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.arquivo.descricao}"
-									style="font-weight:bold"></p:outputLabel>
-			
-								<p:separator></p:separator>
-								
-								<h:outputText value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.orgao.label}" />
-								
-								<p:separator></p:separator>
-			
-								<h:outputText value="Mês: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.mes.label}" />
-								<h:outputText value="Volume: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.volume}" />
-								<h:outputText value="Data de Indexação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.dataIndexacaoFormat}"></h:outputText>
-								<h:outputText value="Última Modificação: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
-								<h:outputText value="Autor: #{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.usuario.pessoa.nome}"></h:outputText>
-								
-								<p:separator></p:separator>
-								<h:outputText value="Observação: "/>
-								<p:inputTextarea value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.observacao}"
-									style="width:200px" readonly="true"> 
-								</p:inputTextarea>
-			
-								<h:panelGrid columns="1"
-									style="width:50px;margin:0 auto; text-align:center;">
-			
-									<p:commandButton ajax="false" title="Download" value="Download"
-										onclick="PrimeFaces.monitorDownload(start, stop);"
-										icon="ui-icon-arrowthickstop-1-s">
-										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionadoPosAlteracao.id}" target="#{basicBalanceteAuditViewerController.balanceteAuditPK}"></f:setPropertyActionListener>
-										<p:fileDownload	value="#{basicBalanceteAuditViewerController.streamedDownaload}" />
-									</p:commandButton>
-									
-								</h:panelGrid>
-							</h:panelGrid>
-						</p:panel>		
-				    </div>
-			    
-			    </div>
-			
-			</p:outputPanel>
-	</p:dialog>
+		
+		<ui:include src="/pages/admin/relatorio/balancete/dossieBalancete.xhtml" />
 
 	</ui:define>
 </ui:composition>

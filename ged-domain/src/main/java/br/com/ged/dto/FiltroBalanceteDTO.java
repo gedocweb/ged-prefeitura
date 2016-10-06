@@ -6,8 +6,8 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.MesEnum;
-import br.com.ged.domain.OrgaoEnum;
+import br.com.ged.domain.entidade.MesEnum;
+import br.com.ged.domain.entidade.OrgaoEnum;
 import br.com.ged.generics.DataFiltroBetween;
 
 public class FiltroBalanceteDTO {

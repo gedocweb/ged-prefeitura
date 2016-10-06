@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
-import br.com.ged.domain.Situacao;
+import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.dto.FiltroUsuarioDTO;
 import br.com.ged.entidades.Usuario;
 import br.com.ged.service.UsuarioService;

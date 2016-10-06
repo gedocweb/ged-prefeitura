@@ -14,7 +14,7 @@
     		<p:menuitem value="#{msg['DOC1']}" url="/pages/admin/documento/painelDocumento.jsf" immediate="true" />
     	</p:submenu>
     	
-    	<p:submenu label="#{msg['MENU04']}" >
+    	<p:submenu label="#{msg['MENU04']}"  rendered="#{painelAdmin.autorizaFuncionalidadeMenu('RELATORIO')}">
     		<p:menuitem value="#{msg['REL1']}" url="/pages/admin/relatorio/relatorioMonitoramentoUsuario.jsf" immediate="true" />
     	</p:submenu>
     </p:menubar>

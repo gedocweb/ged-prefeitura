@@ -1,7 +1,7 @@
 package br.com.ged.dto.audit;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.TipoOperacaoAudit;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 
 public abstract class AbstractFiltroAuditDTO {
 

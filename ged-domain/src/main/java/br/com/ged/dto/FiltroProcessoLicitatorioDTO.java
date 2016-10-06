@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import br.com.ged.anotations.EntityProperty;
-import br.com.ged.domain.ModalidadeLicitacao;
+import br.com.ged.domain.entidade.ModalidadeLicitacao;
 import br.com.ged.generics.DataFiltroBetween;
 
 public class FiltroProcessoLicitatorioDTO {
