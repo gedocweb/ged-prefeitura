@@ -115,20 +115,20 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 		return grupoUsuarioLogado.getTiposFuncionalidades().contains(tipoFuncionalidade);
 	}
 
-	private boolean usuarioJaRedirecionadoParaTelaLogin() {
-		
-		if (getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN) == null){
-			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.FALSE);
-		}else{
-			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.TRUE);
-		}
-		
-		return (Boolean)getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN);
-	}
-
-	private boolean usuarioJaAtivoSessao() {
-		return getAtributoSessao(AtributoSessao.USUARIO_ATIVO) != null && !(Boolean)getAtributoSessao(AtributoSessao.USUARIO_ATIVO);
-	}
+//	private boolean usuarioJaRedirecionadoParaTelaLogin() {
+//		
+//		if (getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN) == null){
+//			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.FALSE);
+//		}else{
+//			setAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN, Boolean.TRUE);
+//		}
+//		
+//		return (Boolean)getAtributoSessao(AtributoSessao.REDIRECIONADO_LOGIN);
+//	}
+//
+//	private boolean usuarioJaAtivoSessao() {
+//		return getAtributoSessao(AtributoSessao.USUARIO_ATIVO) != null && !(Boolean)getAtributoSessao(AtributoSessao.USUARIO_ATIVO);
+//	}
 	
 	@PostConstruct
 	@Override
