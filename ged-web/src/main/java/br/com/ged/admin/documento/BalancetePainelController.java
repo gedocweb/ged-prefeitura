@@ -176,6 +176,9 @@ public class BalancetePainelController extends DocumentoSuperController {
 		//TODO Auditoria
 		balanceteAuditService.auditoriaBalancete(getBalancete(), TipoOperacaoAudit.EXCLUIDO);
 		serviceBalancete.excluir(getBalancete());
+		
+		this.pesquisar();
+		this.preparaPesquisar();
 	}
 
 	public void cadastrar() {

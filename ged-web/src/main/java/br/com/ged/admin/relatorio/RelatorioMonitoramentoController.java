@@ -138,9 +138,10 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 		return listSelectItemNomePessoaUsuario;
 	}
 
-	public void pesquisar(){
+	public void monitorar(){
 		
 		renderedDetalhar = Boolean.FALSE;
+		retornoMonitoramento = new RetornoMonitoramentoUsuarioDTO();
 		
 		try {
 			

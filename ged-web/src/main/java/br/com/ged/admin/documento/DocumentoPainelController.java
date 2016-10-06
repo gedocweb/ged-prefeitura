@@ -27,12 +27,11 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
 
-import br.com.ged.domain.FuncionalidadeEnum;
+import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.Situacao;
 import br.com.ged.domain.TipoFuncionalidadeEnum;
-import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.dto.FiltroDocumentoDTO;
 import br.com.ged.entidades.Arquivo;
 import br.com.ged.entidades.Categoria;
@@ -155,19 +154,6 @@ public class DocumentoPainelController extends DocumentoSuperController{
 		iniciaTipoDocumento();
 		renderizaTituloFieldSet();
 		listTipoIndexacao = DepartamentoEnum.selectItems();
-		
-		if (super.getGrupoUsuarioLogado().getFuncionalidades() != null){
-			
-			if (!super.getGrupoUsuarioLogado().getFuncionalidades().contains(FuncionalidadeEnum.MANTER_RECURSO_HUMANO)){
-				renderedTipoIndexacao = Boolean.FALSE;
-				
-				tipoIndexacaoSelecionado = DepartamentoEnum.OUTROS;
-				selecionaTipoIndexacao();
-				
-			}else{
-				renderedTipoIndexacao = Boolean.TRUE;
-			}
-		}
 	}
 	
 	public boolean getRenderizaBotaoNovaCategoria(){
