@@ -15,6 +15,12 @@
 	 	<script>
 			//Dinheiro
 			
+			function scrollFocus(id){
+			   var div = document.getElementById(id);
+			   div.scrollTop = div.scrollHeight - div.clientHeight;
+			}
+
+			
 		 	function colocaMascaraDinheiro(o, f){
 		
 		 		v_obj = document.getElementById(o.name);
@@ -64,7 +70,7 @@
  	
  	<ui:include src="/pages/template/header.xhtml" />
  	<!-- background-color: #6e6e6e !important; -->
-	<h:body style=" background-image: url('../../../resources/imagem/azul_degrade.jpg')">     
+	<h:body >     
 	
 		<f:event listener="#{painelAdmin.renderizaMensagensDaSessao()}" type="preRenderView" />
 		

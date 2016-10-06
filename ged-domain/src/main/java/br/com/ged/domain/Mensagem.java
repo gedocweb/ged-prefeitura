@@ -103,6 +103,12 @@ public enum Mensagem {
 	//Autenticação
 	AUTH01(TipoMensagem.ALERTA),
 	
+	//Relatorio
+	REL2(TipoMensagem.ALERTA),
+	REL3(TipoMensagem.ALERTA),
+	REL4(TipoMensagem.ALERTA),
+	REL5(TipoMensagem.ALERTA),
+	
 	//ERROS INTERNOS DO SISTEMA
 	//MEI = Mensagem de Erro Interno
 	
@@ -139,7 +145,7 @@ public enum Mensagem {
 	MSA004(TipoMensagem.ESTATICO),
 	MSA005(TipoMensagem.ESTATICO), 
 	
-	ERRO_DEFAULT(TipoMensagem.ALERTA)
+	ERRO_DEFAULT(TipoMensagem.ALERTA), 
 	;
 	
 	private TipoMensagem tipo;

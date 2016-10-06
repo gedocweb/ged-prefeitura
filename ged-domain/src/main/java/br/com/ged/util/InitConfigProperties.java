@@ -23,6 +23,12 @@ public final class InitConfigProperties {
 			properties.load(inStream);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				inStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

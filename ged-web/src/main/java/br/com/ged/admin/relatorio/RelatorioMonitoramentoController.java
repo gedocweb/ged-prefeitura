@@ -14,21 +14,22 @@ import br.com.ged.domain.DepartamentoEnum;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
-import br.com.ged.dto.FiltroUsuarioDTO;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.dto.audit.RetornoMonitoramentoUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
 import br.com.ged.entidades.Usuario;
 import br.com.ged.entidades.auditoria.BalanceteAudit;
+import br.com.ged.excecao.NegocioException;
+import br.com.ged.generics.service.GenericService;
 import br.com.ged.service.GrupoUsuarioService;
 import br.com.ged.service.UsuarioService;
 import br.com.ged.service.audit.BalanceteAuditService;
 import br.com.ged.util.DataUtil;
 
-@ManagedBean(name="painelRelatorioMonitoramentoUsuario")
+@ManagedBean(name="painelRelatorioMonitoramento")
 @ViewScoped
-public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperController{
+public class RelatorioMonitoramentoController extends RelatorioSuperController{
 	
 	private Long idGrupoSelecionado;
 	private Long idUsuarioSelecionado;
@@ -48,15 +49,23 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 	private GrupoUsuarioService grupoUsuarioService;
 	
 	@EJB
+	private GenericService<GrupoUsuario, Long> genericServiceGrupoUsuario;
+	
+	@EJB
 	private UsuarioService usuarioService;
 	
 	@EJB
 	private BalanceteAuditService balanceteAuditService;
 	
+	@EJB
+	private RelatorioMonitoramentoValidadorView validadorView;
+	
 	private FiltroMonitoramentoAuditDTO filtroMonitoramento;
 	private FiltroBalanceteAuditDTO filtroBalanceteAuditDTO;
 	
 	private RetornoMonitoramentoUsuarioDTO retornoMonitoramento;
+	
+	private Boolean renderedDetalhar;
 	
 	private List<BalanceteAudit> listDetalheBalanceteAudit;
 	
@@ -64,7 +73,6 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 	public void inicio(){
 		
 		selectItemsGrupoUsuario = selectItemsGrupoUsuario();
-		selectItemsUsuario = selectItemsUsuario();
 		selectItemsDepartamento = DepartamentoEnum.selectItems();
 		
 		periodoMesAtual = Boolean.TRUE;
@@ -73,7 +81,7 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 		filtroBalanceteAuditDTO = new FiltroBalanceteAuditDTO();
 		
 		retornoMonitoramento = new RetornoMonitoramentoUsuarioDTO();
-		
+		renderedDetalhar = Boolean.FALSE;
 	}
 	
 	private List<SelectItem> selectItemsGrupoUsuario() {
@@ -97,10 +105,20 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 		
 		return listSelectItemNomeGrupoUsuario;
 	}
-
-	private List<SelectItem> selectItemsUsuario() {
+	
+	public void carregaSelectItemsUsuario(){
 		
-		List<Usuario> listUsuarios = usuarioService.pesquisar(new FiltroUsuarioDTO(), "pessoa");
+		if (getIdGrupoSelecionado() != null){
+			
+			List<Usuario> listUsuarios =  genericServiceGrupoUsuario.getById(GrupoUsuario.class, getIdGrupoSelecionado(), "usuarios","usuarios.pessoa").getUsuarios();
+			selectItemsUsuario = selectItemsUsuario(listUsuarios );
+		}else{
+			
+			selectItemsUsuario = null;
+		}
+	}
+
+	private List<SelectItem> selectItemsUsuario(List<Usuario> listUsuarios) {
 		
 		List<SelectItem> listSelectItemNomePessoaUsuario = new ArrayList<>(); 
 		
@@ -122,23 +140,32 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 
 	public void pesquisar(){
 		
-		if (!periodoMesAtual){
-			filtroMonitoramento.getDataFiltroBetween().setDataInicio(periodoInicial);
-			filtroMonitoramento.getDataFiltroBetween().setDataFim(periodoFinal);
-		}else{
-			
-			periodoInicial = null;
-			periodoFinal = null;
-			
-			filtroMonitoramento.getDataFiltroBetween().setDataInicio(DataUtil.primeiraDataDoMesAtual());
-			filtroMonitoramento.getDataFiltroBetween().setDataFim(DataUtil.ultimaDataDoMesAtual());
-		}
+		renderedDetalhar = Boolean.FALSE;
 		
-		filtroMonitoramento.setIdUsuario(idUsuarioSelecionado);
-		
-		if (isDepartamentoBalancete()){
+		try {
 			
-			retornoMonitoramento = balanceteAuditService.monitoramento(filtroMonitoramento);
+			validadorView.valida(idGrupoSelecionado, idUsuarioSelecionado, departamentoSelecionado);
+			
+			if (!periodoMesAtual){
+				filtroMonitoramento.getDataFiltroBetween().setDataInicio(periodoInicial);
+				filtroMonitoramento.getDataFiltroBetween().setDataFim(periodoFinal);
+			}else{
+				
+				periodoInicial = null;
+				periodoFinal = null;
+				
+				filtroMonitoramento.getDataFiltroBetween().setDataInicio(DataUtil.primeiraDataDoMesAtual());
+				filtroMonitoramento.getDataFiltroBetween().setDataFim(DataUtil.ultimaDataDoMesAtual());
+			}
+			
+			filtroMonitoramento.setIdUsuario(idUsuarioSelecionado);
+			
+			if (isDepartamentoBalancete() && filtroMonitoramento.getIdUsuario() != null){
+				
+				retornoMonitoramento = balanceteAuditService.monitoramento(filtroMonitoramento);
+			}
+		} catch (NegocioException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -152,6 +179,7 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 			filtroBalanceteAuditDTO.setIdUsuario(idUsuarioSelecionado);
 
 			listDetalheBalanceteAudit = balanceteAuditService.detalharOperacao(filtroBalanceteAuditDTO, operacaoAudit);
+			renderedDetalhar = Boolean.TRUE;
 		}
 	}
 
@@ -246,5 +274,13 @@ public class RelatorioMonitoramentoUsuarioController extends RelatorioSuperContr
 
 	public List<BalanceteAudit> getListDetalheBalanceteAudit() {
 		return listDetalheBalanceteAudit;
+	}
+
+	public Boolean getRenderedDetalhar() {
+		return renderedDetalhar;
+	}
+
+	public void setRenderedDetalhar(Boolean renderedDetalhar) {
+		this.renderedDetalhar = renderedDetalhar;
 	}
 }

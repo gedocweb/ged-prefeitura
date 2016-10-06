@@ -9,39 +9,44 @@
 
 	<ui:define name="body">
 	
-		<p:panel id="pesquisa" header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" >
+		<p:panel  header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" >
 		    
 		    <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;" >
 
 				<p:outputLabel for="nomeGrupoSelectOne" value="Nome do grupo:" />
 		
-				<p:selectOneMenu id="nomeGrupoSelectOne" value="#{painelRelatorioMonitoramentoUsuario.idGrupoSelecionado}" panelStyle="width:180px"
+				<p:selectOneMenu id="nomeGrupoSelectOne" value="#{painelRelatorioMonitoramento.idGrupoSelecionado}" panelStyle="width:180px"
                          effect="fade" style="width:160px">
                          
-		            <f:selectItems value="#{painelRelatorioMonitoramentoUsuario.selectItemsGrupoUsuario}"/>
+                    <p:ajax event="change" listener="#{painelRelatorioMonitoramento.carregaSelectItemsUsuario}" update="nomeUsuarioSelectOne"></p:ajax>
+					
+					<f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>                        
+		            <f:selectItems value="#{painelRelatorioMonitoramento.selectItemsGrupoUsuario}"/>
 		 
 		        </p:selectOneMenu>
 		        
 		        <p:outputLabel for="nomeUsuarioSelectOne" value="Nome do usuário:" />
 		
-				<p:selectOneMenu id="nomeUsuarioSelectOne" value="#{painelRelatorioMonitoramentoUsuario.idUsuarioSelecionado}" panelStyle="width:180px"
+				<p:selectOneMenu id="nomeUsuarioSelectOne" value="#{painelRelatorioMonitoramento.idUsuarioSelecionado}" panelStyle="width:180px"
                          effect="fade" style="width:160px">
                          
-		            <f:selectItems value="#{painelRelatorioMonitoramentoUsuario.selectItemsUsuario}"/>
+                    <f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>      
+		            <f:selectItems value="#{painelRelatorioMonitoramento.selectItemsUsuario}"/>
 		 
 		        </p:selectOneMenu>
 		        
 		        <p:outputLabel for="departamentoSelectOne" value="Departamento:" />
 		
-				<p:selectOneMenu id="departamentoSelectOne" value="#{painelRelatorioMonitoramentoUsuario.departamentoSelecionado}" panelStyle="width:180px"
+				<p:selectOneMenu id="departamentoSelectOne" value="#{painelRelatorioMonitoramento.departamentoSelecionado}" panelStyle="width:180px"
                          effect="fade" style="width:160px">
                          
-		            <f:selectItems value="#{painelRelatorioMonitoramentoUsuario.selectItemsDepartamento}"/>
+                    <f:selectItem noSelectionOption="true" itemLabel="#{msg['MG03']}"></f:selectItem>      
+		            <f:selectItems value="#{painelRelatorioMonitoramento.selectItemsDepartamento}"/>
 		 
 		        </p:selectOneMenu>
 
 				<p:selectBooleanCheckbox itemLabel="Deste mês" label="Deste mês"
-					value="#{painelRelatorioMonitoramentoUsuario.periodoMesAtual}">
+					value="#{painelRelatorioMonitoramento.periodoMesAtual}">
 
 					<p:ajax partialSubmit="true" process="@form"></p:ajax>
 				</p:selectBooleanCheckbox>
@@ -51,9 +56,9 @@
 		    <h:panelGrid columns="3" cellpadding="10" style="margin:0 auto;">
 		
 				<p:commandButton id="btnPesquisar" value="Monitorar" 
-					action="#{painelRelatorioMonitoramentoUsuario.pesquisar()}" update="@form" />
+					action="#{painelRelatorioMonitoramento.pesquisar()}" update="@form" />
 				<p:commandButton id="btnLimpar" value="#{msg['MG17']}" 
-					action="#{painelRelatorioMonitoramentoUsuario.inicio()}" update="@form" />
+					action="#{painelRelatorioMonitoramento.inicio()}" update="@form" />
 		
 			</h:panelGrid>
 
@@ -61,76 +66,88 @@
 			
       	</p:panel>
 		    
-	    <p:panel style="margin:0 auto; width:80%; text-align:center;" header="#{painelRelatorioMonitoramentoUsuario.departamentoSelecionado.label}">
+	    <p:panel style="margin:0 auto; width:80%; text-align:center;" header="#{painelRelatorioMonitoramento.departamentoSelecionado.label}">
 	    	
 	    	<div class="ui-g">
 			    
 			    <div class="ui-g-2">
-			    	<p:outputLabel value="Inseridos" />
-			    	<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntInseridos}" />
-	    			<p:separator></p:separator>
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('CADASTRADO')}"></p:commandButton>
+			    
+			    	<p:panel header="Inseridos">
+			    	
+				    	<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntInseridos}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('CADASTRADO')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntInseridos > 0}" 
+		    							update="@form" oncomplete="scrollFocus('form:j_id_2g')"></p:commandButton>
+			    	</p:panel>
+	    			
 			    </div>
 			    
 			    <div class="ui-g-2">
-			    	<p:outputLabel value="Alterados" />
-			    	<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntAlterados}" />
-	    			<p:separator></p:separator>
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('ALTERADO_PRE')}"></p:commandButton>
+			    	<p:panel header="Alterados">
+		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntAlterados}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('ALTERADO_PRE')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntAlterados > 0}"></p:commandButton>
+	    			</p:panel>
 			    </div>
 			    
 			    <div class="ui-g-2">
-			    	<p:outputLabel value="Excluidos" />
-			    	<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntExcluidos}" />
-	    			<p:separator></p:separator>
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('EXCLUIDO')}"></p:commandButton>
+			    	<p:panel header="Excluidos">
+		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExcluidos}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXCLUIDO')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExcluidos > 0}"></p:commandButton>
+	    			</p:panel>
 			    </div>
 			    
 			    <div class="ui-g-2">
-					<p:outputLabel value="Baixados" />
-					<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntBaixados}" />	
-	    			<p:separator></p:separator>	
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('BAIXADO')}"></p:commandButton>
+			    
+			    	<p:panel header="Baixados">
+		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntBaixados}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('BAIXADO')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntBaixados > 0}"></p:commandButton>
+	    			</p:panel>
     			</div>
     			
     			<div class="ui-g-2">
-					<p:outputLabel value="Visualizados" />
-					<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntVisualizados}" />			
-	    			<p:separator></p:separator>	
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('VISUALIZADO')}"></p:commandButton>    
+    				<p:panel header="Visualizados">
+		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntVisualizados}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('VISUALIZADO')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntVisualizados > 0}"></p:commandButton>
+	    			</p:panel>
     			</div>
     			
     			<div class="ui-g-2">
-					<p:outputLabel value="Exportados" />
-					<p:separator></p:separator>
-	    			<h:outputText value="#{painelRelatorioMonitoramentoUsuario.retornoMonitoramento.qntExportados}" />		
-	    			<p:separator></p:separator>	
-	    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramentoUsuario.detalhar('EXPORTADO')}"></p:commandButton>	    
+					<p:panel header="Exportados">
+		    			<h:outputText value="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExportados}" />
+		    			<p:separator></p:separator>
+		    			<p:commandButton value="Detalhar" action="#{painelRelatorioMonitoramento.detalhar('EXPORTADO')}" 
+		    							rendered="#{painelRelatorioMonitoramento.retornoMonitoramento.qntExportados > 0}"></p:commandButton>
+	    			</p:panel>
     			</div>
 			</div>
 	    </p:panel>
 
-		<p:outputPanel autoUpdate="true">
+		<p:panel header="Detalhes da operação" rendered="#{painelRelatorioMonitoramento.renderedDetalhar}"
+			style="margin:0 auto; width:80%; text-align:center;">
 
-			<p:panel header="Detalhes da operação" style="margin:0 auto; width:80%; text-align:center;">
-				
+			<p:outputPanel autoUpdate="true">
+
 				<p:dataTable var="balanc"
-					value="#{painelRelatorioMonitoramentoUsuario.listDetalheBalanceteAudit}">
+					value="#{painelRelatorioMonitoramento.listDetalheBalanceteAudit}">
 
 					<p:column headerText="Tipo da Operação">
 						<h:outputText value="#{balanc.id.tipoOperacaoAudit.label}"></h:outputText>
 					</p:column>
-					
+
 					<p:column headerText="Data da operação">
 						<h:outputText value="#{balanc.id.dataHoraFormat}">
 						</h:outputText>
 					</p:column>
-					
+
 					<p:column headerText="Órgão">
 						<h:outputText value="#{balanc.orgao.label}">
 						</h:outputText>
@@ -142,21 +159,25 @@
 					</p:column>
 
 					<p:column headerText="Mais informações">
-						<p:commandButton value="Dossiê" oncomplete="PF('dossieBalancete').show()" rendered="#{!balanc.id.tipoOperacaoAudit.operacaoAlterar}">
-							<f:setPropertyActionListener value="#{balanc}" target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
+						<p:commandButton value="Dossiê"
+							oncomplete="PF('dossieBalancete').show()"
+							rendered="#{!balanc.id.tipoOperacaoAudit.operacaoAlterar}">
+							<f:setPropertyActionListener value="#{balanc}"
+								target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
 						</p:commandButton>
-						
-						<p:commandButton value="Comparar" action="#{painelRelatorioMonitoramentoBalancete.preDossieAlteracao}" 
-										oncomplete="PF('dossieBalanceteAlterar').show()" rendered="#{balanc.id.tipoOperacaoAudit.operacaoAlterar}">
-							<f:setPropertyActionListener value="#{balanc}" target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
+
+						<p:commandButton value="Comparar"
+							action="#{painelRelatorioMonitoramentoBalancete.preDossieAlteracao}"
+							oncomplete="PF('dossieBalanceteAlterar').show()"
+							rendered="#{balanc.id.tipoOperacaoAudit.operacaoAlterar}">
+							<f:setPropertyActionListener value="#{balanc}"
+								target="#{painelRelatorioMonitoramentoBalancete.balanceteSelecionado}"></f:setPropertyActionListener>
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+			</p:outputPanel>
+		</p:panel>
 
-			</p:panel>
-
-		</p:outputPanel>
-		
 		<p:dialog header="Dossiê da operação" widgetVar="dossieBalancete"
 			position="top" modal="true" showEffect="fade" hideEffect="fade"
 			resizable="true"
