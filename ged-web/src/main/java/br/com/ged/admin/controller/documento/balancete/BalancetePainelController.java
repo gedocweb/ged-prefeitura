@@ -28,10 +28,8 @@ import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroBalanceteDTO;
 import br.com.ged.entidades.ArquivoBalancete;
 import br.com.ged.entidades.Balancete;
-import br.com.ged.entidades.auditoria.BalanceteAudit;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.GenericServiceController;
-import br.com.ged.framework.GenericServiceControllerAudit;
 import br.com.ged.service.BalanceteService;
 import br.com.ged.service.audit.BalanceteAuditService;
 import br.com.ged.util.container.UtilArquivo;
@@ -44,13 +42,10 @@ public class BalancetePainelController extends DocumentoSuperController {
 	protected GenericServiceController<Balancete, Long> serviceBalancete;
 	
 	@EJB
-	protected GenericServiceControllerAudit<BalanceteAudit, Long> serviceBalanceteAudit;
+	protected BalanceteAuditService balanceteAuditService;
 
 	@EJB
 	protected BalanceteService balanceteService;
-	
-	@EJB
-	protected BalanceteAuditService balanceteAuditService;
 	
 	private List<Balancete> listBalancete = null;
 

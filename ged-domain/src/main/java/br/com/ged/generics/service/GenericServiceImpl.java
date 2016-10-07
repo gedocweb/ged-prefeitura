@@ -25,6 +25,11 @@ public class GenericServiceImpl<T extends EntidadeBasica, ID extends Serializabl
 
 	@Override
 	public T getById(Class<T> clazz, ID id) {
+		
+		if (id == null){
+			return null;
+		}
+		
 		return reposiroty.getById(clazz, id);
 	}
 

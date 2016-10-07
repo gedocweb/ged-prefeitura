@@ -64,7 +64,8 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.BAIXAR_DOCUMENTO,
 			TipoFuncionalidadeEnum.REMOVER_DOCUMENTO,
-			TipoFuncionalidadeEnum.EXPORTAR_DOCUMENTO),
+			TipoFuncionalidadeEnum.EXPORTAR_DOCUMENTO,
+			TipoFuncionalidadeEnum.PESQUISAR_DOCUMENTO),
 	
 	MANTER_BALANCETE("Manter Balancete",
 			AutorizacaoEnum.ADMINISTRADOR, TipoApp.PREFEITURA,
@@ -73,7 +74,8 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_BALANCETE,
 			TipoFuncionalidadeEnum.BAIXAR_BALANCETE,
 			TipoFuncionalidadeEnum.REMOVER_BALANCETE,
-			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE),
+			TipoFuncionalidadeEnum.EXPORTAR_BALANCETE,
+			TipoFuncionalidadeEnum.PESQUISAR_BALANCETE),
 	
 	MANTER_RECURSO_HUMANO("Manter Recurso Humano",
 			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,
@@ -93,7 +95,8 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.BAIXAR_PROCESSO_LICITATORIO,
 			TipoFuncionalidadeEnum.REMOVER_PROCESSO_LICITATORIO,
-			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO),
+			TipoFuncionalidadeEnum.EXPORTAR_PROCESSO_LICITATORIO,
+			TipoFuncionalidadeEnum.PESQUISAR_PROCESSO_LICITATORIO),
 	
 	MANTER_LEI("Manter Lei",
 			AutorizacaoEnum.ADMINISTRADOR, TipoApp.PREFEITURA,
@@ -102,7 +105,8 @@ public enum FuncionalidadeEnum {
 			TipoFuncionalidadeEnum.VISUALIZAR_LEI,
 			TipoFuncionalidadeEnum.BAIXAR_LEI,
 			TipoFuncionalidadeEnum.REMOVER_LEI,
-			TipoFuncionalidadeEnum.EXPORTAR_LEI),
+			TipoFuncionalidadeEnum.EXPORTAR_LEI,
+			TipoFuncionalidadeEnum.PESQUISAR_LEI),
 	
 	RELATORIO("Relatório de Auditoria",
 			AutorizacaoEnum.ADMINISTRADOR, TipoApp.TODOS,

@@ -13,8 +13,10 @@ import javax.faces.event.PhaseId;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.entidades.Documento;
 import br.com.ged.framework.GenericServiceController;
+import br.com.ged.service.audit.DocumentoAuditService;
 
 @ManagedBean  
 @ApplicationScoped
@@ -28,14 +30,19 @@ public class BasicDocumentViewerController implements Serializable {
     private GenericServiceController<Documento, Long> serviceDoc;
     
     private Long docId;
+    
+    @EJB
+    private DocumentoAuditService documentoAuditService;
   
     public void carregaStreamArquivo(Long idDocumento) {  
   
         try {  
         	
-        	Documento doc = serviceDoc.getById(Documento.class, idDocumento, "arquivo");
+            Documento doc = serviceDoc.getById(Documento.class, idDocumento, "arquivo","categoria.listGrupoUsuario", "categoria.listGrupoUsuario.usuarios");
         	
         	ByteArrayInputStream btArray = new ByteArrayInputStream(doc.getArquivo().getArquivo());
+        	
+        	documentoAuditService.auditoria(doc, TipoOperacaoAudit.VISUALIZADO);
         	
             content = new DefaultStreamedContent(btArray, doc.getArquivo().getContentType(), doc.getArquivo().getDescricao());  
             
@@ -53,7 +60,9 @@ public class BasicDocumentViewerController implements Serializable {
         }
         else if (docId != null){
             
-            Documento doc = serviceDoc.getById(Documento.class, docId, "arquivo");
+            Documento doc = serviceDoc.getById(Documento.class, docId, "arquivo","categoria.listGrupoUsuario", "categoria.listGrupoUsuario.usuarios");
+            
+            documentoAuditService.auditoria(doc, TipoOperacaoAudit.BAIXADO);
             
             docId = null;
         	

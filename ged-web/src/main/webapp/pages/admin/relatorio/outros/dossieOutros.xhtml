@@ -1,0 +1,192 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Dossiê da operação" widgetVar="dossieDocumento"
+			position="top" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="true"
+			style="text-align:center !important; border:none !important;">
+
+			<p:outputPanel autoUpdate="true">
+			
+				<p:separator></p:separator>
+						
+					<h:outputText value="Data da operação: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.id.dataHoraFormat}" />
+						
+				<p:separator></p:separator>
+			
+				<p:panel header="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.descricao}" style="text-align:center">
+				
+					<h:panelGrid columns="1" style="width:100%">
+	
+						<h:graphicImage  alt="Arquivo PDF" 
+							value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.arquivo.pdf}" />
+						<h:graphicImage  alt="Imagem" 
+							value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.arquivo.imagem}" />
+						<h:graphicImage  alt="Imagem" 
+							value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.arquivo.word}" />
+
+					<p:outputLabel value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.arquivo.descricao}"
+						style="font-weight:bold"></p:outputLabel>
+
+					<p:separator></p:separator>
+
+					<h:outputText value="Tipo: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.tipoDocumento.descricao}" />
+					<h:outputText value="Categoria: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.categoria.descricao}" />
+					<h:outputText value="Data: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.dataDocumentoFormat}"></h:outputText>
+					<h:outputText
+						value="Última Modificação: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.dataUltimaAlteracaoFormat}"></h:outputText>
+					<h:outputText value="Autor: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.usuario.pessoa.nome}"></h:outputText>
+
+					<p:separator></p:separator>
+					
+					<h:outputText value="Observação: " />
+					<p:inputTextarea
+						value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.observacao}"
+						style="width:200px" readonly="true">
+					</p:inputTextarea>
+
+					<h:panelGrid columns="1"
+							style="width:50px;margin:0 auto; text-align:center;">
+	
+							<p:commandButton ajax="false" title="Download" value="Download"
+								onclick="PrimeFaces.monitorDownload(start, stop);"
+								icon="ui-icon-arrowthickstop-1-s">
+								<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado.id}" target="#{basicDocumentoAuditViewerController.documentoAuditPK}"></f:setPropertyActionListener>
+								<p:fileDownload	value="#{basicDocumentoAuditViewerController.streamedDownaload}" />
+							</p:commandButton>
+							
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+				
+			</p:outputPanel>
+	</p:dialog>
+	
+	<p:dialog header="Dossiê da alteração" widgetVar="dossieDocumentoAlterar"
+			position="top" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="true"
+			style="text-align:center !important; border:none !important;">
+
+			<p:outputPanel autoUpdate="true">
+			
+				<p:separator></p:separator>
+						
+					<h:outputText value="Data da alteração: #{painelRelatorioMonitoramentoDocumento.documentoSelecionado.id.dataHoraFormat}" />
+						
+				<p:separator></p:separator>
+			
+				<div class="ui-g">
+			    
+				    <div class="ui-g-6">
+				    
+				    	<p:separator></p:separator>
+						
+							<h:outputText style="text-align:center" value="Antes" />
+								
+						<p:separator></p:separator>
+				    
+				    	<p:panel header="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.descricao}" style="text-align:center">
+			
+							<h:panelGrid columns="1" style="width:100%">
+			
+								<h:graphicImage  alt="Arquivo PDF" 
+									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.arquivo.pdf}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.arquivo.imagem}" />
+								<h:graphicImage  alt="Imagem" 
+										value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.arquivo.word}" />
+	
+								<p:outputLabel value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.arquivo.descricao}"
+									style="font-weight:bold"></p:outputLabel>
+	
+								<p:separator></p:separator>
+	
+								<h:outputText value="Tipo: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.tipoDocumento.descricao}" />
+								<h:outputText value="Categoria: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.categoria.descricao}" />
+								<h:outputText value="Data: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.dataDocumentoFormat}"></h:outputText>
+								<h:outputText
+									value="Última Modificação: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
+								<h:outputText value="Autor: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.usuario.pessoa.nome}"></h:outputText>
+	
+								<p:separator></p:separator>
+								<h:outputText value="Observação: "/>
+								<p:inputTextarea value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.observacao}"
+									style="width:200px" readonly="true"> 
+								</p:inputTextarea>
+			
+								<h:panelGrid columns="1"
+									style="width:50px;margin:0 auto; text-align:center;">
+			
+									<p:commandButton ajax="false" title="Download" value="Download"
+										onclick="PrimeFaces.monitorDownload(start, stop);"
+										icon="ui-icon-arrowthickstop-1-s">
+										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPreAlteracao.id}" target="#{basicDocumentoAuditViewerController.documentoAuditPK}"></f:setPropertyActionListener>
+										<p:fileDownload	value="#{basicDocumentoAuditViewerController.streamedDownaload}" />
+									</p:commandButton>
+									
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:panel>				
+				    </div>
+				    
+				    <div class="ui-g-6">
+				    
+				    	<p:separator></p:separator>
+						
+							<h:outputText style="text-align:center" value="Depois" />
+								
+						<p:separator></p:separator>
+				    
+				    	<p:panel header="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.descricao}" style="text-align:center">
+			
+							<h:panelGrid columns="1" style="width:100%">
+			
+								<h:graphicImage  alt="Arquivo PDF" 
+									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.arquivo.pdf}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.arquivo.imagem}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.arquivo.word}" />
+			
+								<p:outputLabel value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.arquivo.descricao}"
+									style="font-weight:bold"></p:outputLabel>
+	
+								<p:separator></p:separator>
+	
+								<h:outputText value="Tipo: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.tipoDocumento.descricao}" />
+								<h:outputText value="Categoria: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.categoria.descricao}" />
+								<h:outputText value="Data: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.dataDocumentoFormat}"></h:outputText>
+								<h:outputText
+									value="Última Modificação: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
+								<h:outputText value="Autor: #{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.usuario.pessoa.nome}"></h:outputText>
+								
+								<p:separator></p:separator>
+								<h:outputText value="Observação: "/>
+								<p:inputTextarea value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.observacao}"
+									style="width:200px" readonly="true"> 
+								</p:inputTextarea>
+			
+								<h:panelGrid columns="1"
+									style="width:50px;margin:0 auto; text-align:center;">
+			
+									<p:commandButton ajax="false" title="Download" value="Download"
+										onclick="PrimeFaces.monitorDownload(start, stop);"
+										icon="ui-icon-arrowthickstop-1-s">
+										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoDocumento.documentoSelecionadoPosAlteracao.id}" target="#{basicDocumentoAuditViewerController.documentoAuditPK}"></f:setPropertyActionListener>
+										<p:fileDownload	value="#{basicDocumentoAuditViewerController.streamedDownaload}" />
+									</p:commandButton>
+									
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:panel>		
+				    </div>
+			    
+			    </div>
+			
+			</p:outputPanel>
+	</p:dialog>
+
+</ui:composition>

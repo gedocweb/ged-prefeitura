@@ -9,6 +9,8 @@
 
 	<ui:define name="body">
 	
+		<f:event listener="#{painelRelatorioMonitoramento.preRenderView}" type="preRenderView" />
+	
 		<p:panel  header="Filtro da Pesquisa" style="margin:0 auto; width:80%; text-align:center;" rendered="#{painelRelatorioMonitoramento.autorizaFuncionalidade('MONITORAR_OPERACAO')}">
 		    
 		    <h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;" >
@@ -155,9 +157,15 @@
 				<ui:include src="/pages/admin/relatorio/balancete/detalheOperacaoBalancete.xhtml" />
 			</p:outputPanel>
 			
+			<p:outputPanel autoUpdate="true" rendered="#{painelRelatorioMonitoramento.departamentoSelecionado.outros}">
+				<ui:include src="/pages/admin/relatorio/outros/detalheOperacaoOutros.xhtml" />
+			</p:outputPanel>
+			
 		</p:panel>
 		
 		<ui:include src="/pages/admin/relatorio/balancete/dossieBalancete.xhtml" />
+		
+		<ui:include src="/pages/admin/relatorio/outros/dossieOutros.xhtml" />
 
 	</ui:define>
 </ui:composition>

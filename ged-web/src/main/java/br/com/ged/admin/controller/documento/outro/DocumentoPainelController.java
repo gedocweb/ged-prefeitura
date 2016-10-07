@@ -3,6 +3,7 @@ package br.com.ged.admin.controller.documento.outro;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -31,6 +33,7 @@ import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.entidade.Situacao;
 import br.com.ged.domain.entidade.TipoFuncionalidadeEnum;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroDocumentoDTO;
 import br.com.ged.entidades.Arquivo;
 import br.com.ged.entidades.Categoria;
@@ -43,6 +46,7 @@ import br.com.ged.framework.GenericServiceController;
 import br.com.ged.service.CategoriaDocumentoService;
 import br.com.ged.service.DocumentoService;
 import br.com.ged.service.GrupoUsuarioService;
+import br.com.ged.service.audit.DocumentoAuditService;
 import br.com.ged.util.container.UtilArquivo;
 
 @ManagedBean(name="painelDocumento")
@@ -117,6 +121,10 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	
 	private List<String> listGrupoUsuarioCategoria;
 	private List<String> listGrupoUsuarioCategoriaSelecionados;
+	
+	@EJB
+	protected DocumentoAuditService documentoAuditService;
+	private Documento documentoPreAlteracao;
 	
 	@PostConstruct
 	public void inicio(){
@@ -241,7 +249,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 	
 	public void preparaAlterar(Documento doc){
 		
-		documentoSelecionado = doc;
+		documentoSelecionado = serviceDocumento.getById(Documento.class, doc.getId(), "arquivo","categoria.listGrupoUsuario", "categoria.listGrupoUsuario.usuarios");
 		arquivoAnexado = doc.getArquivo().getId() != null;
 		renderizaAlterar = Boolean.TRUE;
 		renderizaCadastro = Boolean.FALSE;
@@ -253,6 +261,23 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			extensaoArquivoDiferentePDF = Boolean.FALSE;
 		}else{
 			extensaoArquivoDiferentePDF = Boolean.TRUE;
+		}
+		
+		preAlteracaoAuditoria(documentoSelecionado);
+	}
+	
+	private void preAlteracaoAuditoria(Documento docSelecionado) {
+		
+		try {
+			documentoPreAlteracao = (Documento) BeanUtils.cloneBean(docSelecionado);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -622,6 +647,9 @@ public class DocumentoPainelController extends DocumentoSuperController{
 				entry.setSize(doc.getArquivo().getArquivo().length);
 				zos.putNextEntry(entry);
 				zos.write(doc.getArquivo().getArquivo());
+				
+				documentoAuditService.auditoria(doc, TipoOperacaoAudit.EXPORTADO);
+				
 				zos.closeEntry();									
 			}												
 			zos.close();
@@ -696,12 +724,14 @@ public class DocumentoPainelController extends DocumentoSuperController{
 
 	public void excluirDocumento(){
 		
-		getDocumentoSelecionado().setSituacao(Situacao.INATIVO);
+		setDocumentoSelecionado(serviceDocumento.getById(Documento.class, documentoSelecionado.getId(), "arquivo","categoria.listGrupoUsuario", "categoria.listGrupoUsuario.usuarios"));
+		
 		getDocumentoSelecionado().setDataUltimaAlteracao(new Date());
 		getDocumentoSelecionado().setUsuario(getUsuarioLogado());
 		
 		//TODO Auditoria
-		serviceDocumento.merge(getDocumentoSelecionado());
+		serviceDocumento.excluir(getDocumentoSelecionado());
+		documentoAuditService.auditoria(getDocumentoSelecionado(), TipoOperacaoAudit.EXCLUIDO);
 		
 		documento = inicializaDocumento();
 		documentoSelecionado = inicializaDocumento();
@@ -733,6 +763,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			
 			//TODO Auditoria
 			serviceDocumento.salvar(getDocumento());
+			documentoAuditService.auditoria(getDocumento(), TipoOperacaoAudit.CADASTRADO);
 			
 			setDocumento(inicializaDocumento());
 			arquivoAnexado = Boolean.FALSE;
@@ -775,6 +806,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 			
 			//TODO Auditoria
 			serviceDocumento.merge(getDocumentoSelecionado());
+			documentoAuditService.auditoriaAlterar(this.documentoPreAlteracao, getDocumentoSelecionado());
 			
 			setDocumentoSelecionado(inicializaDocumento());
 			arquivoAnexado = Boolean.FALSE;

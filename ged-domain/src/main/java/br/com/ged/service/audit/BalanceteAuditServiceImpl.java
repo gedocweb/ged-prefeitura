@@ -67,12 +67,12 @@ public class BalanceteAuditServiceImpl implements BalanceteAuditService{
 		retornoMonitoramento.setDeparamento(DepartamentoEnum.BALANCETE);
 		retornoMonitoramento.setNomeUsuarioPessoa(usuarioService.nomeUsuarioPorId(filtroMonitoramento.getIdUsuario()));
 		
-		retornoMonitoramento.setQntAlterados(monitoramentoService.countAlterados(filtroMonitoramento));
-		retornoMonitoramento.setQntInseridos(monitoramentoService.countInseridos(filtroMonitoramento));
-		retornoMonitoramento.setQntBaixados(monitoramentoService.countBaixados(filtroMonitoramento));
-		retornoMonitoramento.setQntVisualizados(monitoramentoService.countVisualizados(filtroMonitoramento));
-		retornoMonitoramento.setQntExcluidos(monitoramentoService.countExcluidos(filtroMonitoramento));
-		retornoMonitoramento.setQntExportados(monitoramentoService.countExportados(filtroMonitoramento));
+		retornoMonitoramento.setQntAlterados(monitoramentoService.countAlterados(filtroMonitoramento, DepartamentoEnum.BALANCETE));
+		retornoMonitoramento.setQntInseridos(monitoramentoService.countInseridos(filtroMonitoramento, DepartamentoEnum.BALANCETE));
+		retornoMonitoramento.setQntBaixados(monitoramentoService.countBaixados(filtroMonitoramento, DepartamentoEnum.BALANCETE));
+		retornoMonitoramento.setQntVisualizados(monitoramentoService.countVisualizados(filtroMonitoramento, DepartamentoEnum.BALANCETE));
+		retornoMonitoramento.setQntExcluidos(monitoramentoService.countExcluidos(filtroMonitoramento, DepartamentoEnum.BALANCETE));
+		retornoMonitoramento.setQntExportados(monitoramentoService.countExportados(filtroMonitoramento, DepartamentoEnum.BALANCETE));
 
 		return retornoMonitoramento;
 	}

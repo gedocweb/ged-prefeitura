@@ -23,7 +23,7 @@ public enum Pagina {
 	CADASTRAR_GRUPO_USUARIO("/pages/admin/grupoUsuario/cadastrarGrupoUsuario.jsf"),
 	
 	PAINEL_DOCUMENTO("/pages/admin/documento/painelDocumento.jsf"), 
-	RELATORIO_MONITORAMENTO_USUARIO("/pages/admin/relatorio/relatorioMonitoramentoUsuario.jsf");
+	RELATORIO_MONITORAMENTO("/pages/admin/relatorio/relatorioMonitoramento.jsf");
 	
 	private String valor;
 	

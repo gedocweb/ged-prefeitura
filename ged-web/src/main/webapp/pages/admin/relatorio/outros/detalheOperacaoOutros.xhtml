@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="doc"
+		value="#{painelRelatorioMonitoramento.listDetalheDocumentoAudit}">
+
+		<p:column headerText="Tipo da Operação">
+			<h:outputText value="#{doc.id.tipoOperacaoAudit.label}"></h:outputText>
+		</p:column>
+		
+		<p:column headerText="Data da operação">
+			<h:outputText value="#{doc.id.dataHoraFormat}">
+			</h:outputText>
+		</p:column>
+		
+		<p:column headerText="Descrição do documento">
+			<h:outputText value="#{doc.descricao}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Data do documento">
+			<h:outputText value="#{doc.dataDocumentoFormat}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Mais informações">
+			<p:commandButton value="Dossiê"
+				oncomplete="PF('dossieDocumento').show()"
+				rendered="#{!doc.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{doc}"
+					target="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+
+			<p:commandButton value="Comparar"
+				action="#{painelRelatorioMonitoramentoDocumento.preDossieAlteracao}"
+				oncomplete="PF('dossieDocumentoAlterar').show()"
+				rendered="#{doc.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{doc}"
+					target="#{painelRelatorioMonitoramentoDocumento.documentoSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+		</p:column>
+		
+	</p:dataTable>
+
+</ui:composition>

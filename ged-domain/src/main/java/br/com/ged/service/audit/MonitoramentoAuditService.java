@@ -1,5 +1,6 @@
 package br.com.ged.service.audit;
 
+import br.com.ged.domain.entidade.DepartamentoEnum;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 
 /**
@@ -16,10 +17,10 @@ public interface MonitoramentoAuditService {
 	 * @param hibernateInitialize 
 	 * @return
 	 */
-	Long countAlterados(FiltroMonitoramentoAuditDTO filtro);
-	Long countInseridos(FiltroMonitoramentoAuditDTO filtro);
-	Long countBaixados(FiltroMonitoramentoAuditDTO filtro);
-	Long countVisualizados(FiltroMonitoramentoAuditDTO filtro);
-	Long countExcluidos(FiltroMonitoramentoAuditDTO filtro);
-	Long countExportados(FiltroMonitoramentoAuditDTO filtro);
+	Long countAlterados(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
+	Long countInseridos(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
+	Long countBaixados(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
+	Long countVisualizados(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
+	Long countExcluidos(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
+	Long countExportados(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum);
 }

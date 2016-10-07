@@ -77,6 +77,11 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 	
 	public boolean autorizaFuncionalidadeMenu(FuncionalidadeEnum funcionalidade){
 		
+		if (funcionalidade == null || grupoUsuarioLogado == null){
+			return false;
+		}
+		
+		
 		return grupoUsuarioLogado.getFuncionalidades().contains(funcionalidade);
 	}
 	
@@ -180,6 +185,8 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
         					service.salvarSemMensagem(grupoUsuarioAdmin);
         					
         					setAtributoSessao(AtributoSessao.GRUPO_USUARIO_LOGADO, grupoUsuarioAdmin);
+        					
+        					grupoUsuarioLogado = (GrupoUsuario) getAtributoSessao(AtributoSessao.GRUPO_USUARIO_LOGADO);
         				}
 	        		}
 	        	
@@ -215,7 +222,7 @@ public abstract class AbstractManageBean extends AutorizacaoManageBean {
 			
 			if (usuario != null && usuario.isLogado()){
 				setAtributoSessao(AtributoSessao.USUARIO_ATIVO, Boolean.FALSE);
-				enviaMensagem(Mensagem.USU11);
+//				enviaMensagem(Mensagem.USU11);
 			}else{
 				
 				usuario.setLogado(Boolean.TRUE);

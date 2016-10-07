@@ -69,6 +69,6 @@ public class RelatorioMonitoramentoBalanceteController extends RelatorioSuperCon
 
 	@Override
 	protected Pagina getPaginaManageBean() {
-		return Pagina.RELATORIO_MONITORAMENTO_USUARIO;
+		return Pagina.RELATORIO_MONITORAMENTO;
 	}
 }

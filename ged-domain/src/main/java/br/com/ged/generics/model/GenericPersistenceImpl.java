@@ -36,6 +36,11 @@ public class GenericPersistenceImpl<T extends EntidadeBasica, ID extends Seriali
 	@SuppressWarnings("unchecked")
 	@Override
 	public T getById(Class<T> entityName, ID id) {
+		
+		if (id == null){
+			return  null;
+		}
+		
 		return (T) consultaReposiroty.getSession().get(entityName.getName(), id, LockOptions.READ);
 	}
 

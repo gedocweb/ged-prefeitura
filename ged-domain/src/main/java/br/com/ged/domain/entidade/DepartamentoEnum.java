@@ -66,7 +66,7 @@ public enum DepartamentoEnum {
 		return label;
 	}
 	
-	public boolean getBalancete(){
+	public boolean isBalancete(){
 		return this.equals(BALANCETE);
 	}
 	public boolean getLei(){
@@ -78,7 +78,7 @@ public enum DepartamentoEnum {
 	public boolean getProcessoLicitatorio(){
 		return this.equals(PROC_LICITA);
 	}
-	public boolean getOutros(){
+	public boolean isOutros(){
 		return this.equals(OUTROS);
 	}
 }
