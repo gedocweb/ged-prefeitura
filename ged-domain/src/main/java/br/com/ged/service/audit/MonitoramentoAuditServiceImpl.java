@@ -7,8 +7,6 @@ import javax.ejb.Stateless;
 
 import br.com.ged.domain.entidade.DepartamentoEnum;
 import br.com.ged.domain.entidade.TipoOperacaoAudit;
-import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
-import br.com.ged.dto.audit.FiltroDocumentoAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 
 @Stateless
@@ -19,6 +17,9 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 	
 	@EJB
 	private DocumentoAuditService documentoAuditService;
+	
+	@EJB
+	private LeiAuditService leiAuditService;
 
 	@Override
 	public Long countAlterados(FiltroMonitoramentoAuditDTO filtro, DepartamentoEnum departamentoEnum) {
@@ -29,6 +30,10 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 		
 		if (departamentoEnum.isOutros()){
 			return countDocumento(filtro, TipoOperacaoAudit.ALTERADO_POS);
+		}
+		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.ALTERADO_POS);
 		}
 		
 		return null;
@@ -45,6 +50,10 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 			return countDocumento(filtro, TipoOperacaoAudit.CADASTRADO);
 		}
 		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.CADASTRADO);
+		}
+		
 		return null;
 	}
 
@@ -57,6 +66,10 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 		
 		if (departamentoEnum.isOutros()){
 			return countDocumento(filtro, TipoOperacaoAudit.BAIXADO);
+		}
+		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.BAIXADO);
 		}
 		
 		return null;
@@ -73,6 +86,10 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 			return countDocumento(filtro, TipoOperacaoAudit.VISUALIZADO);
 		}
 		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.VISUALIZADO);
+		}
+		
 		return null;
 	}
 
@@ -85,6 +102,10 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 		
 		if (departamentoEnum.isOutros()){
 			return countDocumento(filtro, TipoOperacaoAudit.EXCLUIDO);
+		}
+		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.EXCLUIDO);
 		}
 		
 		return null;
@@ -101,14 +122,16 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 			return countDocumento(filtro, TipoOperacaoAudit.EXPORTADO);
 		}
 		
+		if (departamentoEnum.isLei()){
+			return countLei(filtro, TipoOperacaoAudit.EXPORTADO);
+		}
+		
 		return null;
 	}
 	
 	private Long countDocumento(FiltroMonitoramentoAuditDTO filtro, TipoOperacaoAudit tipoOp) {
 		
-		FiltroDocumentoAuditDTO filtroDocumentoAuditDTO = converteFiltroMonitoramentoParaFiltroAuditDocumentoDTO(filtro);
-		
-		Long resultadoConsulta = documentoAuditService.countDocumentoAudit(filtroDocumentoAuditDTO,tipoOp);		
+		Long resultadoConsulta = documentoAuditService.countAudit(filtro,tipoOp);		
 		Long count = BigInteger.ZERO.longValue();
 		
 		if (resultadoConsulta != null){
@@ -118,21 +141,22 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 		return count;
 	}
 
-	private FiltroDocumentoAuditDTO converteFiltroMonitoramentoParaFiltroAuditDocumentoDTO(FiltroMonitoramentoAuditDTO filtro) {
-		FiltroDocumentoAuditDTO filtroDTO = new FiltroDocumentoAuditDTO();
+	private Long countLei(FiltroMonitoramentoAuditDTO filtro, TipoOperacaoAudit tipoOp) {
 		
-		filtroDTO.setDataBetween(filtro.getDataFiltroBetween());
-		filtroDTO.setIdUsuario(filtro.getIdUsuario());
-		filtroDTO.setTipoOperacaoAudit(filtro.getTipoOperacaoAudit());
+		Long resultadoConsulta = leiAuditService.countLeiAudit(filtro,tipoOp);
 		
-		return filtroDTO;
+		Long count = BigInteger.ZERO.longValue();
+		
+		if (resultadoConsulta != null){
+			
+			count  = resultadoConsulta;
+		}
+		return count;
 	}
 
 	private Long countBalancete(FiltroMonitoramentoAuditDTO filtro, TipoOperacaoAudit tipoOp) {
 		
-		FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(filtro);
-		
-		Long resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtroBalanceteAuditDTO,tipoOp);
+		Long resultadoConsulta = balanceteAuditService.countBalanceteAudit(filtro,tipoOp);
 		
 		Long count = BigInteger.ZERO.longValue();
 		
@@ -141,16 +165,5 @@ public class MonitoramentoAuditServiceImpl implements MonitoramentoAuditService{
 			count  = resultadoConsulta;
 		}
 		return count;
-	}
-	
-	private FiltroBalanceteAuditDTO converteFiltroMonitoramentoParaFiltroAuditBalanceteDTO(FiltroMonitoramentoAuditDTO filtro) {
-		
-		FiltroBalanceteAuditDTO filtroBalanceteAuditDTO = new FiltroBalanceteAuditDTO();
-		
-		filtroBalanceteAuditDTO.setDataBetween(filtro.getDataFiltroBetween());
-		filtroBalanceteAuditDTO.setIdUsuario(filtro.getIdUsuario());
-		filtroBalanceteAuditDTO.setTipoOperacaoAudit(filtro.getTipoOperacaoAudit());
-		
-		return filtroBalanceteAuditDTO;
 	}
 }

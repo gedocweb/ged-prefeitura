@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="lei"
+		value="#{painelRelatorioMonitoramento.listDetalheLeiAudit}">
+
+		<p:column headerText="Tipo da Operação">
+			<h:outputText value="#{lei.id.tipoOperacaoAudit.label}"></h:outputText>
+		</p:column>
+
+		<p:column headerText="Data da operação">
+			<h:outputText value="#{lei.id.dataHoraFormat}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Lei nº">
+			<h:outputText value="#{lei.numeroLei}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Data da indexação">
+			<h:outputText value="#{lei.dataIndexacaoFormat}">
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Mais informações">
+			<p:commandButton value="Dossiê"
+				oncomplete="PF('dossieLei').show()"
+				rendered="#{!lei.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{lei}"
+					target="#{painelRelatorioMonitoramentoLei.leiSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+
+			<p:commandButton value="Comparar"
+				action="#{painelRelatorioMonitoramentoLei.preDossieAlteracao}"
+				oncomplete="PF('dossieLeiAlterar').show()"
+				rendered="#{lei.id.tipoOperacaoAudit.operacaoAlterar and painelRelatorioMonitoramento.autorizaFuncionalidade('DOSSIE_OPERACAO')}">
+				<f:setPropertyActionListener value="#{lei}"
+					target="#{painelRelatorioMonitoramentoLei.leiSelecionado}"></f:setPropertyActionListener>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

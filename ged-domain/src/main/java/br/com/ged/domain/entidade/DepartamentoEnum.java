@@ -69,7 +69,7 @@ public enum DepartamentoEnum {
 	public boolean isBalancete(){
 		return this.equals(BALANCETE);
 	}
-	public boolean getLei(){
+	public boolean isLei(){
 		return this.equals(LEI);
 	}
 	public boolean getRh(){

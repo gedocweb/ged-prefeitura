@@ -11,13 +11,16 @@ import br.com.ged.domain.Pagina;
 import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
 import br.com.ged.dto.audit.FiltroDocumentoAuditDTO;
+import br.com.ged.dto.audit.FiltroLeiAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.dto.audit.RetornoMonitoramentoUsuarioDTO;
 import br.com.ged.entidades.auditoria.BalanceteAudit;
 import br.com.ged.entidades.auditoria.DocumentoAudit;
+import br.com.ged.entidades.auditoria.LeiAudit;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.service.audit.BalanceteAuditService;
 import br.com.ged.service.audit.DocumentoAuditService;
+import br.com.ged.service.audit.LeiAuditService;
 import br.com.ged.util.DataUtil;
 
 @ManagedBean(name="painelRelatorioMonitoramento")
@@ -25,11 +28,15 @@ import br.com.ged.util.DataUtil;
 public class RelatorioMonitoramentoController extends RelatorioSuperController{
 	
 	@EJB
+	private LeiAuditService leiAuditService;
+	
+	@EJB
 	private BalanceteAuditService balanceteAuditService;
 	
 	@EJB
 	private DocumentoAuditService documentoAuditService;
 	
+	private List<LeiAudit> listDetalheLeiAudit;
 	private List<BalanceteAudit> listDetalheBalanceteAudit;
 	private List<DocumentoAudit> listDetalheDocumentoAudit;
 	
@@ -40,6 +47,7 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 		
 		filtroMonitoramento = new FiltroMonitoramentoAuditDTO();
 		filtroBalanceteAuditDTO = new FiltroBalanceteAuditDTO();
+		filtroLeiAuditDTO = new FiltroLeiAuditDTO();
 		
 		retornoMonitoramento = new RetornoMonitoramentoUsuarioDTO();
 		renderedDetalhar = Boolean.FALSE;
@@ -55,6 +63,11 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 			validadorView.valida(idGrupoSelecionado, idUsuarioSelecionado, departamentoSelecionado);
 			
 			FiltroMonitoramentoAuditDTO filtroMonitoramento  = montaFiltroConsulta();
+			
+			if (departamentoSelecionado.isLei() && filtroMonitoramento.getIdUsuario() != null){
+				
+				retornoMonitoramento = leiAuditService.monitoramento(filtroMonitoramento);
+			}
 			
 			if (departamentoSelecionado.isBalancete() && filtroMonitoramento.getIdUsuario() != null){
 				
@@ -102,7 +115,6 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 			filtroBalanceteAuditDTO.setIdUsuario(idUsuarioSelecionado);
 
 			listDetalheBalanceteAudit = balanceteAuditService.detalharOperacao(filtroBalanceteAuditDTO, operacaoAudit);
-			renderedDetalhar = Boolean.TRUE;
 		}
 		
 		if (departamentoSelecionado.isOutros()){
@@ -113,8 +125,19 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 			filtroDocumentoAuditDTO.setIdUsuario(idUsuarioSelecionado);
 
 			listDetalheDocumentoAudit = documentoAuditService.detalharOperacao(filtroDocumentoAuditDTO, operacaoAudit);
-			renderedDetalhar = Boolean.TRUE;
 		}
+		
+		if (departamentoSelecionado.isLei()){
+			
+			FiltroLeiAuditDTO filtroleiAuditDTO = new FiltroLeiAuditDTO();
+			
+			filtroleiAuditDTO.setDataBetween(filtroMonitoramento.getDataFiltroBetween());
+			filtroleiAuditDTO.setIdUsuario(idUsuarioSelecionado);
+
+			listDetalheLeiAudit = leiAuditService.detalharOperacao(filtroleiAuditDTO, operacaoAudit);
+		}
+		
+		renderedDetalhar = Boolean.TRUE;
 	}
 
 	@Override
@@ -128,5 +151,9 @@ public class RelatorioMonitoramentoController extends RelatorioSuperController{
 
 	public List<DocumentoAudit> getListDetalheDocumentoAudit() {
 		return listDetalheDocumentoAudit;
+	}
+
+	public List<LeiAudit> getListDetalheLeiAudit() {
+		return listDetalheLeiAudit;
 	}
 }

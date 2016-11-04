@@ -11,6 +11,7 @@ import javax.faces.model.SelectItem;
 import br.com.ged.domain.entidade.DepartamentoEnum;
 import br.com.ged.dto.FiltroGrupoUsuarioDTO;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
+import br.com.ged.dto.audit.FiltroLeiAuditDTO;
 import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.dto.audit.RetornoMonitoramentoUsuarioDTO;
 import br.com.ged.entidades.GrupoUsuario;
@@ -50,6 +51,7 @@ public abstract class RelatorioSuperController extends AbstractManageBean{
 	
 	protected FiltroMonitoramentoAuditDTO filtroMonitoramento;
 	protected FiltroBalanceteAuditDTO filtroBalanceteAuditDTO;
+	protected FiltroLeiAuditDTO filtroLeiAuditDTO;
 	
 	protected RetornoMonitoramentoUsuarioDTO retornoMonitoramento;
 	
@@ -190,6 +192,14 @@ public abstract class RelatorioSuperController extends AbstractManageBean{
 
 	public FiltroBalanceteAuditDTO getFiltroBalanceteAuditDTO() {
 		return filtroBalanceteAuditDTO;
+	}
+	
+	public FiltroLeiAuditDTO getFiltroLeiAuditDTO() {
+		return filtroLeiAuditDTO;
+	}
+
+	public void setFiltroLeiAuditDTO(FiltroLeiAuditDTO filtroLeiAuditDTO) {
+		this.filtroLeiAuditDTO = filtroLeiAuditDTO;
 	}
 
 	public RetornoMonitoramentoUsuarioDTO getRetornoMonitoramento() {

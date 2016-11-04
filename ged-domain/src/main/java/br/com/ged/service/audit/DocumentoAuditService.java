@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroDocumentoAuditDTO;
+import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.entidades.Documento;
 import br.com.ged.entidades.auditoria.DocumentoAudit;
 import br.com.ged.entidades.auditoria.DocumentoAuditPK;
@@ -24,7 +25,7 @@ public interface DocumentoAuditService extends IResultadoMonitoramento{
 	 */
 	List<DocumentoAudit> detalharOperacao(FiltroDocumentoAuditDTO filtroDoc, TipoOperacaoAudit tipoOp);
 
-	Long countDocumentoAudit(FiltroDocumentoAuditDTO filtroDocumentoAuditDTO, TipoOperacaoAudit tipoOp);
+	Long countAudit(FiltroMonitoramentoAuditDTO filtroDocumentoAuditDTO, TipoOperacaoAudit tipoOp);
 
 	void auditoria(Documento balancete, TipoOperacaoAudit alteracao);
 

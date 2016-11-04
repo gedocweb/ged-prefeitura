@@ -152,6 +152,10 @@
 
 		<p:panel header="Detalhes da operação" rendered="#{painelRelatorioMonitoramento.renderedDetalhar}"
 			style="margin:0 auto; width:80%; text-align:center;">
+			
+			<p:outputPanel autoUpdate="true" rendered="#{painelRelatorioMonitoramento.departamentoSelecionado.lei}">
+				<ui:include src="/pages/admin/relatorio/lei/detalheOperacaoLei.xhtml" />
+			</p:outputPanel>
 
 			<p:outputPanel autoUpdate="true" rendered="#{painelRelatorioMonitoramento.departamentoSelecionado.balancete}">
 				<ui:include src="/pages/admin/relatorio/balancete/detalheOperacaoBalancete.xhtml" />
@@ -162,6 +166,8 @@
 			</p:outputPanel>
 			
 		</p:panel>
+		
+		<ui:include src="/pages/admin/relatorio/lei/dossieLei.xhtml" />
 		
 		<ui:include src="/pages/admin/relatorio/balancete/dossieBalancete.xhtml" />
 		

@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.audit.FiltroBalanceteAuditDTO;
+import br.com.ged.dto.audit.FiltroMonitoramentoAuditDTO;
 import br.com.ged.entidades.Balancete;
 import br.com.ged.entidades.auditoria.BalanceteAudit;
 import br.com.ged.entidades.auditoria.BalanceteAuditPK;
@@ -24,7 +25,7 @@ public interface BalanceteAuditService extends IResultadoMonitoramento{
 	 */
 	List<BalanceteAudit> detalharOperacao(FiltroBalanceteAuditDTO filtroDoc, TipoOperacaoAudit tipoOp);
 
-	Long countBalanceteAudit(FiltroBalanceteAuditDTO filtroBalanceteAuditDTO, TipoOperacaoAudit tipoOp);
+	Long countBalanceteAudit(FiltroMonitoramentoAuditDTO filtroBalanceteAuditDTO, TipoOperacaoAudit tipoOp);
 
 	void auditoriaBalancete(Balancete balancete, TipoOperacaoAudit alteracao);
 

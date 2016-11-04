@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Dossiê da operação" widgetVar="dossieLei"
+			position="top" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="true"
+			style="text-align:center !important; border:none !important;">
+
+			<p:outputPanel autoUpdate="true">
+			
+				<p:separator></p:separator>
+						
+					<h:outputText value="Data da operação: #{painelRelatorioMonitoramentoLei.leiSelecionado.id.dataHoraFormat}" />
+						
+				<p:separator></p:separator>
+			
+				<p:panel header="Ano: #{painelRelatorioMonitoramentoLei.leiSelecionado.ano}" style="text-align:center">
+				
+					<h:panelGrid columns="1" style="width:100%">
+	
+						<h:graphicImage  alt="Arquivo PDF" 
+							value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionado.arquivo.pdf}" />
+						<h:graphicImage  alt="Imagem" 
+							value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionado.arquivo.imagem}" />
+						<h:graphicImage  alt="Imagem" 
+							value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionado.arquivo.word}" />
+	
+						<p:outputLabel value="#{painelRelatorioMonitoramentoLei.leiSelecionado.arquivo.descricao}"
+								style="font-weight:bold"></p:outputLabel>
+
+						<p:separator></p:separator>
+
+						<h:outputText value="Nº Lei : #{painelRelatorioMonitoramentoLei.leiSelecionado.numeroLei}" />
+
+						<p:separator></p:separator>
+
+						<h:outputText value="Objeto: #{painelRelatorioMonitoramentoLei.leiSelecionado.objeto}" />
+						<h:outputText
+							value="Data de Indexação: #{painelRelatorioMonitoramentoLei.leiSelecionado.dataIndexacaoFormat}"></h:outputText>
+						<h:outputText
+							value="Última Modificação: #{painelRelatorioMonitoramentoLei.leiSelecionado.dataUltimaAlteracaoFormat}"></h:outputText>
+						<h:outputText value="Autor: #{painelRelatorioMonitoramentoLei.leiSelecionado.usuario.pessoa.nome}"></h:outputText>
+						
+						<p:separator></p:separator>
+						<h:outputText value="Observação: "/>
+						<p:inputTextarea value="#{painelRelatorioMonitoramentoLei.leiSelecionado.observacao}"
+							style="width:200px" readonly="true"> 
+						</p:inputTextarea>
+	
+						<h:panelGrid columns="1"
+							style="width:50px;margin:0 auto; text-align:center;">
+	
+							<p:commandButton ajax="false" title="Download" value="Download"
+								onclick="PrimeFaces.monitorDownload(start, stop);"
+								icon="ui-icon-arrowthickstop-1-s">
+								<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoLei.leiSelecionado.id}" target="#{basicLeiAuditViewerController.leiAuditPK}"></f:setPropertyActionListener>
+								<p:fileDownload	value="#{basicLeiAuditViewerController.streamedDownaload}" />
+							</p:commandButton>
+							
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+				
+			</p:outputPanel>
+	</p:dialog>
+	
+	<p:dialog header="Dossiê da alteração" widgetVar="dossieLeiAlterar"
+			position="top" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="true"
+			style="text-align:center !important; border:none !important;">
+
+			<p:outputPanel autoUpdate="true">
+			
+				<p:separator></p:separator>
+						
+					<h:outputText value="Data da alteração: #{painelRelatorioMonitoramentoLei.leiSelecionado.id.dataHoraFormat}" />
+						
+				<p:separator></p:separator>
+			
+				<div class="ui-g">
+			    
+				    <div class="ui-g-6">
+				    
+				    	<p:separator></p:separator>
+						
+							<h:outputText style="text-align:center" value="Antes" />
+								
+						<p:separator></p:separator>
+				    
+				    	<p:panel header="Ano: #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.ano}" style="text-align:center">
+			
+							<h:panelGrid columns="1" style="width:100%">
+			
+								<h:graphicImage  alt="Arquivo PDF" 
+									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.arquivo.pdf}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.arquivo.imagem}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.arquivo.word}" />
+			
+								<p:outputLabel value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.arquivo.descricao}"
+								style="font-weight:bold"></p:outputLabel>
+
+								<p:separator></p:separator>
+	
+								<h:outputText value="Nº Lei : #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.numeroLei}" />
+	
+								<p:separator></p:separator>
+	
+								<h:outputText value="Objeto: #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.objeto}" />
+								<h:outputText
+									value="Data de Indexação: #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.dataIndexacaoFormat}"></h:outputText>
+								<h:outputText
+									value="Última Modificação: #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
+								<h:outputText value="Autor: #{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.usuario.pessoa.nome}"></h:outputText>
+								
+								<p:separator></p:separator>
+								<h:outputText value="Observação: "/>
+								<p:inputTextarea value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.observacao}"
+									style="width:200px" readonly="true"> 
+								</p:inputTextarea>
+			
+								<h:panelGrid columns="1"
+									style="width:50px;margin:0 auto; text-align:center;">
+			
+									<p:commandButton ajax="false" title="Download" value="Download"
+										onclick="PrimeFaces.monitorDownload(start, stop);"
+										icon="ui-icon-arrowthickstop-1-s">
+										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPreAlteracao.id}" target="#{basicLeiAuditViewerController.leiAuditPK}"></f:setPropertyActionListener>
+										<p:fileDownload	value="#{basicLeiAuditViewerController.streamedDownaload}" />
+									</p:commandButton>
+									
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:panel>				
+				    </div>
+				    
+				    <div class="ui-g-6">
+				    
+				    	<p:separator></p:separator>
+						
+							<h:outputText style="text-align:center" value="Depois" />
+								
+						<p:separator></p:separator>
+				    
+				    	<p:panel header="Ano: #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.ano}" style="text-align:center">
+			
+							<h:panelGrid columns="1" style="width:100%">
+			
+								<h:graphicImage  alt="Arquivo PDF" 
+									value="../documento/icon/pdf.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.arquivo.pdf}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/imagem.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.arquivo.imagem}" />
+								<h:graphicImage  alt="Imagem" 
+									value="../documento/icon/word.png" rendered="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.arquivo.word}" />
+
+							<p:outputLabel value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.arquivo.descricao}"
+								style="font-weight:bold"></p:outputLabel>
+
+							<p:separator></p:separator>
+
+							<h:outputText value="Nº Lei : #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.numeroLei}" />
+
+							<p:separator></p:separator>
+
+							<h:outputText value="Objeto: #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.objeto}" />
+							<h:outputText
+								value="Data de Indexação: #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.dataIndexacaoFormat}"></h:outputText>
+							<h:outputText
+								value="Última Modificação: #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.dataUltimaAlteracaoFormat}"></h:outputText>
+							<h:outputText value="Autor: #{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.usuario.pessoa.nome}"></h:outputText>
+
+							<p:separator></p:separator>
+								<h:outputText value="Observação: "/>
+								<p:inputTextarea value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.observacao}"
+									style="width:200px" readonly="true"> 
+								</p:inputTextarea>
+			
+								<h:panelGrid columns="1"
+									style="width:50px;margin:0 auto; text-align:center;">
+			
+									<p:commandButton ajax="false" title="Download" value="Download"
+										onclick="PrimeFaces.monitorDownload(start, stop);"
+										icon="ui-icon-arrowthickstop-1-s">
+										<f:setPropertyActionListener value="#{painelRelatorioMonitoramentoLei.leiSelecionadoPosAlteracao.id}" target="#{basicLeiAuditViewerController.leiAuditPK}"></f:setPropertyActionListener>
+										<p:fileDownload	value="#{basicLeiAuditViewerController.streamedDownaload}" />
+									</p:commandButton>
+									
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:panel>		
+				    </div>
+			    
+			    </div>
+			
+			</p:outputPanel>
+	</p:dialog>
+
+</ui:composition>

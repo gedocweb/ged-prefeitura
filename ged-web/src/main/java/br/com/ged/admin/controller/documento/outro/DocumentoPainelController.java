@@ -633,7 +633,7 @@ public class DocumentoPainelController extends DocumentoSuperController{
 						
 			filtroDocumentoDTO.setIdTipoDocumento(null);			
 			
-			List<Documento> documentosFiltrados = documentoService.pesquisar(filtroDocumentoDTO,"arquivo");
+			List<Documento> documentosFiltrados = documentoService.pesquisar(filtroDocumentoDTO,"arquivo","categoria","categoria.listGrupoUsuario", "categoria.listGrupoUsuario.usuarios");
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ZipOutputStream zos = new ZipOutputStream(baos);

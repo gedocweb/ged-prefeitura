@@ -91,10 +91,10 @@ public class DocumentoAuditServiceImpl implements DocumentoAuditService {
 	}
 
 	@Override
-	public Long countDocumentoAudit(FiltroDocumentoAuditDTO filtroDocumentoAuditDTO, TipoOperacaoAudit tipoOperacao) {
+	public Long countAudit(FiltroMonitoramentoAuditDTO filtroDocumentoAuditDTO, TipoOperacaoAudit tipoOperacao) {
 
-		Date dataInicio = filtroDocumentoAuditDTO.getDataBetween().getDataInicio();
-		Date dataFim = filtroDocumentoAuditDTO.getDataBetween().getDataFim();
+		Date dataInicio = filtroDocumentoAuditDTO.getDataFiltroBetween().getDataInicio();
+		Date dataFim = filtroDocumentoAuditDTO.getDataFiltroBetween().getDataFim();
 
 		Long dtInicioFormat = dataInicio.getTime();
 		Long dtFimFormat = dataFim.getTime();

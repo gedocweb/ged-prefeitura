@@ -17,7 +17,7 @@
 		 
 	<p:fieldset legend="Pesquisar"
 		toggleable="true" toggleSpeed="500"
-		rendered="#{!painelLei.renderedPesquisar and painelLei.autorizaFuncionalidade('PESQUISAR_LEI')}">
+		rendered="#{painelLei.renderedPesquisar and painelLei.autorizaFuncionalidade('PESQUISAR_LEI')}">
 		
 		<ui:include src="/pages/admin/documento/lei/pesquisarLei.xhtml">
 			<ui:param name="painelLei" value="#{painelLei}"></ui:param>
@@ -27,7 +27,7 @@
 
 		<h:panelGrid style="margin:0 auto; text-align:center;">
 	
-			<p:commandButton value="Pesquisar" rendered="#{!painelLei.renderedPesquisar and painelLei.autorizaFuncionalidade('PESQUISAR_LEI')}"
+			<p:commandButton value="Pesquisar" rendered="#{painelLei.renderedPesquisar and painelLei.autorizaFuncionalidade('PESQUISAR_LEI')}"
 				action="#{painelLei.pesquisar}"></p:commandButton>
 	
 		</h:panelGrid>

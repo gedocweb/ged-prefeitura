@@ -78,10 +78,10 @@ public class BalanceteAuditServiceImpl implements BalanceteAuditService{
 	}
 
 	@Override
-	public Long countBalanceteAudit(FiltroBalanceteAuditDTO filtroBalanceteAuditDTO, TipoOperacaoAudit tipoOperacao) {
+	public Long countBalanceteAudit(FiltroMonitoramentoAuditDTO filtroBalanceteAuditDTO, TipoOperacaoAudit tipoOperacao) {
 		
-		Date dataInicio = filtroBalanceteAuditDTO.getDataBetween().getDataInicio();
-		Date dataFim = filtroBalanceteAuditDTO.getDataBetween().getDataFim();
+		Date dataInicio = filtroBalanceteAuditDTO.getDataFiltroBetween().getDataInicio();
+		Date dataFim = filtroBalanceteAuditDTO.getDataFiltroBetween().getDataFim();
 		
 		Long dtInicioFormat = dataInicio.getTime();
 		Long dtFimFormat = dataFim.getTime();

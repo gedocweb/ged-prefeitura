@@ -2,6 +2,7 @@ package br.com.ged.admin.controller.documento.lei;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -22,12 +24,14 @@ import br.com.ged.admin.controller.documento.DocumentoSuperController;
 import br.com.ged.domain.Mensagem;
 import br.com.ged.domain.Pagina;
 import br.com.ged.domain.entidade.Situacao;
+import br.com.ged.domain.entidade.TipoOperacaoAudit;
 import br.com.ged.dto.FiltroLeiDTO;
 import br.com.ged.entidades.ArquivoLei;
 import br.com.ged.entidades.Lei;
 import br.com.ged.excecao.NegocioException;
 import br.com.ged.framework.GenericServiceController;
 import br.com.ged.service.LeiService;
+import br.com.ged.service.audit.LeiAuditService;
 import br.com.ged.util.container.UtilArquivo;
 
 @ManagedBean(name = "painelLei")
@@ -39,6 +43,9 @@ public class LeiPainelController extends DocumentoSuperController {
 
 	@EJB
 	protected LeiService leiService;
+	
+	@EJB
+	protected LeiAuditService leiAuditService;
 
 	private List<Lei> listLei;
 
@@ -55,6 +62,8 @@ public class LeiPainelController extends DocumentoSuperController {
 
 	private boolean extensaoArquivoDiferentePDF;
 	private boolean converterArquivoParaPDF;
+
+	private Lei leiPreAlteracao;
 
 	@PostConstruct
 	public void inicio() {
@@ -124,8 +133,25 @@ public class LeiPainelController extends DocumentoSuperController {
 		}else{
 			extensaoArquivoDiferentePDF = Boolean.TRUE;
 		}
-
+		
 		lei = leiSelecionado;
+
+		preAlteracaoAuditoria(leiSelecionado);
+	}
+
+	private void preAlteracaoAuditoria(Lei lei) {
+		
+		try {
+			leiPreAlteracao = (Lei) BeanUtils.cloneBean(lei);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void pesquisar() {
@@ -144,6 +170,9 @@ public class LeiPainelController extends DocumentoSuperController {
 		
 		//TODO Auditoria
 		serviceLei.excluir(getLei());
+		leiAuditService.auditoria(getLei(), TipoOperacaoAudit.EXCLUIDO);
+		
+		this.pesquisar();
 	}
 
 	public void cadastrar() {
@@ -165,6 +194,12 @@ public class LeiPainelController extends DocumentoSuperController {
 			
 			//TODO Auditoria
 			serviceLei.salvar(getLei());
+			
+			if (renderedCadastro){
+				leiAuditService.auditoria(getLei(), TipoOperacaoAudit.CADASTRADO);
+			}else if (renderedAlterar){
+				leiAuditService.auditoriaAlteracao(leiPreAlteracao, getLei());
+			}
 			
 			setLei(inicializaLei());
 			arquivoAnexado = Boolean.FALSE;
@@ -213,11 +248,14 @@ public class LeiPainelController extends DocumentoSuperController {
 				entry.setSize(doc.getArquivo().getArquivo().length);
 				zos.putNextEntry(entry);
 				zos.write(doc.getArquivo().getArquivo());
+				
+				leiAuditService.auditoria(doc, TipoOperacaoAudit.EXPORTADO);
+				
 				zos.closeEntry();
 			}
 			zos.close();
 			ByteArrayInputStream btArray = new ByteArrayInputStream(baos.toByteArray());
-			return new DefaultStreamedContent(btArray, "application/zip", "ProcessosLicitatorio.zip");
+			return new DefaultStreamedContent(btArray, "application/zip", "Leis.zip");
 
 		} catch (Exception e) {
 			e.printStackTrace();
